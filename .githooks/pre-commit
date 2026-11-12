@@ -1,0 +1,11 @@
+#!/bin/sh
+# Installed by `make hooks` (run by `make up`). The checks run in the containers: start the stack with `make up`.
+# They print a lot: only a failure shows its output.
+log=$(mktemp)
+trap 'rm -f "$log"' EXIT
+if make precommit > "$log" 2>&1; then
+    echo "make precommit: ok"
+else
+    cat "$log"
+    exit 1
+fi
