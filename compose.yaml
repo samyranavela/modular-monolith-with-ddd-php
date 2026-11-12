@@ -1,0 +1,63 @@
+
+x-php: &php
+  build: .
+  working_dir: /app
+  volumes:
+    - .:/app
+  environment: &php-env
+    APP_ENV: dev
+    DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-18}&charset=utf8
+    MAILER_DSN: smtp://mailpit:1025
+  depends_on:
+    database:
+      condition: service_healthy
+
+services:
+  # Web server + PHP in a single container (FrankenPHP, no PHP-FPM).
+  app:
+    <<: *php
+    ports:
+      - "8000:80"
+
+  # Messenger worker: outbox relay, inbox, internal commands.
+  # Needs the transports configured in slice S0b: enable with `--profile async`.
+  worker:
+    <<: *php
+    command: php bin/console messenger:consume async --time-limit=3600 -vv
+    restart: unless-stopped
+    profiles: [async]
+
+  # Symfony Scheduler: outbox relay, expirations, Payments jobs (slice S0b onwards).
+  scheduler:
+    <<: *php
+    command: php bin/console messenger:consume scheduler_default -vv
+    restart: unless-stopped
+    profiles: [async]
+
+  # Catches the emails sent by the application (registration confirmation).
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-18}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - database_data:/var/lib/postgresql:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###

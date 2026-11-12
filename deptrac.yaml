@@ -1,0 +1,161 @@
+# Module boundaries (see docs/architecture-tests.md and CODING_STANDARDS.md).
+# Generated layout: one layer per <Module>.<Layer>; vendor code grouped in Framework / Messenger / Validator / Patchlevel.
+deptrac:
+  paths:
+    - ./src
+  exclude_files:
+    - '#src/Kernel\.php#'
+    - '#src/Story/.*#'
+  layers:
+    - name: SharedKernel.Domain
+      collectors:
+        - type: classLike
+          value: '^App\\SharedKernel\\Domain\\.*'
+    - name: SharedKernel
+      collectors:
+        - type: classLike
+          value: '^App\\SharedKernel\\(?!Domain\\).*'
+    - name: UserAccess.Domain
+      collectors:
+        - type: classLike
+          value: '^App\\UserAccess\\Domain\\.*'
+    - name: UserAccess.Application
+      collectors:
+        - type: classLike
+          value: '^App\\UserAccess\\Application\\.*'
+    - name: UserAccess.Infrastructure
+      collectors:
+        - type: classLike
+          value: '^App\\UserAccess\\Infrastructure\\.*'
+    - name: UserAccess.Ui
+      collectors:
+        - type: classLike
+          value: '^App\\UserAccess\\Ui\\.*'
+    - name: UserAccess.Contract
+      collectors:
+        - type: classLike
+          value: '^App\\UserAccess\\Contract\\.*'
+    - name: Registrations.Domain
+      collectors:
+        - type: classLike
+          value: '^App\\Registrations\\Domain\\.*'
+    - name: Registrations.Application
+      collectors:
+        - type: classLike
+          value: '^App\\Registrations\\Application\\.*'
+    - name: Registrations.Infrastructure
+      collectors:
+        - type: classLike
+          value: '^App\\Registrations\\Infrastructure\\.*'
+    - name: Registrations.Ui
+      collectors:
+        - type: classLike
+          value: '^App\\Registrations\\Ui\\.*'
+    - name: Registrations.Contract
+      collectors:
+        - type: classLike
+          value: '^App\\Registrations\\Contract\\.*'
+    - name: Administration.Domain
+      collectors:
+        - type: classLike
+          value: '^App\\Administration\\Domain\\.*'
+    - name: Administration.Application
+      collectors:
+        - type: classLike
+          value: '^App\\Administration\\Application\\.*'
+    - name: Administration.Infrastructure
+      collectors:
+        - type: classLike
+          value: '^App\\Administration\\Infrastructure\\.*'
+    - name: Administration.Ui
+      collectors:
+        - type: classLike
+          value: '^App\\Administration\\Ui\\.*'
+    - name: Administration.Contract
+      collectors:
+        - type: classLike
+          value: '^App\\Administration\\Contract\\.*'
+    - name: Meetings.Domain
+      collectors:
+        - type: classLike
+          value: '^App\\Meetings\\Domain\\.*'
+    - name: Meetings.Application
+      collectors:
+        - type: classLike
+          value: '^App\\Meetings\\Application\\.*'
+    - name: Meetings.Infrastructure
+      collectors:
+        - type: classLike
+          value: '^App\\Meetings\\Infrastructure\\.*'
+    - name: Meetings.Ui
+      collectors:
+        - type: classLike
+          value: '^App\\Meetings\\Ui\\.*'
+    - name: Meetings.Contract
+      collectors:
+        - type: classLike
+          value: '^App\\Meetings\\Contract\\.*'
+    - name: Payments.Domain
+      collectors:
+        - type: classLike
+          value: '^App\\Payments\\Domain\\.*'
+    - name: Payments.Application
+      collectors:
+        - type: classLike
+          value: '^App\\Payments\\Application\\.*'
+    - name: Payments.Infrastructure
+      collectors:
+        - type: classLike
+          value: '^App\\Payments\\Infrastructure\\.*'
+    - name: Payments.Ui
+      collectors:
+        - type: classLike
+          value: '^App\\Payments\\Ui\\.*'
+    - name: Payments.Contract
+      collectors:
+        - type: classLike
+          value: '^App\\Payments\\Contract\\.*'
+    - name: Messenger
+      collectors:
+        - type: classLike
+          value: '^Symfony\\Component\\Messenger\\.*'
+    - name: Validator
+      collectors:
+        - type: classLike
+          value: '^Symfony\\Component\\Validator\\.*'
+    - name: Patchlevel
+      collectors:
+        - type: classLike
+          value: '^Patchlevel\\.*'
+    - name: Framework
+      collectors:
+        - type: classLike
+          value: '^(Symfony\\(?!Component\\(Messenger|Validator)\\)|Psr\\|ApiPlatform\\|Doctrine\\).*'
+  ruleset:
+    SharedKernel: ~
+    SharedKernel.Domain: ~
+    UserAccess.Domain: [SharedKernel.Domain]
+    UserAccess.Application: [UserAccess.Domain, SharedKernel.Domain, SharedKernel, Messenger, Validator, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    UserAccess.Infrastructure: [UserAccess.Domain, UserAccess.Application, SharedKernel.Domain, SharedKernel, Messenger, Validator, Framework, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    UserAccess.Ui: [UserAccess.Application, UserAccess.Contract, SharedKernel, Messenger, Validator, Framework]
+    UserAccess.Contract: [SharedKernel.Domain, SharedKernel]
+    Registrations.Domain: [SharedKernel.Domain]
+    Registrations.Application: [Registrations.Domain, SharedKernel.Domain, SharedKernel, Messenger, Validator, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Registrations.Infrastructure: [Registrations.Domain, Registrations.Application, SharedKernel.Domain, SharedKernel, Messenger, Validator, Framework, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Registrations.Ui: [Registrations.Application, Registrations.Contract, SharedKernel, Messenger, Validator, Framework]
+    Registrations.Contract: [SharedKernel.Domain, SharedKernel]
+    Administration.Domain: [SharedKernel.Domain]
+    Administration.Application: [Administration.Domain, SharedKernel.Domain, SharedKernel, Messenger, Validator, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Administration.Infrastructure: [Administration.Domain, Administration.Application, SharedKernel.Domain, SharedKernel, Messenger, Validator, Framework, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Administration.Ui: [Administration.Application, Administration.Contract, SharedKernel, Messenger, Validator, Framework]
+    Administration.Contract: [SharedKernel.Domain, SharedKernel]
+    Meetings.Domain: [SharedKernel.Domain]
+    Meetings.Application: [Meetings.Domain, SharedKernel.Domain, SharedKernel, Messenger, Validator, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Meetings.Infrastructure: [Meetings.Domain, Meetings.Application, SharedKernel.Domain, SharedKernel, Messenger, Validator, Framework, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Meetings.Ui: [Meetings.Application, Meetings.Contract, SharedKernel, Messenger, Validator, Framework]
+    Meetings.Contract: [SharedKernel.Domain, SharedKernel]
+    Payments.Domain: [SharedKernel.Domain, Patchlevel]
+    Payments.Application: [Payments.Domain, SharedKernel.Domain, SharedKernel, Messenger, Validator, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Payments.Infrastructure: [Payments.Domain, Payments.Application, SharedKernel.Domain, SharedKernel, Messenger, Validator, Framework, Patchlevel, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]
+    Payments.Ui: [Payments.Application, Payments.Contract, SharedKernel, Messenger, Validator, Framework]
+    Payments.Contract: [SharedKernel.Domain, SharedKernel]
