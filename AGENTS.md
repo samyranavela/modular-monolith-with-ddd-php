@@ -114,3 +114,17 @@ things up in the project instead of relying on memory:
 - Read the installed source and docblocks under `vendor/`.
 - Docs: https://symfony.com/doc/current/ (switch to the version matching
   `composer.json` if it differs).
+
+## Agent skills
+
+### Issue tracker
+
+Issues and wayfinder maps live in GitHub Issues (`samyranavela/modular-monolith-with-ddd-php`, `gh` CLI). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context: `GLOSSARY-MAP.md` at the root, one `GLOSSARY.md` per module in `src/<Module>/`, ADRs in `docs/adr/` and `src/<Module>/docs/adr/`. See `docs/agents/domain.md`.
