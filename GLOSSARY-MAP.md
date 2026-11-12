@@ -4,6 +4,7 @@ Each bounded context has its own glossary: the same word may mean different thin
 
 | Context | Glossary |
 | :-- | :-- |
+| SharedKernel | [`src/SharedKernel/GLOSSARY.md`](src/SharedKernel/GLOSSARY.md) |
 | UserAccess | `src/UserAccess/GLOSSARY.md` (to create in its first slice) |
 | Registrations | `src/Registrations/GLOSSARY.md` (to create in its first slice) |
 | Administration | `src/Administration/GLOSSARY.md` (to create in its first slice) |

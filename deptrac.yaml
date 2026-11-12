@@ -132,7 +132,7 @@ deptrac:
         - type: classLike
           value: '^(Symfony\\(?!Component\\(Messenger|Validator)\\)|Psr\\|ApiPlatform\\|Doctrine\\).*'
   ruleset:
-    SharedKernel: ~
+    SharedKernel: [SharedKernel.Domain, Messenger, Validator, Framework]
     SharedKernel.Domain: ~
     UserAccess.Domain: [SharedKernel.Domain]
     UserAccess.Application: [UserAccess.Domain, SharedKernel.Domain, SharedKernel, Messenger, Validator, UserAccess.Contract, Registrations.Contract, Administration.Contract, Meetings.Contract, Payments.Contract]

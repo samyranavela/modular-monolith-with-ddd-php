@@ -9,6 +9,8 @@ A judged rule that becomes checkable moves to **[tool]**. Rules cite ADRs; they 
 - **DOM-1 [tool]** `Domain` depends only on its own namespace and `SharedKernel\Domain` (Payments: also Patchlevel); no Symfony, Doctrine or API Platform. Deptrac.
 - **DOM-2 [tool]** `Domain` never depends on `Infrastructure`. Deptrac.
 
+- **DOM-3 [tool]** `SharedKernel.Domain` depends on nothing; the rest of `SharedKernel` only on it, Messenger, Validator and the framework. Deptrac.
+
 ## Application
 
 - **APP-1 [tool]** `Application` depends on its own `Domain`, `SharedKernel` and other modules' `Contract` only. Deptrac.

@@ -20,6 +20,14 @@ when@test:
         dbal:
             # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+        orm:
+            mappings:
+                # Test-only sandbox module (tests/Fixture/Sandbox): never mapped in dev or prod.
+                Sandbox:
+                    type: xml
+                    is_bundle: false
+                    dir: '%kernel.project_dir%/tests/Fixture/Sandbox/Infrastructure/mapping'
+                    prefix: App\Tests\Fixture\Sandbox\Domain
 
 when@prod:
     doctrine:

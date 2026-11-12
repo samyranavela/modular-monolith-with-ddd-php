@@ -40,6 +40,8 @@
     </source>
 
     <extensions>
+        <!-- Each test runs in a transaction rolled back at its end (the command bus transaction becomes a savepoint). -->
+        <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
         <bootstrap class="Zenstruck\Foundry\PHPUnit\FoundryExtension" />
     </extensions>
 </phpunit>

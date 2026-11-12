@@ -21,3 +21,18 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+when@test:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        # Test-only sandbox module: not under src/, so never part of the production container.
+        App\Tests\Fixture\:
+            resource: '../tests/Fixture/'
+
+        # Nothing in the container consumes it yet (the API processor will): public so tests can fetch it.
+        App\SharedKernel\Application\IdGenerator:
+            alias: App\SharedKernel\Infrastructure\Uid\UuidV7Generator
+            public: true

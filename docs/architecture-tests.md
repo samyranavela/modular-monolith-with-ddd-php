@@ -11,5 +11,6 @@ express the rule (naming, structure).
 | Application: own Domain, SharedKernel, other modules' `Contract` | Deptrac (per module) |
 | Ui: own Application only, never Domain or Infrastructure | Deptrac (per module) |
 | Modules talk to each other only through `Contract` | Deptrac |
+| `SharedKernel.Domain` depends on nothing; the rest of `SharedKernel` on `SharedKernel.Domain`, Messenger, Validator and the framework only | Deptrac |
 | `Contract` classes are `final readonly` | PHPStan custom rule (`tools/PHPStan/ContractRule.php`) |
 | _remaining source rules (22 repeated per module)_ | _mapped slice by slice_ |

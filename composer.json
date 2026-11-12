@@ -14,7 +14,12 @@
         "symfony/dotenv": "8.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "8.1.*",
+        "symfony/messenger": "8.1.*",
+        "symfony/object-mapper": "8.1.*",
         "symfony/runtime": "8.1.*",
+        "symfony/serializer": "8.1.*",
+        "symfony/uid": "8.1.*",
+        "symfony/validator": "8.1.*",
         "symfony/yaml": "8.1.*"
     },
     "require-dev": {
@@ -85,6 +90,7 @@
         "schema": [
             "@php bin/console doctrine:database:create --env=test --if-not-exists",
             "@php bin/console doctrine:migrations:migrate --env=test --no-interaction --allow-no-migration -q",
+            "@php bin/console sandbox:schema:create --env=test -q",
             "@php bin/console doctrine:schema:validate --env=test"
         ],
         "qa": [

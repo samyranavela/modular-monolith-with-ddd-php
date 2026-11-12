@@ -1,22 +1,17 @@
 framework:
     messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
-
-        transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            sync: 'sync://'
-
-        routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
-
-# when@test:
-#    framework:
-#        messenger:
-#            transports:
-#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
-#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-#                async: 'in-memory://'
+        # Three global buses, no bus per module (see src/SharedKernel/GLOSSARY.md).
+        default_bus: command.bus
+        buses:
+            # One command = one transaction: flush and commit, or rollback on exception. A command never
+            # dispatches another one inside its transaction; it goes through the outbox.
+            command.bus:
+                middleware:
+                    - doctrine_transaction
+            query.bus: ~
+            # Domain events are published explicitly by the command handler, synchronously, in the
+            # transaction. An event nobody listens to is not an error.
+            event.bus:
+                default_middleware:
+                    enabled: true
+                    allow_no_handlers: true
