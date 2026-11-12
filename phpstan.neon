@@ -1,0 +1,20 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+        - tools
+    excludePaths:
+        - src/Kernel.php
+        - src/Story (?)
+        - tests/bootstrap.php
+        - tests/Tools/PHPStan/Fixtures
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+
+rules:
+    - App\Tools\PHPStan\ContractRule
