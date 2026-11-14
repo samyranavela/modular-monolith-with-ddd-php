@@ -2,6 +2,8 @@
 x-php: &php
   build: .
   working_dir: /app
+  # Host user (exported by the Makefile): files written in the bind mount are not owned by root.
+  user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
   volumes:
     - .:/app
   environment: &php-env
