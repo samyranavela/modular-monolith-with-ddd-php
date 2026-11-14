@@ -1,9 +1,8 @@
 # Modular monolith with DDD in PHP / Symfony
 
-A modular monolith written in PHP 8.5 with Symfony 8.1 and API Platform, organized around Domain-Driven Design.
-It is a functionally equivalent port of [modular-monolith-with-ddd](https://github.com/kgrzybek/modular-monolith-with-ddd)
-(.NET): same five bounded contexts and same business rules, built with the conventions and components of the PHP
-ecosystem rather than translated line by line.
+An opinionated modular monolith organized around Domain-Driven Design, built with PHP, Symfony and API Platform.
+It draws freely on [modular-monolith-with-ddd](https://github.com/kgrzybek/modular-monolith-with-ddd) (.NET): the same
+topics, but its own choices.
 
 ## Bounded contexts
 
@@ -11,8 +10,7 @@ ecosystem rather than translated line by line.
 | :-- | :-- |
 | UserAccess | Users, authentication, roles and permissions |
 | Registrations | Registration and confirmation of new members |
-| Administration | Verification of meeting group proposals |
-| Meetings | Meeting groups, meetings, attendees, comments and fees |
+| Meetings | Meeting group proposals and groups, meetings, attendees, comments and fees |
 | Payments | Price list, subscriptions and meeting fee payments (event sourced) |
 
 ## Architecture

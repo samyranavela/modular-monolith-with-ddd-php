@@ -9,8 +9,16 @@ A user who takes part in meeting groups and meetings. Known to this context from
 _Avoid_: User, participant
 
 **Meeting Group Proposal**:
-A request by a member to create a meeting group, waiting for an administrator's decision. Once accepted, it leads to the creation of the meeting group.
+A request by a member to create a meeting group, waiting for an administrator's decision. It is pending until decided, then accepted or rejected. Once accepted, it leads to the creation of the meeting group.
 _Avoid_: Group request, group creation request
+
+**Proposal Decision**:
+The administrator's answer to a meeting group proposal: accept or reject. It is taken once and is final. It keeps who decided and when.
+_Avoid_: Verdict, approval
+
+**Rejection Reason**:
+The explanation an administrator must give when rejecting a proposal. The proposer is told of it.
+_Avoid_: Comment, justification
 
 **Meeting Group**:
 A community of members around a location, hosting meetings. Created from an accepted proposal.

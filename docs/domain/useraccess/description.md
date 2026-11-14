@@ -8,7 +8,7 @@ Terms are defined in the [UserAccess glossary](../../../src/UserAccess/GLOSSARY.
 
 A **User** is someone who can sign in with a login and a password. A user comes from a [confirmed registration](../registrations/description.md): the login, the password, the email address and the names given during it become the user's own, and the user receives the role the registration was created for. UserAccess creates no user any other way.
 
-The user is the same person that other contexts know under other names: a member in Meetings, a payer in Payments, an administrator in Administration. UserAccess is the context that says who the person is; the others decide what that person can be.
+The user is the same person that other contexts know under other names: a member in Meetings, a payer in Payments. An administrator is only a user. UserAccess is the context that says who the person is; the others decide what that person can be.
 
 ## Roles
 
@@ -23,7 +23,7 @@ There is no way to turn an existing user into an administrator.
 
 ## Permissions
 
-A **Permission** authorizes one action, such as accepting a meeting group proposal. A role holds one or more permissions. The permissions belong to the contexts whose actions they guard, so the Administration context defines what an administrator may do there, and UserAccess only stores the link between roles and permissions.
+A **Permission** authorizes one action, such as accepting a meeting group proposal. A role holds one or more permissions. The permissions belong to the contexts whose actions they guard, so Meetings defines what an administrator may do with meeting group proposals, and UserAccess only stores the link between roles and permissions.
 
 The rule is the same for every action: it is allowed when at least one of the user's roles grants its permission, and refused otherwise.
 

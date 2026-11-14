@@ -23,9 +23,6 @@ classDiagram
     namespace Registrations {
         class UserRegistration
     }
-    namespace Administration {
-        class Administrator
-    }
     namespace Meetings {
         class Member
     }
@@ -34,7 +31,6 @@ classDiagram
     }
 
     UserRegistration ..> User : once confirmed, leads to
-    Administrator ..> User : is a
     Member ..> User : is a
     Payer ..> User : is a
 ```
