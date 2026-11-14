@@ -1,6 +1,6 @@
 # Meetings: creating a meeting group
 
-A meeting group does not appear on its own: a member **proposes** it, an administrator **decides**, and only an accepted proposal becomes a group. This page follows that path, from the proposal to the first organizer.
+A meeting group does not appear on its own: a member **proposes** it, an administrator **decides**, and only an accepted proposal becomes a group. This page follows that path, from the proposal to the first owner.
 
 Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md). The members and administrators come from [UserAccess](../useraccess/description.md).
 
@@ -25,7 +25,7 @@ A proposal is decided **once**. The decision is final: it is neither changed nor
 
 ## After the decision
 
-- **Accepted**: the meeting group is created from the proposal, with the same name, description and place. The proposer becomes its first **organizer**, and a member of the group. An email tells the proposer that the group exists.
+- **Accepted**: the meeting group is created from the proposal, with the same name, description and place. The proposer becomes its **owner**, and a member of the group. An email tells the proposer that the group exists.
 - **Rejected**: an email tells the proposer that the proposal was rejected, and gives the reason. The proposal stays in their list, with the reason. A member who still wants the group makes a new proposal, which has no link to the rejected one.
 
 ## What each role sees

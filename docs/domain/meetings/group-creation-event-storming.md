@@ -48,7 +48,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Proposing.** A member proposes a group. The proposal is created pending, and nothing else happens on its own: it waits for an administrator.
 2. **Accepting.** An administrator accepts a proposal that is still pending. A proposal is decided once: an already decided proposal refuses a second decision, accepted or rejected.
-3. **Creating the group.** The acceptance is the only thing that creates a group, and it does so as a reaction, not as part of the command. The group is created with the proposer as its first organizer, which makes the proposer a member of the group at the same moment.
+3. **Creating the group.** The acceptance is the only thing that creates a group, and it does so as a reaction, not as part of the command. The group is created with the proposer as its owner, which makes the proposer a member of the group at the same moment.
 4. **Telling the proposer of the creation.** In reaction to the creation of the group, an email tells the proposer that it exists.
 5. **Rejecting.** An administrator rejects a proposal that is still pending, and must give a reason: a rejection without a reason is refused. No group is created.
 6. **Telling the proposer of the rejection.** In reaction to the rejection, an email gives the proposer the reason. The proposal stays visible to them, with that reason.

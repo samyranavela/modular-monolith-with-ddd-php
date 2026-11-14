@@ -25,15 +25,27 @@ A community of members around a location, hosting meetings. Created from an acce
 _Avoid_: Club, community
 
 **Meeting Group Member**:
-A member who has joined a meeting group, as an Organizer or as a regular member. A member who left is no longer one.
+A member who has joined a meeting group, as its Owner, as an Organizer or as a regular member. A member who left is no longer one.
+
+**Owner**:
+The member answerable for a meeting group and for its subscription. There is exactly one per group, and the proposer is the first. The owner holds every right of an organizer, cannot leave, be demoted or be removed, and appoints and demotes the organizers.
+_Avoid_: Creator, admin
 
 **Organizer**:
-The role of a meeting group member who manages the group. The proposer of the group is its first organizer.
-_Avoid_: Admin, owner
+A member who looks after a meeting group below its owner, and stands in when the owner is not available. There can be any number. An organizer can step down or leave at any time.
+_Avoid_: Admin, co-owner
 
-**Group Payment Date**:
-The date until which a meeting group is covered by an organizer's subscription. A meeting can only be organized by a group that is still covered.
-_Avoid_: Group expiration, paid group
+**Ownership Transfer Request**:
+The owner's proposal to hand the group over to one of its organizers, the candidate. It is pending until the candidate accepts and Payments confirms that their subscription is valid; it can be declined by the candidate, cancelled by the owner, or cancelled by itself if the candidate leaves or is demoted. A completed transfer is final.
+_Avoid_: Ownership change
+
+**Member Subscription**:
+What Meetings knows of a member's subscription: until when it is valid, as announced by Payments.
+_Avoid_: Group payment date
+
+**Covered Group**:
+A meeting group whose owner's subscription is still valid. Only a covered group can organize new meetings; an uncovered group is not closed, and its planned meetings stay.
+_Avoid_: Paid group, group expiration
 
 **Meeting**:
 An event organized by a meeting group, with a term, a location, an optional attendee limit, a guest limit and an optional event fee.
