@@ -4,8 +4,8 @@ Each bounded context has its own glossary: the same word may mean different thin
 
 | Context | Glossary |
 | :-- | :-- |
-| UserAccess | `src/UserAccess/GLOSSARY.md` (to create in its first slice) |
-| Registrations | `src/Registrations/GLOSSARY.md` (to create in its first slice) |
+| UserAccess | [`src/UserAccess/GLOSSARY.md`](src/UserAccess/GLOSSARY.md) |
+| Registrations | [`src/Registrations/GLOSSARY.md`](src/Registrations/GLOSSARY.md) |
 | Administration | `src/Administration/GLOSSARY.md` (to create in its first slice) |
 | Meetings | [`src/Meetings/GLOSSARY.md`](src/Meetings/GLOSSARY.md) |
 | Payments | `src/Payments/GLOSSARY.md` (to create in its first slice) |

@@ -1,4 +1,4 @@
-# Module boundaries (see docs/architecture-tests.md and CODING_STANDARDS.md).
+# Module boundaries (see CODING_STANDARDS.md).
 # Generated layout: one layer per <Module>.<Layer>; vendor code grouped in Framework / Messenger / Validator / Patchlevel.
 deptrac:
   paths:
