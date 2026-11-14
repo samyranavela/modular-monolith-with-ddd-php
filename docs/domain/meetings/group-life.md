@@ -24,7 +24,7 @@ A member cannot join a group they already belong to.
 
 ## Leaving
 
-A member or an organizer can leave a group at any time. The group remembers when they joined and when they left, and they can join again later, as a regular member.
+A member or an organizer can leave a group, once they are not the last [host](organization.md#hosts) of a meeting that has not started: another host must be designated first. The group remembers when they joined and when they left, and they can join again later, as a regular member. Leaving takes the member out of the group's upcoming meetings, see [organizing meetings](organization.md#when-a-member-leaves-the-group).
 
 The **owner cannot leave**, cannot be demoted and cannot be removed. They must first [hand the group over](#handing-the-group-over).
 
@@ -77,12 +77,22 @@ The group is covered again when the owner renews their subscription, which Payme
 
 The owner and the organizers can change the **name**, the **description** and the **place** of the group. A regular member cannot.
 
+## Reading
+
+Members find and follow groups through read-only views, kept up to date by the events of the groups.
+
+- **All the groups**: the name, the description, the place and the number of members of every group, so that a member can find one to join.
+- **A group**: its name, description, place, number of members, its owner and its organizers, and its meetings, see [organizing meetings](organization.md#reading).
+- **The members of a group**: who belongs to it and with which role. The members of the group see it.
+- **My groups**: the groups a member belongs to, with their role in each.
+- **The upcoming meetings a member hosts**: for each group, the meetings that have not started and are not cancelled where the member is a host, with the number of hosts of each. It is not shown to anyone: it only lets the group refuse the departure of the last host of a meeting.
+
 ## What each role can do
 
 | Who | Can do |
 | :-- | :-- |
-| A member | Join a group. Leave a group they belong to. |
+| A member | Join a group. Leave a group they belong to. Find groups, view a group, list their own groups. View the members of a group they belong to. |
 | An organizer | Edit the group. Leave the group, or step down. |
 | The owner | What an organizer does, except leaving or stepping down. Appoint and demote organizers. Hand the group over. |
 
-An administrator is a user and not a member, so they take no part in the life of a group. The permissions behind this table are defined by Meetings and granted to the Member role by [UserAccess](../useraccess/description.md#permissions). Being an owner or an organizer is not a permission of a role: it is a role in one group, which the group itself checks.
+An administrator is a user and not a member, so they take no part in the life of a group, but they see all the views of [reading](#reading), including the members of a group they do not belong to. The permissions behind this table are defined by Meetings and granted to the Member role by [UserAccess](../useraccess/description.md#permissions). Being an owner or an organizer is not a permission of a role: it is a role in one group, which the group itself checks.

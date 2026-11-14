@@ -48,22 +48,31 @@ A meeting group whose owner's subscription is still valid. Only a covered group 
 _Avoid_: Paid group, group expiration
 
 **Meeting**:
-An event organized by a meeting group, with a term, a location, an optional attendee limit, a guest limit and an optional event fee.
+An event organized by a covered meeting group, with a start date, a place, an RSVP term, an optional attendee limit, a guest limit and an optional event fee. It only changes before it starts and while it is not cancelled.
 _Avoid_: Event
 
 **Meeting Attendee**:
-A member who has declared they will attend a meeting, possibly with guests, as Attendee or Host.
+A member who has declared they will attend a meeting, possibly with guests. An attendee takes a place and owes the event fee. An attendee removed from a meeting cannot sign up to it again. A host is never an attendee.
 _Avoid_: Participant
+
+**Guest**:
+A person an attendee brings along, who takes a place and adds to the event fee, but has no account here.
+
+**Attendee Limit**:
+The maximum number of places of a meeting, an attendee and each of their guests taking one. Optional: with none, the meeting never fills up.
+
+**Guest Limit**:
+The maximum number of guests one attendee may bring. 0 means no guests.
 
 **Not Attendee**:
 A member who has declared they will not attend a meeting. The decision can be reversed.
 
 **Waitlist**:
-The ordered queue of members who want to attend a meeting whose attendee limit is reached. The first active member is promoted to attendee when a place becomes free.
+The ordered queue of members, without guests, who want to attend a meeting that is full. Whenever places become free, the member waiting for the longest becomes an attendee, one place each, while there are places and members waiting.
 _Avoid_: Waiting list
 
 **Host**:
-The role of a meeting attendee who may edit the meeting and manage its attendees. A meeting always has at least one host.
+A member of the group responsible for holding one meeting, typically the person it takes place with. A host is not an attendee: they take no place, owe no fee and do not sign up. A host may change the meeting, remove attendees, designate and remove hosts and cancel it, as may the owner and the organizers of the group. A meeting needs at least one host to take place, so the last host can neither be removed nor leave the group.
 
 **RSVP Term**:
 The period during which members can sign up to a meeting.

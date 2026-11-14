@@ -33,7 +33,7 @@ flowchart LR
 Blue is a command, pale yellow an aggregate, orange an event, darker yellow someone who asks for a command.
 
 1. **Joining.** A member joins, once. Joining again after leaving is a new membership.
-2. **Leaving.** A member or an organizer leaves. The owner's command is refused: the owner hands the group over first.
+2. **Leaving.** A member or an organizer leaves. The command is refused for the owner, who hands the group over first, and for the last host of a meeting that has not started, who has another host designated first. What leaving changes in the meetings is in the [event storming of organizing meetings](organization-event-storming.md#the-group-and-payments).
 3. **Appointing.** Only the owner appoints, and only a member of the group who is not an organizer yet.
 4. **Demoting and stepping down.** Only the owner demotes an organizer, and an organizer demotes only themselves. The owner can do neither to themselves.
 5. **Editing.** The owner or an organizer edits the name, the description or the place.
@@ -128,5 +128,31 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, p
 1. **Recording.** When Payments announces a new validity, Meetings records it for the member. This is the date that decides whether a meeting can be organized, and it is what completes a transfer.
 2. **Reminding.** When Payments announces that a subscription is about to expire, an email reminds the owner of each group they own.
 3. **Expiring.** When it has expired, an email tells the owner that their group is no longer covered. Nothing else changes: the group can no longer organize new meetings, and the meetings already planned stay.
+
+## Reading
+
+```mermaid
+flowchart LR
+    classDef command fill:#54A0FF,stroke:#2e6fc0,color:#000
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
+
+    subgraph Meetings
+        direction LR
+        G1[Group created]:::event & G2[Group edited]:::event & G3[Member joined the group]:::event & G4[Member left the group]:::event --> R1(All the groups):::readmodel
+        G1 & G2 & G3 & G4 & G5[Organizer appointed]:::event & G6[Organizer demoted]:::event & G7[Group handed over]:::event --> R2(A group):::readmodel
+        G1 & G3 & G4 & G5 & G6 & G7 --> R3(The members of a group):::readmodel
+        G1 & G3 & G4 & G5 & G6 & G7 --> R4(My groups):::readmodel
+
+        M1[Meeting created]:::event & M2[Meeting changed]:::event & M3[Meeting cancelled]:::event & M4[Host designated]:::event & M5[Host removed]:::event --> R5(Upcoming meetings a member hosts):::readmodel
+        R5 --> C1[Leave the group]:::command
+    end
+```
+
+Blue is a command, orange an event, green a read model.
+
+1. **All the groups, a group.** Each is kept up to date by the events of the group: its creation, its edits, the members who join and leave, the organizers appointed and demoted, and a hand-over. The number of members comes from the same events.
+2. **The members of a group, my groups.** Both come from the same events as the roles: joining, leaving, appointing, demoting and handing over.
+3. **The upcoming meetings a member hosts.** It is kept up to date by the events of the meetings: a meeting is created, changed or cancelled, and a host is designated or removed. The command to leave the group reads it, and is refused if the member is the last host of one of these meetings. Two operations can happen together, a host leaving and the other host being removed, so this rule cannot be made absolute by the group alone: how the application deals with that is a technical choice.
 
 The rest of the events come from [Payments](../payments/description.md): Meetings only listens to them.
