@@ -84,13 +84,14 @@ _Avoid_: Ticket price
 ## Commenting
 
 **Comment**:
-A text a group member writes on a meeting. It can be edited by its author and removed by its author or an organizer, who may give a reason.
+A text a group member writes on a meeting, before or after it, even cancelled. Its author can edit it and remove it; the owner and the organizers can remove it, and must then give a reason. A removed comment stays in the conversation as removed, with no text, and is final.
 
 **Reply**:
-A comment written in response to another comment.
+A comment written in response to another comment. Replies stay on one level: replying to a reply attaches to the comment it answers.
 
 **Like**:
-A group member's appreciation of a comment, at most once per member.
+A group member's appreciation of a comment, once per member, their own comment included. It can be taken back.
 
-**Meeting Commenting Configuration**:
-The switch, created enabled with each meeting, that an organizer uses to allow or forbid comments on that meeting.
+**Commenting Switch**:
+What allows or forbids comments on one meeting. Created enabled with the meeting; the owner and the organizers turn it off and on. While it is off, nobody writes, replies, edits, likes or unlikes, but comments can still be removed.
+_Avoid_: Meeting Commenting Configuration
