@@ -77,10 +77,10 @@ flowchart LR
         direction LR
         C1[Remove my comment]:::command --> A1((Comment)):::aggregate --> E1[Comment removed by its author]:::event
         C2[Remove a comment with a reason]:::command --> A2((Comment)):::aggregate --> E2[Comment removed by a moderator]:::event
-        E2 --> P1{{Tell the author, with the reason}}:::policy
+        E2 --> P1{{Notify the author, with the reason}}:::policy
     end
 
-    P1 --> EM[Email service]:::external
+    P1 --> EM[Notifications]:::external
 ```
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
@@ -88,7 +88,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 1. **By the author.** No reason is asked. The author may be a former member of the group, who then cannot: only the owner and the organizers remove their comment.
 2. **By the owner or an organizer.** The reason is mandatory. The comment stays in the conversation as removed, with the person who removed it and the reason.
 3. **After the removal.** The comment can no longer be edited, replied to or liked, and its likes are no longer shown. Removal is final, and works whether commenting is enabled or not.
-4. **Email.** Only a removal by somebody else tells the author, with the reason. Nothing is sent when somebody replies or likes.
+4. **Notification.** Only a removal by somebody else tells the author, with the reason. Nothing is sent when somebody replies or likes.
 
 ## Likes
 

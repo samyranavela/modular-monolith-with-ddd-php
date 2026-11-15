@@ -19,7 +19,7 @@ flowchart LR
         direction LR
         C1[Request the deletion of my account]:::command --> A1((Account Deletion Request)):::aggregate --> E1[Deletion requested]:::event
         E1 --> P1{{Lock the account}}:::policy --> A2((User)):::aggregate --> E2[Account locked]:::event
-        E1 --> P2{{Tell the member}}:::policy
+        E1 --> P2{{Notify the member}}:::policy
     end
 
     subgraph Meetings
@@ -27,7 +27,7 @@ flowchart LR
         E2 --> P3{{Decline the hand-overs proposed to the member}}:::policy
     end
 
-    P2 --> EM[Email service]:::external
+    P2 --> EM[Notifications]:::external
 ```
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
@@ -35,7 +35,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 1. **Refusals.** The request is refused when the user is an administrator, when a request of theirs is already pending, or when an [open item](account-deletion.md#what-stands-in-the-way) stands in the way: a group they own that is under hand-over, a last host of an upcoming meeting, a payment that waits, a proposal that is pending. The check and the request are one decision: if something stands in the way at the same moment, only one of the two succeeds.
 2. **The request** remembers when it was made and the day it will be carried out, the end of the grace period.
 3. **Locking.** The account is locked as soon as the request exists. Meetings needs to know it, to decline a hand-over that was proposed to the member, which ends it as for a candidate that left.
-4. **Email.** The member is told the date and what will happen.
+4. **Notification.** The member is told the date and what will happen.
 
 ## Cancelling
 
@@ -54,10 +54,10 @@ flowchart LR
         direction LR
         C1[Cancel my deletion request]:::command --> A1((Account Deletion Request)):::aggregate --> E1[Deletion cancelled by the member]:::event
         E1 --> P1{{Unlock the account}}:::policy --> A2((User)):::aggregate --> E2[Account unlocked]:::event
-        E1 --> P2{{Tell the member}}:::policy
+        E1 --> P2{{Notify the member}}:::policy
     end
 
-    P2 --> EM[Email service]:::external
+    P2 --> EM[Notifications]:::external
 ```
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
@@ -79,9 +79,9 @@ flowchart LR
         direction LR
         T1[Grace period over]:::event --> P1{{Check the open items again}}:::policy
         P1 -->|something stands in the way| C1[Cancel the request, with the reason]:::command --> A1((Account Deletion Request)):::aggregate --> E1[Deletion cancelled by the application]:::event
-        E1 --> P2{{Unlock the account, tell the member}}:::policy
+        E1 --> P2{{Unlock the account, notify the member}}:::policy
         P1 -->|nothing| C2[Carry out the deletion]:::command --> A2((Account Deletion Request)):::aggregate --> E2[Deletion carried out]:::event
-        E2 --> P3{{Tell the member, before the erasure}}:::policy
+        E2 --> P3{{Send the required message to the address, before the erasure}}:::policy
         E2 --> C3[Erase the user]:::command --> A3((User)):::aggregate --> E3[User erased]:::event
     end
 
@@ -95,7 +95,7 @@ flowchart LR
         E3 --> P5{{Take the member out of every group}}:::policy
         E3 --> P6{{Archive the groups still owned}}:::policy
         P6 --> E4[Group archived]:::event
-        E4 --> P7{{Cancel the upcoming meetings, tell the members}}:::policy
+        E4 --> P7{{Cancel the upcoming meetings, notify the members}}:::policy
     end
 
     subgraph Payments
@@ -104,7 +104,12 @@ flowchart LR
         E3 --> P9{{Anonymise the payer}}:::policy
     end
 
-    P3 --> EM[Email service]:::external
+    subgraph Notifications
+        direction LR
+        E3 --> P10{{Delete the inbox of the member}}:::policy
+    end
+
+    P3 --> EM[Notifications]:::external
     P2 --> EM
 ```
 
@@ -115,7 +120,8 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, p
 3. **Registrations.** The confirmed registration of the user is deleted, which frees the login and the email address.
 4. **Meetings.** The member leaves every group as if they left it themselves. A group they still own is archived, with its upcoming meetings cancelled. The comments, likes and decisions of the member stay, with the deleted member in place of the person.
 5. **Payments.** The subscription ends with no refund and no further renewal, the payout account is removed, and the payer is anonymised. The payments are kept without an identity.
-6. **Independent parts.** The three contexts act on their own, each when it knows. None waits for the others, and none can undo what it did.
+6. **Notifications.** The inbox of the member and its deliveries are deleted.
+7. **Independent parts.** The contexts act on their own, each when it knows. None waits for the others, and none can undo what it did.
 
 ## Exporting
 
@@ -135,16 +141,16 @@ flowchart LR
         C1[Export my data]:::command --> A1((Data Export)):::aggregate --> E1[Export requested]:::event
         E1 --> P1{{Gather what each context holds}}:::policy
         P1 --> E2[Export ready]:::event
-        E2 --> P2{{Tell the user}}:::policy
+        E2 --> P2{{Notify the member}}:::policy
         T1[Time passed]:::event --> P3{{Expire the export}}:::policy --> E3[Export expired]:::event
     end
 
-    P2 --> EM[Email service]:::external
+    P2 --> EM[Notifications]:::external
 ```
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
-1. **Who.** Any user, locked or not, an administrator included: their export holds what UserAccess knows of them.
+1. **Who.** Any member, locked or not. An administrator has no export: they are neither a member nor a payer.
 2. **Gathering.** Each context gives what it holds about the person. The export is ready when all have.
 3. **Expiring.** After a limited time the export is no longer available, and the user asks again if they need it.
 
@@ -164,7 +170,6 @@ flowchart LR
     subgraph UserAccess
         direction LR
         C1[Delete another administrator]:::command --> A1((User)):::aggregate --> E1[Administrator deleted]:::event
-        E1 --> P1{{Tell the administrator, before the erasure}}:::policy
         E1 --> P2{{Erase the user}}:::policy
     end
 
@@ -173,7 +178,6 @@ flowchart LR
         E1 --> P3{{Show the deleted administrator on past decisions}}:::policy
     end
 
-    P1 --> EM[Email service]:::external
 ```
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.

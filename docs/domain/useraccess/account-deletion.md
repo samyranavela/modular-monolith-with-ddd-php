@@ -53,7 +53,7 @@ What others do can still change the picture. A host who was not the last may fin
 
 ## Carrying out the deletion
 
-When the grace period is over, the application checks the open items again. The deletion is **carried out only if nothing stands in the way**, as at the request. If something does, the request ends as cancelled, with the reason, the account is unlocked, and the member is told by email: they settle it and make a new request if they still want to.
+When the grace period is over, the application checks the open items again. The deletion is **carried out only if nothing stands in the way**, as at the request. If something does, the request ends as cancelled, with the reason, the account is unlocked, and the member is notified: they settle it and make a new request if they still want to.
 
 Otherwise, each context does its part, and the account is gone when all have. The member is not asked anything, and cannot cancel any more.
 
@@ -71,12 +71,12 @@ The confirmed registration of the user is **deleted**, since it holds the same l
 
 The member **leaves every group** they belong to, as if they left it themselves, see [leaving](../meetings/group-life.md#leaving) and [when a member leaves the group](../meetings/organization.md#when-a-member-leaves-the-group): they are taken out of the upcoming meetings, an attendee loses their place and their guests', the places go to the waitlist, a waiting member leaves it, and a host stops being one. A hand-over that names them as candidate has already been declined.
 
-- **A group the member still owns is archived.** Its upcoming meetings are **cancelled**, with the usual email to attendees and the waitlist. The group is then **frozen**: nobody can change it, join it, plan meetings in it, comment or moderate, and nothing is added to it. Its members still see it and can still leave it, since it keeps its past and its comments. Its owner is shown as a **deleted member**.
+- **A group the member still owns is archived.** Its upcoming meetings are **cancelled**, with the usual notification to attendees and the waitlist. The group is then **frozen**: nobody can change it, join it, plan meetings in it, comment or moderate, and nothing is added to it. Its members still see it and can still leave it, since it keeps its past and its comments. Its owner is shown as a **deleted member**.
 - **What the member wrote stays, anonymously.** Their comments stay in the conversation with their text and their date, and the author is shown as a **deleted member**: the replies stay readable. Their likes stay counted, and a like of a deleted member shows no one. Nobody can edit or remove the comments of a deleted member except the owner and the organizers, as for any [former member](../meetings/commenting.md#when-a-member-leaves-the-group).
 - **What is decided stays.** A group proposal the member made and that was decided, a meeting they hosted, a group they once belonged to: each keeps the deleted member in place of the person.
 - **Their place in past meetings** counts in the numbers of attendees and is no longer attached to anyone.
 
-The members of an archived group are told by email.
+The members of an archived group are notified.
 
 ### What happens in Payments
 
@@ -85,15 +85,22 @@ The members of an archived group are told by email.
 - Their **payout account is removed**. The fees of the meetings of a group handed over go to the new owner's account, and the meetings of an archived group are cancelled, so no fee waits for the removed account.
 - Their **payments are kept**, the subscriptions as well as the fees of the meetings, **without an identity**. They are the accounting record, kept for **10 years**, the period the law requires for accounting records, which is configurable, and then deleted. A fee already paid stays paid: the owner of the group decides on a refund in their own payment system.
 
+### What happens in Notifications
+
+The member's **inbox is deleted**, with its deliveries, and no notification is created for them afterwards. The message that confirms the erasure is a [required message](../notifications/description.md#required-messages) sent to the address, since there is no member any more to notify.
+
 ## Exporting the data
 
-A user can **export their data** at any time, with or without a request pending, whether the account is locked or not. The export gathers, in one readable document, **what each context holds about the person**:
+A member can **export their data** at any time, with or without a request pending, whether the account is locked or not. The export gathers, in one readable document, **what each context holds about the person**:
 
 - **UserAccess**: the login, the email address, the names, the role or roles.
 - **Meetings**: the groups the member belongs to or belonged to, with their role and the dates; the meetings they hosted or attended, with their guests; their comments and likes; the group proposals they made, and the decision on each.
 - **Payments**: their subscriptions and the dates of their periods, their payments with their amounts and dates, and whether they have a payout account.
+- **Notifications**: their notifications, with their date and whether they are read.
 
-The export is prepared, not instantaneous, and is available to the member for **7 days**, configurable, then it expires. The member is told by email when it is ready. A member exports as many times as they want, and each export is the state of the data at that moment.
+An administrator has no export: they are neither a member nor a payer, and hold nothing but what UserAccess knows of them.
+
+The export is prepared, not instantaneous, and is available to the member for **7 days**, configurable, then it expires. The member is notified when it is ready. A member exports as many times as they want, and each export is the state of the data at that moment.
 
 ## Deleting an administrator
 
@@ -102,9 +109,10 @@ An **administrator is a particular account**: nobody deletes their own. An admin
 - There is no open item, no grace period and no lock: the administrator is neither a member nor a payer, and the other administrator decides, not the person. The deletion is **carried out at once**.
 - The administrator's login, email address, names and password are erased, and the login and the email address are free again. What they decided stays, attributed to a **deleted administrator**: the group proposals they accepted or rejected keep who, when and why, without the person.
 - There is always **at least one administrator**. The one who deletes is an administrator at that moment, so the last one is never deleted, since nobody can delete themselves. The rule matters when two administrators delete **each other at the same moment**: only one deletion succeeds, the other is refused.
-- The administrator who is deleted is told by email, **before** the address is erased.
 
-## Emails
+## Notifications
+
+Each of these is a notification handed to [Notifications](../notifications/description.md): the member finds it in their inbox and receives it by email, as [the catalogue](../notifications/catalogue.md#useraccess) lists. The last one, the deletion carried out, is a [required message](../notifications/description.md#required-messages): an email only, to the address the erasure frees, since there is no member any more.
 
 | When | Who is told |
 | :-- | :-- |
@@ -115,7 +123,6 @@ An **administrator is a particular account**: nobody deletes their own. An admin
 | A group is archived | Its members |
 | The meetings of an archived group are cancelled | Their attendees and waitlist, as for any [cancelled meeting](../meetings/organization.md#cancelling-a-meeting) |
 | An export is ready | The member |
-| An administrator is deleted | That administrator, before the deletion |
 
 ## Reading
 

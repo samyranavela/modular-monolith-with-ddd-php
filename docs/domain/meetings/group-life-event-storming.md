@@ -76,7 +76,7 @@ flowchart LR
         V1[Subscription created or renewed, in Payments]:::event --> P3
         P3 --> C6[Complete the transfer]:::command --> A6((Meeting Group)):::aggregate --> E6[Group handed over]:::event
 
-        E1 --> P4{{Email the parties concerned}}:::policy
+        E1 --> P4{{Notify the parties concerned}}:::policy
         E2 --> P4
         E3 --> P4
         E4 --> P4
@@ -85,7 +85,7 @@ flowchart LR
     end
 
     PAY[Payments]:::external --> V1
-    P4 --> EM[Email service]:::external
+    P4 --> EM[Notifications]:::external
 ```
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
@@ -94,7 +94,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 2. **Accepting.** A policy refuses the acceptance without a validated payout account when a meeting with a fee has yet to start. The acceptance does not complete the transfer. The candidate who has no active subscription takes one out, or renews, in Payments, like any payer, and the request stays pending.
 3. **Completing.** The transfer completes when Meetings knows that the candidate's subscription is valid, either because it already was when they accepted, or because it became valid afterwards. The candidate becomes the owner, the former owner becomes an organizer, and the group follows the new owner's subscription.
 4. **Ending.** The candidate can decline, the owner can cancel, and the request is cancelled by itself if the candidate leaves or is demoted. A completed transfer is final.
-5. **Emails.** Every event of the request sends an email to each party concerned.
+5. **Notifications.** Every event of the request notifies the party concerned, as [the catalogue](../notifications/catalogue.md#meetings-groups) lists.
 6. **The payments.** The request is refused while a payment of the group's meetings waits. From it until the transfer ends, whichever way, sign-ups to the meetings with a fee are closed, so no payment is created while the receiver of the fees may change. The fees of the sign-ups to come go to the new owner's payout account.
 
 ## Covering the group
@@ -117,20 +117,19 @@ flowchart LR
         direction LR
         K1(Validity of a member's subscription):::readmodel
         Y2 --> P2{{Remind the owner of the groups}}:::policy
-        Y3 --> P3{{Tell the owner of the groups they are no longer covered}}:::policy
+        Y3 --> P3{{Notify the owner that their groups are no longer covered}}:::policy
     end
 
     Y1 -.->|needed| K1
-    Y3 -.->|needed| K1
-    P2 --> EM[Email service]:::external
+    P2 --> EM[Notifications]:::external
     P3 --> EM
 ```
 
 Orange is an event, purple a policy, green the information Meetings needs, pink an external system. A dotted arrow means that Meetings needs the fact.
 
 1. **The validity.** Meetings needs to know until when a member's subscription is valid. This is the date that decides whether a meeting can be organized, and it is what completes a transfer.
-2. **Reminding.** When a subscription is about to expire, an email reminds the owner of each group they own.
-3. **Expiring.** When it has expired, an email tells the owner that their group is no longer covered. Nothing else changes: the group can no longer organize new meetings, and the meetings already planned stay.
+2. **Reminding.** When a subscription is about to expire, a notification reminds the owner of each group they own.
+3. **Expiring.** When it has expired, a notification tells the owner that their group is no longer covered. Nothing else changes: the group can no longer organize new meetings, and the meetings already planned stay.
 4. **The free plan.** An owner of whom Meetings knows no validity at all has never held a subscription: they are on the [free plan](group-life.md#the-free-plan), with one group, always covered, and two meetings a month. The first subscription takes them off it for good.
 
 ## Reading

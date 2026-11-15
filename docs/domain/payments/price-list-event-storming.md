@@ -23,7 +23,7 @@ flowchart LR
 
     subgraph Effects
         direction LR
-        E2 --> P1{{Whenever the item is active and of kind Renewal}}:::policy --> P2{{Email the payers whose automatic renewal depends on it}}:::policy
+        E2 --> P1{{Whenever the item is active and of kind Renewal}}:::policy --> P2{{Notify the payers whose automatic renewal depends on it}}:::policy
     end
 
     subgraph Reading
@@ -53,5 +53,5 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 1. **Creating.** The item is created active. A policy first checks that no other item is active for the same country, period and kind. When two administrators act at the same moment, only one succeeds.
 2. **Changing the price.** Only the price changes, never the country, the period or the kind.
 3. **Deactivating and activating.** Both do nothing when the item is already in that state. Activating is refused when another item is active for the same triple.
-4. **The email.** It follows a change of price only when the item is active and of the kind *renewal*. It goes to the payers whose [automatic renewal](subscriptions-event-storming.md#automatic-renewal) has the same country and the same period. Nothing goes out for the other events.
+4. **The notification.** It follows a change of price only when the item is active and of the kind *renewal*. It goes to the payers whose [automatic renewal](subscriptions-event-storming.md#automatic-renewal) has the same country and the same period. Nothing goes out for the other events.
 5. **Reading.** The administrator reads the whole list. A payer reads only the price they would pay, which comes from the active item, and sees that no price is offered when there is none.

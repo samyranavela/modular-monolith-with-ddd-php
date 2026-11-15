@@ -42,9 +42,11 @@ The price is **the amount of the active item**, as is. There is no promotion, no
 
 The price a payer accepts when buying or renewing must equal the active price at that moment, otherwise the operation is refused and they see the new price. The payment keeps the price it was created with. An [automatic renewal](subscriptions.md#renewing-automatically) keeps the price of its next payment, and takes the new one when the price of its renewal item changes.
 
-## Emails
+## Notifications
 
-When the **price of an active item of the kind *renewal*** changes, an email goes to every payer whose [automatic renewal](subscriptions.md#renewing-automatically) depends on that item, that is, with the same country and the same period. It tells them the new price, whether it goes up or down, and that it applies at their next automatic renewal.
+Each of these is a notification handed to [Notifications](../notifications/description.md): the member finds it in their inbox and receives it by email, as [the catalogue](../notifications/catalogue.md#payments) lists.
+
+When the **price of an active item of the kind *renewal*** changes, a notification goes to every payer whose [automatic renewal](subscriptions.md#renewing-automatically) depends on that item, that is, with the same country and the same period. It tells them the new price, whether it goes up or down, and that it applies at their next automatic renewal.
 
 Nothing is sent for the creation, the activation or the deactivation of an item, nor for the change of a *new* price. Deactivating an item does not touch an automatic renewal already on: it keeps the last price.
 

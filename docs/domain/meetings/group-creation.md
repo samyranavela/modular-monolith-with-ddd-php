@@ -27,8 +27,8 @@ A proposal is decided **once**. The decision is final: it is neither changed nor
 
 ## After the decision
 
-- **Accepted**: the meeting group is created from the proposal, with the same name, description and place. The proposer becomes its **owner**, and a member of the group. An email tells the proposer that the group exists.
-- **Rejected**: an email tells the proposer that the proposal was rejected, and gives the reason. The proposal stays in their list, with the reason. A member who still wants the group makes a new proposal, which has no link to the rejected one.
+- **Accepted**: the meeting group is created from the proposal, with the same name, description and place. The proposer becomes its **owner**, and a member of the group. A [notification](../notifications/catalogue.md#meetings-groups) tells the proposer that the group exists.
+- **Rejected**: a notification tells the proposer that the proposal was rejected, and gives the reason. The proposal stays in their list, with the reason. A member who still wants the group makes a new proposal, which has no link to the rejected one.
 
 ## What each role sees
 

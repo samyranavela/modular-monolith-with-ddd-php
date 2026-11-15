@@ -47,7 +47,7 @@ A removed comment cannot be edited.
 The author removes their comment, and the owner or an organizer removes any comment, a reply included.
 
 - When the author removes their own comment, they give no reason.
-- When the owner or an organizer removes a comment of somebody else, they must give a **reason**, which the author is told, see [emails](#emails).
+- When the owner or an organizer removes a comment of somebody else, they must give a **reason**, which the author is told, see [notifications](#notifications).
 
 A removed comment is not erased: it stays in the conversation as a **removed** comment, with no text, so that the replies under it remain readable. Members of the group see who removed it and the reason, if there is one. A removed comment can no longer be edited, replied to or liked, and its likes are no longer shown. Removal is final.
 
@@ -65,7 +65,9 @@ The comments and the likes of a member who leaves the group **stay**. The former
 
 What happens to a member's content when their account is deleted concerns every context, and is described on its own page, [deleting an account](../useraccess/account-deletion.md). A comment whose author is gone stays readable.
 
-## Emails
+## Notifications
+
+Each of these is a notification handed to [Notifications](../notifications/description.md): the member finds it in their inbox and receives it by email, as [the catalogue](../notifications/catalogue.md#meetings-meetings-and-comments) lists.
 
 | When | Who is told |
 | :-- | :-- |

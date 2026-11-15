@@ -49,7 +49,7 @@ The owner cannot leave, so the group changes hands in one way only: the owner **
 - **Ending by itself.** If the candidate leaves the group, or is demoted, while the request is pending, the request is cancelled.
 - **Completing.** The candidate becomes the owner and the former owner becomes an organizer. The group is then covered by the new owner's subscription, and the sign-ups to its meetings with a fee reopen. The fees of the sign-ups to come go to the new owner's payout account, and those already paid stay with the former owner's.
 
-Every one of these steps sends an **email to each party concerned**, the owner and the candidate: the request, the acceptance, the confirmation of the subscription, the refusal, the cancellation by the owner, the cancellation by itself and the completion.
+Every one of these steps sends a **notification to the party concerned**: the candidate, of the request and of its cancellation by the owner; the owner, of the acceptance, of the refusal, of the confirmation of the candidate's subscription and of the cancellation by itself; both, of the completion. See [the catalogue](../notifications/catalogue.md#meetings-groups).
 
 A completed transfer is **final**. Going back means the new owner makes a new request, like anyone else.
 
@@ -73,7 +73,7 @@ The free plan is left for good with the first subscription or trial. The group i
 
 ### When the subscription ends
 
-When an owner's subscription is **about to expire**, and when it **expires**, two emails follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
+When an owner's subscription is **about to expire**, and when it **expires**, two notifications follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
 
 An uncovered group is not closed down. Only one thing changes: it **cannot organize new meetings**.
 

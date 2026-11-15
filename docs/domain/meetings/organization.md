@@ -68,7 +68,7 @@ A member of the group signs up, with a number of guests. They need:
 
 A member who had said they would not come simply changes their mind.
 
-For a meeting **without a fee**, the member is an attendee at once, and an email tells them they are in. For a meeting **with a fee**, the places are kept **awaiting payment**, see [the fee](#the-fee).
+For a meeting **without a fee**, the member is an attendee at once, and a notification tells them they are in. For a meeting **with a fee**, the places are kept **awaiting payment**, see [the fee](#the-fee).
 
 ## Saying you will not come
 
@@ -80,13 +80,13 @@ An attendee who says they will not come loses their place, and their guests' pla
 
 A meeting **without a fee** has a waitlist. A meeting with a fee has none: a member who finds it full is refused, and the next place that frees up goes to whoever signs up first. A member who wants to come when a meeting without a fee is **full** joins the **waitlist**, without guests. They need the RSVP term to be open, to be a member of the group, to be neither a host, an attendee nor already waiting. They can leave the waitlist whenever they want.
 
-Whenever places become free, because an attendee said they will not come, because an attendee was removed, because an attendee became a host, or because the attendee limit was raised, the waitlist takes them: the member waiting for the longest becomes an attendee, one place each, and so on while there are places left and members waiting. A member taken from the waitlist keeps their sign-up date and gets the same email as when signing up.
+Whenever places become free, because an attendee said they will not come, because an attendee was removed, because an attendee became a host, or because the attendee limit was raised, the waitlist takes them: the member waiting for the longest becomes an attendee, one place each, and so on while there are places left and members waiting. A member taken from the waitlist keeps their sign-up date and is notified that they were taken from the waitlist.
 
 So while someone waits, no place stays free, and nobody can overtake the waitlist. A member who wants guests and finds too few places left is refused, and can still sign up without guests.
 
 ## Removing an attendee
 
-A host, or the owner or an organizer of the group, removes an attendee, and must give a **reason**. The attendee loses their place and their guests', which the waitlist takes. They are told by email, with the reason. A payment still awaited is cancelled, and a fee already paid is not refunded.
+A host, or the owner or an organizer of the group, removes an attendee, and must give a **reason**. The attendee loses their place and their guests', which the waitlist takes. They are notified, with the reason. A payment still awaited is cancelled, and a fee already paid is not refunded.
 
 Removal is **final for this meeting**: the member cannot sign up again. They can still join other meetings of the group.
 
@@ -94,7 +94,7 @@ Removal is **final for this meeting**: the member cannot sign up again. They can
 
 A host, or the owner or an organizer of the group, cancels the meeting. The meeting remembers who and when. A cancelled meeting is frozen: nobody can sign up, wait or change anything, and the cancellation is final.
 
-Every attendee and every member on the waitlist is told by email. Every payment still awaited is cancelled. A fee already paid is not refunded: the owner decides, in their own payment system, see [Payments](../payments/meeting-fees.md#refunds).
+Every attendee and every member on the waitlist is notified. Every payment still awaited is cancelled. A fee already paid is not refunded: the owner decides, in their own payment system, see [Payments](../payments/meeting-fees.md#refunds).
 
 ## When a member leaves the group
 
@@ -117,16 +117,18 @@ Payments needs to know when a place awaiting payment is lost before it is paid, 
 
 During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change.
 
-## Emails
+## Notifications
+
+Each of these is a notification handed to [Notifications](../notifications/description.md): the member finds it in their inbox and receives it by email, as [the catalogue](../notifications/catalogue.md#meetings-meetings-and-comments) lists.
 
 | When | Who is told |
 | :-- | :-- |
 | An attendee signs up to a meeting without a fee, or is taken from its waitlist | The attendee |
-| A member signs up to a meeting with a fee | The member, with the places kept and the time they are kept for |
+| A member signs up to a meeting with a fee | The member, with the places kept and until when they are kept |
 | A place awaiting payment is confirmed | The attendee |
 | A place awaiting payment is released | The member |
 | An attendee is removed | The attendee, with the reason |
-| The meeting is cancelled | Every attendee and every member on the waitlist |
+| The meeting is cancelled, or its group is archived | Every attendee and every member on the waitlist |
 
 ## Reading
 

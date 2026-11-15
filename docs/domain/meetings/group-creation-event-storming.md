@@ -25,8 +25,8 @@ flowchart LR
 
         E2 --> P1{{Create the meeting group}}:::policy --> C4[Create the meeting group]:::command --> A4((Meeting Group)):::aggregate --> E4[Meeting group created]:::event
 
-        E4 --> P2{{Tell the proposer the group exists}}:::policy
-        E3 --> P3{{Tell the proposer of the rejection}}:::policy
+        E4 --> P2{{Notify the proposer that the group exists}}:::policy
+        E3 --> P3{{Notify the proposer of the rejection}}:::policy
 
         E1 -.-> R1[My proposals]:::readmodel
         E2 -.-> R1
@@ -36,7 +36,7 @@ flowchart LR
         E3 -.-> R2
     end
 
-    P2 --> EM[Email service]:::external
+    P2 --> EM[Notifications]:::external
     P3 --> EM
     R1 -.-> MB
     R2 -.-> AD
@@ -49,9 +49,9 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 1. **Proposing.** A member proposes a group. A policy first refuses it when the member is on the [free plan](group-life.md#the-free-plan) and already owns a group: they take a subscription or a trial first. Otherwise the proposal is created pending, and nothing else happens on its own: it waits for an administrator.
 2. **Accepting.** An administrator accepts a proposal that is still pending. The same policy checks again, since the proposer may have become owner of a group since they proposed; when it refuses, the administrator rejects the proposal, with that reason. A proposal is decided once: an already decided proposal refuses a second decision, accepted or rejected.
 3. **Creating the group.** The acceptance is the only thing that creates a group, and it does so as a reaction, not as part of the command. The group is created with the proposer as its owner, which makes the proposer a member of the group at the same moment.
-4. **Telling the proposer of the creation.** In reaction to the creation of the group, an email tells the proposer that it exists.
+4. **Telling the proposer of the creation.** In reaction to the creation of the group, a notification tells the proposer that it exists.
 5. **Rejecting.** An administrator rejects a proposal that is still pending, and must give a reason: a rejection without a reason is refused. No group is created.
-6. **Telling the proposer of the rejection.** In reaction to the rejection, an email gives the proposer the reason. The proposal stays visible to them, with that reason.
+6. **Telling the proposer of the rejection.** In reaction to the rejection, a notification gives the proposer the reason. The proposal stays visible to them, with that reason.
 7. **Reading.** Two read models are kept up to date by the three events of the proposal: the member's own proposals, with their status and the reason of a rejection, and the list of all the proposals, which the administrator filters by status.
 
 Everything here belongs to Meetings. The administrator and the member come from [UserAccess](../useraccess/description.md): they are known by their identity, and the permissions that allow each command are those of the table in [creating a meeting group](group-creation.md#what-each-role-sees).

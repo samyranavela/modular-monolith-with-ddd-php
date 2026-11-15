@@ -33,5 +33,5 @@ A user whose login, email address, names and password were erased. Only the iden
 _Avoid_: Disabled user, archived user
 
 **Data Export**:
-A document gathering what each context holds about a user, which they ask for at any time. It is ready after a while and expires after a limited time.
+A document gathering what each context holds about a member, which they ask for at any time. An administrator has none. It is ready after a while and expires after a limited time.
 _Avoid_: Backup, download
