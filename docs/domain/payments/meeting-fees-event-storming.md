@@ -40,7 +40,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, p
 
 ### Reading it
 
-1. **Creating.** When Meetings says that an attendee is awaiting payment, with the amount and the owner who receives it, Payments creates the payment, waiting, with a limit 30 minutes later by default. A policy asks the [payment system](description.md#the-payment-system) to collect the amount for the owner's payout account, and the attendee pays on its page. Payments never takes the money itself.
+1. **Creating.** Payments needs to know that an attendee is awaiting payment, with the amount and the owner who receives it. It then creates the payment, waiting, with a limit 30 minutes later by default. A policy asks the [payment system](description.md#the-payment-system) to collect the amount for the owner's payout account, and the attendee pays on its page. Payments never takes the money itself.
 2. **Paid.** The answer of the payment system marks the payment as paid. Meetings confirms the place once it knows the payment is paid, and not before.
 3. **Running out of time.** Nobody asked: time did. The payment expires, and Meetings, which needs to know it, releases the places. The member signs up again if they still want to come.
 
@@ -96,7 +96,7 @@ flowchart LR
 
     subgraph Removing
         direction LR
-        C3[Remove the payout account]:::command --> G3{{Refuse if Meetings says a meeting with a fee has yet to start}}:::policy --> A3((Payout Account)):::aggregate --> E3[Payout account removed]:::event
+        C3[Remove the payout account]:::command --> G3{{Refuse if a meeting with a fee has yet to start}}:::policy --> A3((Payout Account)):::aggregate --> E3[Payout account removed]:::event
         G3 -.-> MT2[Meetings]:::external
     end
 
@@ -113,4 +113,4 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Setting up.** The owner starts the setup, and the account is pending. A policy asks the payment system to validate it, which the owner completes with it.
 2. **Validated.** The answer of the payment system validates the account, which Meetings needs to know. That is what lets the groups of the owner give a meeting a fee. When it replaces an earlier account, the new one takes over at that moment.
-3. **Removing.** The owner removes the account. Payments needs to know whether a meeting that has a fee, of the owner's groups, has yet to start, and refuses if there is one. Meetings needs to know the removal, so that it stops accepting a fee for them.
+3. **Removing.** The owner removes the account. Payments needs to know whether a meeting that has a fee, of the owner's groups, has yet to start, and refuses if there is one. The rule is absolute: when a removal and the setting of a fee on a meeting happen at the same moment, only one succeeds. It does not apply when the removal is part of an [account erasure](../useraccess/account-deletion.md): the meetings of the groups concerned are cancelled or the groups handed over, so no fee waits for the account. Meetings needs to know the removal, so that it stops accepting a fee for them.

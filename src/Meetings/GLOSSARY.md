@@ -32,11 +32,11 @@ The member answerable for a meeting group and for its subscription. There is exa
 _Avoid_: Creator, admin
 
 **Organizer**:
-A member who looks after a meeting group below its owner, and stands in when the owner is not available. There can be any number. An organizer can step down or leave at any time.
+A member who looks after a meeting group below its owner, and stands in when the owner is not available. There can be any number. An organizer can step down or leave the group, unless they are the last host of a meeting that has not started.
 _Avoid_: Admin, co-owner
 
 **Ownership Transfer Request**:
-The owner's proposal to hand the group over to one of its organizers, the candidate. It can be made only while no payment of the group's meetings waits, and it closes the sign-ups to the meetings with a fee until it ends. It is pending until the candidate accepts, with a validated payout account when a meeting with a fee has yet to start, and Meetings knows from Payments that their subscription is valid; it can be declined by the candidate, cancelled by the owner, or cancelled by itself if the candidate leaves or is demoted. A completed transfer is final.
+The owner's proposal to hand the group over to one of its organizers, the candidate. It can be made only while no payment of the group's meetings waits, and it closes the sign-ups to the meetings with a fee until it ends. It is pending until the candidate accepts, with a validated payout account when a meeting with a fee has yet to start, and Meetings knows from Payments that their subscription is valid; it can be declined by the candidate, cancelled by the owner, or cancelled by itself if the candidate leaves, is demoted or is locked by a pending deletion of their account (a locked member cannot be designated as a candidate). A completed transfer is final.
 _Avoid_: Ownership change
 
 **Member Subscription**:
@@ -51,6 +51,13 @@ _Avoid_: Bank account
 A meeting group whose owner's subscription is still valid, or the one group of an owner on the free plan, who never held a subscription and cannot own another. Only a covered group can organize new meetings, and a group on the free plan has at most two a month; an uncovered group is not closed, and its planned meetings stay.
 _Avoid_: Paid group, group expiration
 
+**Venue**:
+Where a meeting or a group takes place: for a meeting, a name, an address, a postal code and a city; for a group, a city and a country. Not to be confused with a place.
+_Avoid_: Place (for the venue)
+
+**Place**:
+A seat in a meeting, taken by an attendee and by each of their guests. A host takes none. A place awaiting payment is taken. Not to be confused with the venue.
+
 **Meeting**:
 An event organized by a covered meeting group, with a start date, a place, an RSVP term, an optional attendee limit, a guest limit and an optional event fee. It only changes before it starts and while it is not cancelled.
 _Avoid_: Event
@@ -58,6 +65,13 @@ _Avoid_: Event
 **Meeting Attendee**:
 A member who has declared they will attend a meeting, possibly with guests. An attendee takes a place and owes the event fee. For a meeting with a fee, the place is awaiting payment until Payments says it is paid, then confirmed, or released if the payment expires. An attendee removed from a meeting cannot sign up to it again. A host is never an attendee.
 _Avoid_: Participant
+
+**Removal**:
+The act of a host, the owner or an organizer taking an attendee out of a meeting, with a mandatory reason. The attendee loses their place and cannot sign up again to that meeting. It keeps who removed them, when and why.
+_Avoid_: Ban, kick
+
+**Hand-over**:
+The handing of a group to a new owner: see Ownership Transfer Request.
 
 **Guest**:
 A person an attendee brings along, who takes a place and adds to the event fee, but has no account here.
@@ -105,5 +119,5 @@ How a member whose account was deleted is shown in what they leave behind: their
 _Avoid_: Anonymous member, former member (a former member only left a group)
 
 **Archived Group**:
-A group whose owner was deleted without handing it over. Its upcoming meetings are cancelled, and it is frozen: nobody can change it, join it, plan meetings, comment or moderate. Its members still read it and can leave it. Final.
+A group whose owner was deleted without handing it over. Its upcoming meetings are cancelled, and it is frozen and read-only: nobody can change it, join it, plan, change or cancel meetings, designate hosts, comment, reply, edit, like, remove a comment or moderate. Its members still read it, with its past, meetings and comments, and can leave it. Its owner stays the owner, shown as a deleted member. Final.
 _Avoid_: Closed group, deleted group

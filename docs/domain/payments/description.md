@@ -31,7 +31,7 @@ The money moves through an **external payment system**. Payments asks it to coll
 
 For an [automatic renewal](subscriptions.md#renewing-automatically), the system also keeps the payment method and repeats the payment, and Payments only learns that a period was paid.
 
-Every payment waits for the system's answer for a limited time, and expires when it does not come. A refusal or an abandon changes nothing but the passing of that time. The payer of a subscription may try again at once, and an attendee whose payment expired signs up again.
+Every payment waits for the system's answer for a limited time, and expires when it does not come. A refusal or an abandon changes nothing but the passing of that time. The payer of a subscription may start again once the payment has expired, and so does an attendee: they sign up again.
 
 ## The payout account
 
@@ -39,7 +39,7 @@ The owner of a group receives the fees of its meetings on a **payout account**, 
 
 The application **never refunds**. A refund is the owner's decision, made in their own payment system according to their own policy. A payment that was made stays as it is when the attendee later loses the place, when the meeting is cancelled, or when it arrives after the place was released.
 
-A meeting can only have a fee when the owner of its group has a **validated** payout account, so every fee is paid online. [Meetings](../meetings/organization.md#creating-a-meeting) needs to know whether the owner has one, which Payments tells it when the payment system validates the account.
+A meeting can only have a fee when the owner of its group has a **validated** payout account, so every fee is paid online. [Meetings](../meetings/organization.md#creating-a-meeting) needs to know whether the owner has one, and that it is so from the moment the payment system validates the account.
 
 ## What the context does
 
@@ -49,7 +49,7 @@ A meeting can only have a fee when the owner of its group has a **validated** pa
 - **Setting up a payout account**: the owner of a group sets up where the fees of their meetings are paid.
 - **Reading**: a payer reads their own subscription and their own payments, among them those of the meetings they signed up to. An administrator reads the price list. Nobody reads the payments of someone else.
 
-[Notifications](../notifications/description.md) go to the payer when a subscription is bought or renewed, a trial starts or is about to end, or the period of an automatic renewal changes, as listed in [subscriptions](subscriptions.md#notifications). The reminders and notices about the end of a subscription belong to [the life of a meeting group](../meetings/group-life.md#when-the-subscription-ends).
+The payer is notified of the events of their subscription and of the price changes that concern them, as listed in [subscriptions](subscriptions.md#notifications) and in [the price list](price-list.md#notifications). The reminders and notices about the end of a subscription belong to [the life of a meeting group](../meetings/group-life.md#when-the-subscription-ends).
 
 ## What Payments needs from other contexts
 

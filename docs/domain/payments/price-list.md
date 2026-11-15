@@ -40,15 +40,20 @@ A payer buys or renews for a country. When the list holds **no active price** fo
 
 The price is **the amount of the active item**, as is. There is no promotion, no discount code and no special rate: the price list is the only source of a price. A longer period is cheaper only because its item holds its own price.
 
-The price a payer accepts when buying or renewing must equal the active price at that moment, otherwise the operation is refused and they see the new price. The payment keeps the price it was created with. An [automatic renewal](subscriptions.md#renewing-automatically) keeps the price of its next payment, and takes the new one when the price of its renewal item changes.
+The price a payer accepts when buying or renewing must equal the active price at that moment, otherwise the operation is refused and they see the new price. The payment keeps the price it was created with. An [automatic renewal](subscriptions.md#renewing-automatically) keeps the price of its next payment, and takes the new one when the price of the item it depends on changes: the *renewal* item, or, for a [trial](subscriptions.md#trying) until its first payment, the *new* item.
 
 ## Notifications
 
 Each of these is a notification handed to [Notifications](../notifications/description.md): the member finds it in their inbox and receives it by email, as [the catalogue](../notifications/catalogue.md#payments) lists.
 
-When the **price of an active item of the kind *renewal*** changes, a notification goes to every payer whose [automatic renewal](subscriptions.md#renewing-automatically) depends on that item, that is, with the same country and the same period. It tells them the new price, whether it goes up or down, and that it applies at their next automatic renewal.
+When the **price of an active item** changes, a notification goes to every payer whose [automatic renewal](subscriptions.md#renewing-automatically) depends on that item, that is, with the same country and the same period:
 
-Nothing is sent for the creation, the activation or the deactivation of an item, nor for the change of a *new* price. Deactivating an item does not touch an automatic renewal already on: it keeps the last price.
+- for an item of the kind *renewal*, the payers whose renewal depends on it, which is every automatic renewal but a trial not yet paid;
+- for an item of the kind *new*, **only** the payers whose [trial](subscriptions.md#trying) depends on it, that is, whose first payment is still to come.
+
+It tells them the new price, whether it goes up or down, and that it applies at their next payment, which is the first one for a trial. They can turn automatic renewal off before.
+
+Nothing else is sent: nothing for the creation, the activation or the deactivation of an item, and nothing for a change of a *new* price to anyone but those payers. Deactivating an item does not touch an automatic renewal already on: it keeps the last price.
 
 ## Reading
 

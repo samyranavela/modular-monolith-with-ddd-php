@@ -37,7 +37,7 @@ classDiagram
     PriceListItem --> MoneyValue : at the price
     SubscriptionPayment ..> PriceListItem : price equals the active one, of kind New
     SubscriptionRenewalPayment ..> PriceListItem : price equals the active one, of kind Renewal
-    AutomaticRenewal ..> PriceListItem : depends on the one of kind Renewal
+    AutomaticRenewal ..> PriceListItem : depends on the one of kind Renewal, or New until the first payment of a trial
 ```
 
 ## Reading it
@@ -46,7 +46,7 @@ classDiagram
 - **Price Kind** has two values: *new* for a first purchase, *renewal* for any renewal, manual or automatic.
 - **Subscription Period** is the one of [subscriptions](subscriptions-conceptual-model.md): a month or a year. A year has its own item, so a longer period can be cheaper.
 - **Money Value** is an amount in euros, never negative. There is no other currency and no conversion.
-- **Payments and automatic renewals** do not own items. A payment is created only if its price equals the active price of the item with the same country, period and kind, and an automatic renewal depends on the renewal item of its country and period, which is what makes a change of price concern it.
+- **Payments and automatic renewals** do not own items. A payment is created only if its price equals the active price of the item with the same country, period and kind, and an automatic renewal depends on the item of its country and period that its next payment takes: the *renewal* item, or the *new* item for a trial that has not yet been paid. That is what makes a change of price concern it.
 
 ## Rules that cross aggregates
 

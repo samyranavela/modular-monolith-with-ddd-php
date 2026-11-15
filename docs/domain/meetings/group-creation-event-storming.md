@@ -20,7 +20,7 @@ flowchart LR
         direction LR
         C1[Propose a meeting group]:::command --> P0{{Refuse if the member is on the free plan and already owns a group}}:::policy --> A1((Meeting Group Proposal)):::aggregate --> E1[Meeting group proposed]:::event
 
-        C2[Accept the proposal]:::command --> P4{{Refuse if the proposer is on the free plan and now owns a group}}:::policy --> A2((Meeting Group Proposal)):::aggregate --> E2[Proposal accepted]:::event
+        C2[Accept the proposal]:::command --> P4{{Refuse if the proposer is on the free plan and now owns a group, even for two acceptances at the same moment}}:::policy --> A2((Meeting Group Proposal)):::aggregate --> E2[Proposal accepted]:::event
         C3[Reject the proposal, with a reason]:::command --> A3((Meeting Group Proposal)):::aggregate --> E3[Proposal rejected]:::event
 
         E2 --> P1{{Create the meeting group}}:::policy --> C4[Create the meeting group]:::command --> A4((Meeting Group)):::aggregate --> E4[Meeting group created]:::event
@@ -47,7 +47,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 ## Reading it
 
 1. **Proposing.** A member proposes a group. A policy first refuses it when the member is on the [free plan](group-life.md#the-free-plan) and already owns a group: they take a subscription or a trial first. Otherwise the proposal is created pending, and nothing else happens on its own: it waits for an administrator.
-2. **Accepting.** An administrator accepts a proposal that is still pending. The same policy checks again, since the proposer may have become owner of a group since they proposed; when it refuses, the administrator rejects the proposal, with that reason. A proposal is decided once: an already decided proposal refuses a second decision, accepted or rejected.
+2. **Accepting.** An administrator accepts a proposal that is still pending. The same policy checks again, since the proposer may have become owner of a group since they proposed; when it refuses, the administrator rejects the proposal, with that reason. The check is made here, at the acceptance, and not when the group is created: two proposals of the same free-plan member accepted at the same moment cannot both be accepted, only one is. A proposal is decided once: an already decided proposal refuses a second decision, accepted or rejected.
 3. **Creating the group.** The acceptance is the only thing that creates a group, and it does so as a reaction, not as part of the command. The group is created with the proposer as its owner, which makes the proposer a member of the group at the same moment.
 4. **Telling the proposer of the creation.** In reaction to the creation of the group, a notification tells the proposer that it exists.
 5. **Rejecting.** An administrator rejects a proposal that is still pending, and must give a reason: a rejection without a reason is refused. No group is created.

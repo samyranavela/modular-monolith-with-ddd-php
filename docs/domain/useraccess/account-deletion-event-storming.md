@@ -24,7 +24,7 @@ flowchart LR
 
     subgraph Meetings
         direction LR
-        E2 --> P3{{Decline the hand-overs proposed to the member}}:::policy
+        E2 --> P3{{Cancel the hand-overs proposed to the member}}:::policy
     end
 
     P2 --> EM[Notifications]:::external
@@ -34,7 +34,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Refusals.** The request is refused when the user is an administrator, when a request of theirs is already pending, or when an [open item](account-deletion.md#what-stands-in-the-way) stands in the way: a group they own that is under hand-over, a last host of an upcoming meeting, a payment that waits, a proposal that is pending. The check and the request are one decision: if something stands in the way at the same moment, only one of the two succeeds.
 2. **The request** remembers when it was made and the day it will be carried out, the end of the grace period.
-3. **Locking.** The account is locked as soon as the request exists. Meetings needs to know it, to decline a hand-over that was proposed to the member, which ends it as for a candidate that left.
+3. **Locking.** The account is locked as soon as the request exists. Meetings needs to know it, to cancel a hand-over that names the member as candidate: it ends as **cancelled by itself**, not as declined, and the owner is notified. Meetings also refuses to name a locked member as candidate. When the deletion request and a hand-over request naming the member arrive at the same moment, the first to arrive wins: if the deletion request is second, it cancels the hand-over request.
 4. **Notification.** The member is told the date and what will happen.
 
 ## Cancelling
@@ -63,7 +63,7 @@ flowchart LR
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
 1. **Only while pending.** Nothing can be cancelled after the grace period is over and the deletion is carried out.
-2. **Unlocking.** The account is as it was, except for the hand-overs that were declined: they are not restored, the owner proposes again.
+2. **Unlocking.** The account is as it was, except for the hand-overs that were cancelled by themselves: they are not restored, the owner proposes again.
 
 ## Carrying out
 
@@ -115,13 +115,13 @@ flowchart LR
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, pink an external system.
 
-1. **The check, again.** The same rules as at the request, on the open items at that moment. If they do not hold, nothing is erased, the request is cancelled with the reason, and the account is unlocked.
+1. **The check, again.** The same rules as at the request, on the open items at that moment. The check and the carrying out are **one decision**: nothing can stand in the way between them, whatever happens at the same moment. If the rules do not hold, nothing is erased, the request is cancelled with the reason, and the account is unlocked.
 2. **Erasing.** The login, the email address, the names and the password are erased, and the user is deleted. The member is told first, at the address that the erasure then takes away.
 3. **Registrations.** The confirmed registration of the user is deleted, which frees the login and the email address.
-4. **Meetings.** The member leaves every group as if they left it themselves. A group they still own is archived, with its upcoming meetings cancelled. The comments, likes and decisions of the member stay, with the deleted member in place of the person.
-5. **Payments.** The subscription ends with no refund and no further renewal, the payout account is removed, and the payer is anonymised. The payments are kept without an identity.
+4. **Meetings.** The member leaves every group they belong to except those they own, as if they left it themselves. A group they own, and did not hand over, is archived, with its upcoming meetings cancelled, and its owner stays its owner, shown as a deleted member. The comments, likes and decisions of the member stay, with the deleted member in place of the person.
+5. **Payments.** The subscription ends with no refund and no further renewal, the payout account is removed, and the payer is anonymised. The removal of the payout account is not refused by the rule that refuses it while a meeting with a fee has yet to start: the meetings of the groups concerned are cancelled or the groups handed over. The payments are kept without an identity.
 6. **Notifications.** The inbox of the member and its deliveries are deleted.
-7. **Independent parts.** The contexts act on their own, each when it knows. None waits for the others, and none can undo what it did.
+7. **Independent parts.** Once the deletion is carried out, the contexts act on their own, each when it knows. None waits for the others, and none can undo what it did.
 
 ## Exporting
 
@@ -170,7 +170,12 @@ flowchart LR
     subgraph UserAccess
         direction LR
         C1[Delete another administrator]:::command --> A1((User)):::aggregate --> E1[Administrator deleted]:::event
-        E1 --> P2{{Erase the user}}:::policy
+        E1 --> C2[Erase the user]:::command --> A2((User)):::aggregate --> E2[User erased]:::event
+    end
+
+    subgraph Registrations
+        direction LR
+        E2 --> P4{{Delete the confirmed registration}}:::policy
     end
 
     subgraph Meetings
@@ -184,7 +189,8 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Refusals.** Nobody deletes themselves, and the target must be an administrator. The command is refused when it would leave no administrator, whichever way two deletions overlap.
 2. **At once.** There is no request, no grace period and no lock: the administrator is neither a member nor a payer.
-3. **Past decisions.** The proposals the administrator accepted or rejected keep who, when and why, with the deleted administrator in place of the person.
+3. **Registrations.** As for a member, the confirmed registration of the administrator is deleted, which frees the login and the email address.
+4. **Past decisions.** The proposals the administrator accepted or rejected keep who, when and why, with the deleted administrator in place of the person.
 
 ## Reading
 
@@ -202,6 +208,7 @@ flowchart LR
     subgraph Meetings
         direction LR
         G1[Member joined, left or was designated]:::event & G2[Group archived]:::event --> R3(What deleting my account would change):::readmodel
+        G3[Hand-over requested or ended]:::event & G4[Host designated or removed, meeting planned or cancelled]:::event & G5[Proposal made or decided]:::event --> R3
     end
 
     subgraph Payments

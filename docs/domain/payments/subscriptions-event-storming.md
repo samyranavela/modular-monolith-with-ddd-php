@@ -78,14 +78,15 @@ flowchart LR
 
     subgraph EP[Each period]
         direction LR
-        PS3[Payment system]:::external --> M1[Record a period paid]:::command --> S3((Subscription)):::aggregate --> E3[Subscription renewed]:::event
+        PS3[Payment system]:::external --> M1[Record a period paid]:::command --> S3((Subscription)):::aggregate --> E3[Subscription renewed]:::event --> P7{{Notify the payer}}:::policy
         PS4[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S4((Subscription)):::aggregate --> E4[Automatic renewal turned off]:::event --> P6{{Notify the payer}}:::policy
     end
 
     subgraph Price
         direction LR
-        E5[Price of a list item changed]:::event --> P3{{Notify the payers whose automatic renewal is concerned}}:::policy
-        E5 --> P5{{Take the new price for their next payment}}:::policy
+        E5[Price of the item changed]:::event --> P4{{Whenever the item is active, and an automatic renewal of the same country and period depends on its kind}}:::policy
+        P4 --> P3{{Notify the payers whose automatic renewal depends on it}}:::policy
+        P4 --> P5{{Take the new price for their next payment}}:::policy
     end
 
     PA --> O1
@@ -103,7 +104,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 2. **Turning it off.** The payer turns it off whenever they want, and the payment system is asked to stop. The subscription runs until its date.
 3. **A period paid.** Nobody in Payments asks for the renewal: the payment system confirms a period paid, and the subscription is renewed exactly as by a manual renewal, with the same new expiration date and the same notification.
 4. **Given up.** After its own retries, the payment system reports that it gives up, and the option is turned off, and a notification tells the payer. Between a first failure and that moment, Payments does nothing.
-5. **The price.** When the price of the active *renewal* item changes, every automatic renewal with the same country and period takes the new price for its next payment, and a notification tells the payer. The payer who refuses turns the option off. A deactivation changes nothing.
+5. **The price.** When the price of an active item changes, every automatic renewal that depends on it, with the same country and period, takes the new price for its next payment, and a notification tells the payer. An automatic renewal depends on the *renewal* item, except a trial not yet paid, which depends on the *new* item. A change of a *new* price concerns no one else. The payer who refuses turns the option off. A deactivation changes nothing.
 
 ## Trying
 
@@ -128,7 +129,7 @@ flowchart LR
     subgraph TE["End of the trial"]
         direction LR
         T1[Reminder date reached, 2 days before the end by default]:::event --> P3{{Notify the payer that the first payment is near}}:::policy
-        PS1[Payment system]:::external --> M1[Record a period paid]:::command --> S2((Subscription)):::aggregate --> E2[Subscription renewed]:::event
+        PS1[Payment system]:::external --> M1[Record a period paid]:::command --> S2((Subscription)):::aggregate --> E2[Subscription renewed]:::event --> P6{{Notify the payer}}:::policy
         PS2[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S3((Subscription)):::aggregate --> E3[Automatic renewal turned off]:::event --> P5{{Notify the payer}}:::policy
     end
 
@@ -142,9 +143,9 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 ### Reading it
 
-1. **Starting.** A payer who never held a subscription starts a trial. The command creates the subscription at once, active, expiring after the length of the trial, with automatic renewal on for the period, the country and the price accepted. No payment is created: nothing is charged yet.
+1. **Starting.** A payer who never held a subscription starts a trial. The command creates the subscription at once, active, expiring after the length of the trial, with automatic renewal on for the period and the country. No payment is created: nothing is charged yet. The payer saw the price of the kind *new* and agrees to be charged the price active at the end, being notified if it changes.
 2. **The expiration date.** The creation brings an expiration date, which [Meetings](../meetings/group-life-event-storming.md) needs to know like any other, so the groups are covered during the trial.
-3. **The end.** Nobody in Payments asks for the first payment: the payment system confirms a period paid, and the subscription is renewed as by any automatic renewal.
+3. **The end.** Nobody in Payments asks for the first payment: the payment system confirms a period paid, at the active *new* price at that moment, and the subscription is renewed as by any automatic renewal. From then on, the renewals depend on the *renewal* item.
 4. **Not continuing.** The payer turns automatic renewal off, as in [automatic renewal](#automatic-renewal), and the subscription ends with the trial.
 
 ## Changing the period
@@ -190,7 +191,7 @@ flowchart LR
         direction LR
         T1[Reminder date reached, 30 days before by default]:::event --> P1{{Remind, whichever way applies}}:::policy
         P1 -->|automatic renewal off| A1[Note the subscription as about to expire]:::command --> S1((Subscription)):::aggregate --> E1[Subscription about to expire]:::event
-        P1 -->|automatic renewal on| EM1[Notify the payer that it is about to renew]:::command
+        P1 -->|automatic renewal on| EM1{{Notify the payer that it is about to renew}}:::policy
         E2[Automatic renewal turned off after that date]:::event --> A1
     end
 

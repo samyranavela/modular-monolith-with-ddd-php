@@ -5,19 +5,19 @@ Knows who the users are, which roles they have and what those roles allow.
 ## Language
 
 **User**:
-Someone who can sign in with a login and a password. Created from a confirmed registration.
-_Avoid_: Account, profile
+Someone who can sign in with a login and a password. Created from a confirmed registration. 'Account' is the everyday word for a user seen by themselves ("delete my account", "locked account"); the term of the domain stays user.
+_Avoid_: Profile
 
 **Administrator**:
 A user holding the Administrator role. Comes from an invitation, never from a self-registration, and is not a member of meeting groups.
 _Avoid_: Admin, superuser
 
 **User Role**:
-A named set of permissions that a user holds. There are two: Member and Administrator.
+A named set of permissions that a user holds. There are two, Member and Administrator, and a user holds exactly one.
 _Avoid_: Profile, group
 
 **Permission**:
-The authorization to perform one action. An action is allowed when one of the user's roles grants its permission.
+The authorization to perform one action. An action is allowed when the user's role grants its permission.
 _Avoid_: Right, privilege
 
 **Account Deletion Request**:
@@ -28,6 +28,14 @@ _Avoid_: Account closure, unsubscribe
 The state of a user whose deletion request is pending. They can sign in to cancel the request or export their data, and do nothing else.
 _Avoid_: Suspended account, blocked user
 
+**Open Item**:
+A thing that stands in the way of a deletion request and must be settled first: a group owned under hand-over, a last host of an upcoming meeting, a payment waiting, a group proposal pending. Checked at the request and again when the deletion is carried out.
+_Avoid_: Blocker, prerequisite
+
+**Grace Period**:
+The time, 14 days by default and configurable, between a deletion request and the carrying out of the deletion. The account is locked meanwhile, and the member can cancel the request.
+_Avoid_: Cooling-off, delay
+
 **Deleted User**:
 A user whose login, email address, names and password were erased. Only the identifier remains, which names nobody. Final.
 _Avoid_: Disabled user, archived user
@@ -35,3 +43,7 @@ _Avoid_: Disabled user, archived user
 **Data Export**:
 A document gathering what each context holds about a member, which they ask for at any time. An administrator has none. It is ready after a while and expires after a limited time.
 _Avoid_: Backup, download
+
+**Deleted Administrator**:
+An administrator deleted at once by another administrator, never by themselves. The decisions they took stay, attributed to the deleted administrator.
+_Avoid_: Former administrator

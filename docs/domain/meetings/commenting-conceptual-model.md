@@ -50,6 +50,7 @@ classDiagram
 - **Comment Status** says whether the comment is still shown or was removed. A removed comment keeps its place in the conversation, so that its replies stay readable, and is final.
 - **Removal** records who removed a comment and when, and the reason when it was removed by somebody other than its author.
 - **Like** links a member to a comment, once. It is taken back by removing it, and a member's likes are counted by the comment: its number of likes is what readers see.
+- **Archived group.** When the meeting's group is archived, the switch acts as if it were off and moderation stops too: no comment is written, edited, liked or removed, and the switch does not change.
 - **Meeting Group** is where the roles come from: the writer must be a member of the group, and the owner and the organizers are the ones who moderate. A meeting cannot change group, so a comment always belongs to the same one.
 
 ## What is not in the model

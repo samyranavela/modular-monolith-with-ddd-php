@@ -27,7 +27,7 @@ The purchase creates a **subscription payment**, which holds the price and the p
 - **Paid.** When the payment system confirms the payment, the subscription is created, active, and it expires one period after that moment. A notification confirms the purchase.
 - **Expired.** When the answer does not come in time, the payment ends and nothing is created. The payer may buy again.
 
-A payer has **one payment waiting at a time**, purchase or renewal. They pay it or let it expire before starting another.
+A payer has **one payment waiting at a time**, purchase or renewal. They pay it or let it expire before starting another. A payer also has **one subscription at most**, and the rule is absolute: when a payer starts two trials, or buys twice, or starts a trial and buys, at the same moment, only one subscription is created and the other operation is refused.
 
 The price is fixed when the payment is created. A change of the price list does not touch a payment that waits.
 
@@ -37,9 +37,9 @@ A payer who never held a subscription can start with a **free trial** instead of
 
 - **Once only.** A trial is for a payer who has never held a subscription, a trial included. A payer who tried once holds an expiring or expired subscription, and renews like anyone else, at the price of the kind *renewal*.
 - **How long.** **7 days**, configurable.
-- **How it starts.** The payer chooses a period and a country, sees the price of the kind *new*, and agrees to be charged at the end of the trial. The [payment system](description.md#the-payment-system) collects and keeps their payment method, and charges nothing yet.
-- **During the trial.** The subscription exists at once, active, and expires 7 days later. It covers the payer's groups like any other. [Automatic renewal](#renewing-automatically) is on from the start, for the chosen period and at the price accepted.
-- **At the end.** The payment system takes the first payment, and the subscription is renewed exactly as by an automatic renewal: the period adds up to the end of the trial, so nothing is lost. The payer is told of the date and the price before it happens.
+- **How it starts.** The payer chooses a period and a country, sees the price of the kind *new*, and agrees to be charged at the end of the trial **the price active at that moment**, which may not be the one they saw: they are notified if it changes, and can turn automatic renewal off before the end. The [payment system](description.md#the-payment-system) collects and keeps their payment method, and charges nothing yet.
+- **During the trial.** The subscription exists at once, active, and expires 7 days later. It covers the payer's groups like any other. [Automatic renewal](#renewing-automatically) is on from the start, for the chosen period and the chosen country.
+- **At the end.** The payment system takes the first payment, at the **active price of the kind *new*** at that moment, for the country and the period of the trial, and the subscription is renewed exactly as by an automatic renewal: the period adds up to the end of the trial, so nothing is lost. The payer is told of the date and the price before it happens.
 - **Not continuing.** The payer turns automatic renewal off before the end. The subscription runs until the end of the trial, nothing is charged, and the payer cannot try again.
 - **A failed payment.** As for any automatic renewal: Payments does nothing in the meantime, and the subscription expires if no payment arrives before.
 
@@ -62,7 +62,7 @@ A payer can ask their subscription to **renew by itself**. The [payment system](
 - **Turning it off.** The payer can turn it off whenever they want. The subscription then runs until its date, without refund, and ends there.
 - **A period paid.** Each time the payment system confirms a period paid, the subscription is renewed exactly as by a manual renewal: when it is still active the period adds up to the expiration date, otherwise it starts at the moment of the payment. The same notification confirms it.
 - **A failed payment.** The payment system retries by its own rules, how many times and over how long being its own decision, and Payments does nothing in the meantime: the subscription runs until its date, and expires if no payment arrives before. When the payment system gives up, the option is turned off and a **notification tells the payer** so, since nothing else would.
-- **The price.** An automatic renewal keeps the period and the country fixed when the option was turned on, and the **price of its next payment**: the active price of the kind *renewal* when the option is turned on, or, for a [trial](#trying), the price of the kind *new* accepted at the start. When the price of the active *renewal* item of that country and period changes, the next payment takes the **new price**, up or down, and a **notification tells the payer** as soon as the list changes. Deactivating an item changes nothing: the renewal keeps the last price. The payer who does not accept the new price turns the option off themselves.
+- **The price.** An automatic renewal keeps the period and the country fixed when the option was turned on, and the **price of its next payment**, which follows the price list: the active price of the kind *renewal* once the subscription has been paid at least once, and, for a [trial](#trying), until its first payment, the active price of the kind *new* for the country and the period of the trial. When the price of the active item it depends on, of that country and period, changes, the next payment takes the **new price**, up or down, and a **notification tells the payer** as soon as the list changes, with the date from which it applies. Deactivating an item changes nothing: the renewal keeps the last price. The payer who does not accept the new price turns the option off themselves.
 
 ## Changing the period
 
@@ -112,10 +112,10 @@ Each of these is a notification handed to [Notifications](../notifications/descr
 | A subscription is bought | The payer |
 | A subscription is renewed, by the payer or automatically | The payer |
 | A subscription with automatic renewal on is about to renew | The payer, with the date and the price |
-| The price of an automatic renewal is going to change | The payer, with the new price |
+| The price an automatic renewal depends on is going to change, which includes the *new* price for a trial that has not yet been paid | The payer, with the new price, and that it applies at the next payment |
 | The payment system gives up repeating a payment | The payer, who is told that automatic renewal is turned off |
-| A trial starts | The payer, with the date and the price of the first payment |
-| A trial is about to end | The payer, with the date and the price, **2 days before** its end by default, configurable |
+| A trial starts | The payer, with the date and the price of the first payment, as it stands that day |
+| A trial is about to end | The payer, with the date and the price active at that moment, **2 days before** its end by default, configurable |
 | The period of an automatic renewal is changed | The payer, with the date of the change and the price |
 
 The reminder of a subscription that is about to **expire**, with automatic renewal off, is a notification of [Meetings](../meetings/group-life.md#when-the-subscription-ends) to the owner, for the groups concerned.

@@ -14,7 +14,7 @@ The user is the same person that other contexts know under other names: a member
 
 ## Roles
 
-A user has **one or more roles**. A role is a named set of permissions. The application has two:
+A user has **exactly one role**. A role is a named set of permissions. The application has two:
 
 - **Member**: the ordinary user. A confirmed registration always gives this role.
 - **Administrator**: the user who handles what ordinary users cannot, such as deciding on meeting group proposals.
@@ -27,7 +27,7 @@ There is no way to turn an existing user into an administrator.
 
 A **Permission** authorizes one action, such as accepting a meeting group proposal. A role holds one or more permissions. The permissions belong to the contexts whose actions they guard, so Meetings defines what an administrator may do with meeting group proposals, and UserAccess only stores the link between roles and permissions.
 
-The rule is the same for every action: it is allowed when at least one of the user's roles grants its permission, and refused otherwise.
+The rule is the same for every action: it is allowed when the user's role grants its permission, and refused otherwise.
 
 ## Leaving
 

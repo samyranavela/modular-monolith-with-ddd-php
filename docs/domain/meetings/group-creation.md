@@ -21,7 +21,7 @@ An administrator decides in one of two ways:
 - **Accept** the proposal.
 - **Reject** it. A rejection must give a **reason**.
 
-Accepting is refused when the proposer is on the free plan and has become owner of a group since they proposed: the administrator then rejects the proposal, with that reason.
+Accepting is refused when the proposer is on the free plan and has become owner of a group since they proposed: the administrator then rejects the proposal, with that reason. The rule is enforced **at the acceptance**, not at the creation of the group, which is a reaction to it. It is absolute: when two proposals of the same free-plan member are accepted at the same moment, only one is accepted and the other is refused.
 
 A proposal is decided **once**. The decision is final: it is neither changed nor undone. The proposal keeps who decided, when, and the reason of a rejection.
 

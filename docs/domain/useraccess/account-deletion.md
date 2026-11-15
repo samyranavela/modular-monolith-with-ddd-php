@@ -10,7 +10,7 @@ The application keeps **no personal data** of someone who left, and keeps **what
 
 - What identifies the person is **erased**: login, email address, names, password.
 - What the person did among others is **kept and made anonymous**: their comments, their likes, the groups and meetings they looked after, the payments they made. It is shown as coming from a **deleted member**.
-- What others cannot do without is **settled first**: a group that would be left without owner, a meeting that would be left without host, a payment that is still waiting. The member decides, before anything is lost.
+- What others cannot do without is **settled first**: a group under hand-over, a meeting that would be left without host, a payment that is still waiting. The member decides, before anything is lost.
 
 Only the person asks for the deletion of their own account, and only for their own. The one exception, an administrator, has [its own section](#deleting-an-administrator).
 
@@ -29,17 +29,17 @@ Four things must be settled before a request is accepted. They are the **open it
 
 | Open item | Where it comes from | How the member settles it |
 | :-- | :-- | :-- |
-| A group the member **owns** | [Meetings](../meetings/group-life.md#roles-in-a-group) | Hand the group over to an organizer, and the transfer completes. Or leave it: the group will be [archived](#what-happens-in-meetings). |
+| A group the member owns that is **under hand-over** | [Meetings](../meetings/group-life.md#roles-in-a-group) | Wait until the hand-over ends: it completes and the group is no longer theirs, or it ends otherwise and the group is back to being theirs, and not under hand-over. |
 | An upcoming meeting where the member is the **last host** of a group that goes on | [Meetings](../meetings/organization.md#hosts) | Designate another host, or cancel the meeting. |
 | A **payment that waits**, for the member's own places or for a meeting of a group they own | [Payments](../payments/meeting-fees.md) | Wait: it ends by itself, in 30 minutes by default. |
 | A **meeting group proposal** that is pending | [Meetings](../meetings/group-creation.md) | Wait for an administrator to decide. |
 
 Some remarks:
 
-- **Owning a group is not a blocker.** The member who does not hand the group over accepts that it is archived, and says so by confirming. Handing it over is the only way to keep the group alive, so the request lists it first. A hand-over that is pending counts as open until it ends: it completes and the group is no longer theirs, or it ends otherwise and the group is back to being theirs.
+- **Owning a group is not a blocker, a group under hand-over is.** The member who does not hand the group over accepts that it is archived, and says so by confirming. Handing it over, before the request, is the only way to keep the group alive, so the view of what deleting the account would change lists the owned groups first. A hand-over that is pending counts as open until it ends.
 - **The last host of a group the member owns** is not listed: if the group is archived, its upcoming meetings are cancelled anyway, and if it is handed over, the new owner's group goes on with its hosts.
 - **A subscription is not an open item.** It is not a thing to settle, it simply ends with the account, see [what happens in Payments](#what-happens-in-payments).
-- **A hand-over proposed to the member**, with the member as candidate, is not an open item either: it is declined when the account is locked.
+- **A hand-over proposed to the member**, with the member as candidate, is not an open item either: it ends as **cancelled by itself** when the account is locked, and the owner is notified, as for any [transfer cancelled by itself](../notifications/catalogue.md#meetings-groups). If the deletion request and the hand-over request arrive at the same moment, the first to arrive wins: when the hand-over request is first, the deletion request is accepted and cancels it; when the deletion request is first, the hand-over request is refused, since a locked member cannot be named.
 
 Nothing is refused to an administrator for these reasons: an administrator is neither a member nor a payer, and has none of them.
 
@@ -47,13 +47,13 @@ Nothing is refused to an administrator for these reasons: an administrator is ne
 
 From the request until it ends, the account is **locked**. The member can still sign in, and can do **two things only**: cancel the request, and [export their data](#exporting-the-data).
 
-A locked member cannot take part in anything: no sign-up, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot be proposed to them.
+A locked member takes part in nothing but signing in, cancelling the request and exporting their data: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate.
 
-What others do can still change the picture. A host who was not the last may find themselves the last when the other host leaves. That is checked again when the deletion is carried out, see below.
+What others do can still change the picture. A host who was not the last may find themselves the last when the other host leaves. That is checked when the deletion is carried out, see below.
 
 ## Carrying out the deletion
 
-When the grace period is over, the application checks the open items again. The deletion is **carried out only if nothing stands in the way**, as at the request. If something does, the request ends as cancelled, with the reason, the account is unlocked, and the member is notified: they settle it and make a new request if they still want to.
+When the grace period is over, the application checks the open items again. The check and the carrying out are **one decision**: nothing can stand in the way between the two, whatever other members do at the same moment, and only one of the two outcomes happens. The deletion is **carried out only if nothing stands in the way**, as at the request. If something does at that moment, the request ends as cancelled, with the reason, the account is unlocked, and the member is notified: they settle it and make a new request if they still want to.
 
 Otherwise, each context does its part, and the account is gone when all have. The member is not asked anything, and cannot cancel any more.
 
@@ -61,7 +61,7 @@ Otherwise, each context does its part, and the account is gone when all have. Th
 
 The user's **login, email address, names and password are erased**, and the user can no longer sign in. The login and the email address are **free again**, like those of a [registration that expired](../registrations/description.md): somebody else can use them at once.
 
-What remains is the user's identifier, which names nobody: it is how the other contexts know that a comment or a payment came from someone who is gone. Every role of the user ends with the account.
+What remains is the user's identifier, which names nobody: it is how the other contexts know that a comment or a payment came from someone who is gone. The role of the user ends with the account.
 
 ### What happens in Registrations
 
@@ -69,9 +69,9 @@ The confirmed registration of the user is **deleted**, since it holds the same l
 
 ### What happens in Meetings
 
-The member **leaves every group** they belong to, as if they left it themselves, see [leaving](../meetings/group-life.md#leaving) and [when a member leaves the group](../meetings/organization.md#when-a-member-leaves-the-group): they are taken out of the upcoming meetings, an attendee loses their place and their guests', the places go to the waitlist, a waiting member leaves it, and a host stops being one. A hand-over that names them as candidate has already been declined.
+The member **leaves every group they belong to except the groups they own**, as if they left it themselves, see [leaving](../meetings/group-life.md#leaving) and [when a member leaves the group](../meetings/organization.md#when-a-member-leaves-the-group): they are taken out of the upcoming meetings, an attendee loses their place and their guests', the places go to the waitlist, a waiting member leaves it, and a host stops being one. An owner cannot leave: the groups they own are archived, below. A hand-over that names them as candidate has already ended as cancelled by itself.
 
-- **A group the member still owns is archived.** Its upcoming meetings are **cancelled**, with the usual notification to attendees and the waitlist. The group is then **frozen**: nobody can change it, join it, plan meetings in it, comment or moderate, and nothing is added to it. Its members still see it and can still leave it, since it keeps its past and its comments. Its owner is shown as a **deleted member**.
+- **A group the member owns is archived**, unless it was handed over before. The owner stays the owner of an archived group. Its upcoming meetings are **cancelled**, with the usual notification to attendees and the waitlist. The group is then **frozen**: nobody can change it, join it, plan meetings in it, comment or moderate, and nothing is added to it. Its members still see it and can still leave it, since it keeps its past and its comments. Its owner is shown as a **deleted member**.
 - **What the member wrote stays, anonymously.** Their comments stay in the conversation with their text and their date, and the author is shown as a **deleted member**: the replies stay readable. Their likes stay counted, and a like of a deleted member shows no one. Nobody can edit or remove the comments of a deleted member except the owner and the organizers, as for any [former member](../meetings/commenting.md#when-a-member-leaves-the-group).
 - **What is decided stays.** A group proposal the member made and that was decided, a meeting they hosted, a group they once belonged to: each keeps the deleted member in place of the person.
 - **Their place in past meetings** counts in the numbers of attendees and is no longer attached to anyone.
@@ -82,7 +82,7 @@ The members of an archived group are notified.
 
 - The payer is **anonymised**: Payments knew nothing of the person but their identifier, so nothing more has to be erased there.
 - Their **subscription ends** with the account: an automatic renewal is stopped and no new period is bought. There is **no refund**: the application never refunds, see [the end of a subscription](../payments/subscriptions.md#when-a-subscription-ends).
-- Their **payout account is removed**. The fees of the meetings of a group handed over go to the new owner's account, and the meetings of an archived group are cancelled, so no fee waits for the removed account.
+- Their **payout account is removed**. This removal is **not refused** by the rule that refuses it while a meeting with a fee has yet to start, see [the payout account](../payments/meeting-fees.md): the meetings of the groups concerned are cancelled or the groups handed over. The fees of the meetings of a group handed over go to the new owner's account, and the meetings of an archived group are cancelled, so no fee waits for the removed account.
 - Their **payments are kept**, the subscriptions as well as the fees of the meetings, **without an identity**. They are the accounting record, kept for **10 years**, the period the law requires for accounting records, which is configurable, and then deleted. A fee already paid stays paid: the owner of the group decides on a refund in their own payment system.
 
 ### What happens in Notifications
@@ -93,7 +93,7 @@ The member's **inbox is deleted**, with its deliveries, and no notification is c
 
 A member can **export their data** at any time, with or without a request pending, whether the account is locked or not. The export gathers, in one readable document, **what each context holds about the person**:
 
-- **UserAccess**: the login, the email address, the names, the role or roles.
+- **UserAccess**: the login, the email address, the names, the role.
 - **Meetings**: the groups the member belongs to or belonged to, with their role and the dates; the meetings they hosted or attended, with their guests; their comments and likes; the group proposals they made, and the decision on each.
 - **Payments**: their subscriptions and the dates of their periods, their payments with their amounts and dates, and whether they have a payout account.
 - **Notifications**: their notifications, with their date and whether they are read.

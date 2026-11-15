@@ -70,13 +70,13 @@ classDiagram
 - **User state** says what the user can do. **Active** is the ordinary case. **Locked** is the state of a pending request: the user can only cancel it and export their data. **Deleted** is the end: the login, the email address, the names and the password are erased and the user can no longer sign in. Only the identifier remains.
 - **Data Export** is what a member asks to receive. It is ready after a while, and expires after another. Its content is not part of the model: it is what each context holds about the person on the day.
 - **Member** and **Payer** are the same person seen from Meetings and Payments. When the user is deleted, both become anonymous: the others know them as a **deleted member**, and what they hold keeps the identifier alone.
-- **Meeting Group** has a status. **Archived** is final: the group is frozen, with its past, its comments and its anonymous owner. A group is archived only when its owner is deleted and the group was not handed over.
+- **Meeting Group** has a status. **Archived** is final: the group is frozen, with its past, its comments and its anonymous owner. A group is archived only when its owner is deleted and the group was not handed over. Its owner stays its owner, shown as a deleted member.
 
 ## What is not in the model
 
 - No list of the open items: they are read from Meetings and Payments at the request and again at its end, they are not kept.
-- No choice kept for a group, since leaving a group owned is the default: a group still owned at the end is archived.
-- No state between Pending and Completed: the carrying out is one decision, whose parts each context does on its own.
+- No choice kept for a group: an owner cannot leave, so a group owned at the end is archived, not left.
+- No state between Pending and Completed: the final check of the open items and the carrying out form **one decision**, with nothing able to stand in the way between them. When something stands in the way at that moment, the request ends Cancelled. The parts of the carrying out are then done by each context on its own.
 - No undo: Completed and Deleted are final.
 - No request for an administrator: an administrator is deleted by another, at once, without a request.
 - No copy of the data to erase: the export is a snapshot that expires, and is the only copy the application keeps.

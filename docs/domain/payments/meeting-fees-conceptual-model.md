@@ -63,7 +63,8 @@ classDiagram
 ## Rules that cross aggregates
 
 - A member has **one payment waiting at most for a meeting**. The rule involves all the payments of the same attendee and meeting, so a domain service checks it, reading what is stored; the rule is absolute: when two payments for the same attendee and meeting are created at the same moment, only one is created.
-- A payout account is removed only when no meeting that has a fee, of the groups of its owner, has yet to start. Payments needs to know it at the moment of the removal.
+- A payout account is removed only when no meeting that has a fee, of the groups of its owner, has yet to start. Payments needs to know it at the moment of the removal, and the rule is absolute: when a removal and the setting of a fee on a meeting happen at the same moment, only one succeeds and the other is refused. It does not apply to a removal that is part of an [account erasure](../useraccess/account-deletion.md), since no fee then waits for the account.
+- A payer has **at most one validated and one pending payout account**. The rule involves several accounts, so a domain service checks it, reading what is stored; it is absolute: when two accounts are set up at the same moment, only one is created and the other is refused.
 
 ## What is not in the model
 

@@ -17,8 +17,8 @@ classDiagram
     }
     class Permission
 
-    User "1" --> "1..*" UserRole : has
-    UserRole "1..*" --> "1..*" Permission : grants
+    User "*" --> "1" UserRole : has
+    UserRole "1" --> "1..*" Permission : grants
 
     namespace Registrations {
         class UserRegistration
@@ -37,7 +37,7 @@ classDiagram
 
 ## Reading it
 
-- **User** carries what the person gave at sign-up. It always has at least one role.
+- **User** carries what the person gave when registering. It always has exactly one role: Member or Administrator, never both.
 - **User Role** is a named group of permissions. There are two, Member and Administrator.
 - **Permission** is the smallest unit: one action that can be allowed.
 - The dotted arrows are the same person seen from other contexts. UserAccess does not know them: they know the user.

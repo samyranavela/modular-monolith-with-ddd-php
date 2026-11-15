@@ -49,7 +49,7 @@ The hand-over of a group sends one notification to the party concerned at each s
 | **Transfer accepted** | The owner | The group and the candidate. The transfer completes once the candidate's subscription is valid |
 | **Transfer declined** | The owner | The group and the candidate |
 | **Transfer cancelled by the owner** | The candidate | The group |
-| **Transfer cancelled by itself** | The owner | The group, and that the candidate left or was demoted |
+| **Transfer cancelled by itself** | The owner | The group, and that the candidate left, was demoted or was locked |
 | **Subscription of the candidate confirmed** | The owner | The group and the candidate |
 | **Transfer completed** | The former owner and the new owner | The group, and the new role of each |
 
@@ -77,10 +77,10 @@ Nothing is sent when somebody replies or likes. See [organizing meetings](../mee
 | **Subscription bought** | The payer | The period and the expiration date |
 | **Subscription renewed** | The payer | The period and the new expiration date. Sent when the payer renews and when an automatic renewal happens |
 | **Renewal about to happen** | The payer whose automatic renewal is on | The date and the price |
-| **Renewal price changing** | Each payer whose automatic renewal depends on the item that changed | The new price, whether it goes up or down, and that it applies at the next renewal |
+| **Renewal price changing** | Each payer whose automatic renewal depends on the item that changed: the *renewal* item, or the *new* item for a trial not yet paid | The new price, whether it goes up or down, and that it applies at the next payment, which is the first one for a trial |
 | **Automatic renewal turned off** | The payer, when the payment system gives up repeating a payment | That the renewal is off |
-| **Trial started** | The payer | The date and the price of the first payment |
-| **Trial about to end** | The payer, 2 days before the end by default | The date and the price |
+| **Trial started** | The payer | The date and the price of the first payment, as it stands that day |
+| **Trial about to end** | The payer, 2 days before the end by default | The date and the price active at that moment |
 | **Renewal period changed** | The payer | The date of the change and the price |
 
 The [subscriptions page](../payments/subscriptions.md#notifications) and the [price list page](../payments/price-list.md#notifications) both describe the email about a price that is going to change: it is one kind, listed once.

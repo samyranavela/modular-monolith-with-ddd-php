@@ -14,13 +14,13 @@ Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md).
 
 Being a host, an organizer or the owner is a role in one meeting or one group, which the aggregate checks. The permissions behind these actions are defined by Meetings and granted to the Member role by [UserAccess](../useraccess/description.md#permissions).
 
-A meeting only changes **before it starts**, and only while it is **not cancelled**. Everything below holds under that condition, and the rest of the page does not repeat it. The one exception is the answer of Payments about a place awaiting payment, confirmed or released, which can arrive after the start, see [the fee](#the-fee).
+A meeting only changes **before it starts**, and only while it is **not cancelled**, and never when its group is [archived](group-life.md#archived-groups): nobody signs up, changes, cancels or designates a host in a meeting of an archived group. Everything below holds under that condition, and the rest of the page does not repeat it. The one exception is the answer of Payments about a place awaiting payment, confirmed or released, which can arrive after the start, see [the fee](#the-fee).
 
 ## Hosts
 
 A **host** is a member of the group who is responsible for holding the meeting, typically the person it takes place with. A host is **not an attendee**: they take no place, owe no fee, and do not sign up. Like the staff of a cinema, they are there for the meeting to happen.
 
-A meeting needs **at least one host** to take place. An action that would leave none is refused, **always**: even when two actions happen at the same moment, such as the last two hosts leaving, only one succeeds.
+A meeting needs **at least one host** to take place. An action that would leave none is refused, **always**: even when two actions happen at the same moment, such as the last two hosts leaving, only one succeeds and the other is refused.
 
 - **Designating.** A host, or the owner or an organizer of the group, designates a member of the group as a host. If the member was an attendee, their attendance ends: their place and their guests' are freed, for the [waitlist](#the-waitlist) when the meeting has one, and a payment still awaited is cancelled. If they were waiting, they leave the waitlist.
 - **Removing.** A host steps down, or another host, the owner or an organizer removes them, and they become a plain member again. This is refused for the last host: another one must be designated first.
@@ -33,7 +33,7 @@ A meeting has:
 
 - a **title** and a **description**;
 - a **start date**, in the future;
-- a **place**: a name, an address, a postal code and a city;
+- a **venue**: a name, an address, a postal code and a city;
 - an optional **attendee limit** and a **guest limit**, see [limits](#limits);
 - an **RSVP term**, the period during which members can sign up. Its start and its end are both optional, and sign-ups never stay open past the start of the meeting;
 - an optional **event fee**, an amount in euros, see [the fee](#the-fee). A fee can be set only when the owner of the group has a **validated payout account**, which Meetings knows from [Payments](../payments/description.md#the-payout-account).
@@ -98,7 +98,7 @@ Every attendee and every member on the waitlist is notified. Every payment still
 
 ## When a member leaves the group
 
-A member who is the **last host** of a meeting that has not started cannot [leave the group](group-life.md#leaving): another host must be designated first.
+A member who is the **last host** of a meeting that has not started cannot [leave the group](group-life.md#leaving): another host must be designated first. The refusal is absolute: when the last two hosts of a meeting leave the group at the same moment, only one succeeds and the other is refused, as if it had come second.
 
 Otherwise, the member is taken out of the meetings of the group that have not started. On each one, an attendee, awaiting payment or not, is treated as if they said they will not come, a member on the waitlist leaves it, and a host stops being one. The places they free go to the waitlist like any other.
 
@@ -115,7 +115,7 @@ Payments needs to know when a place awaiting payment is lost before it is paid, 
 
 [Payments](../payments/meeting-fees.md#the-payout-account) needs to know whether an owner has a meeting with a fee that has yet to start, which decides whether the owner can remove their payout account.
 
-During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change.
+During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change. The rule is absolute: when a sign-up to such a meeting and the hand-over request happen at the same moment, not both succeed. Either the sign-up is taken first and the request is refused because a payment waits, or the request is taken first and the sign-up is refused as closed.
 
 ## Notifications
 

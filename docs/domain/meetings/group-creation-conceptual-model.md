@@ -66,7 +66,7 @@ classDiagram
 
 ## Rules that cross aggregates
 
-- **The free plan.** A member who never held a subscription owns at most one group. The proposal and its acceptance both check it, knowing the groups of the member and whether they ever held a subscription, in a domain service.
+- **The free plan.** A member who never held a subscription owns at most one group. The proposal and its acceptance both check it, knowing the groups of the member and whether they ever held a subscription, in a domain service, at the acceptance of a proposal and not at the creation of the group, which is a reaction; the rule is absolute: when two proposals of the same member are accepted at the same moment, only one is accepted.
 
 ## What is not in the model
 
