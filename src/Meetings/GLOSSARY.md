@@ -99,3 +99,11 @@ A group member's appreciation of a comment, once per member, their own comment i
 **Commenting Switch**:
 What allows or forbids comments on one meeting. Created enabled with the meeting; the owner and the organizers turn it off and on. While it is off, nobody writes, replies, edits, likes or unlikes, but comments can still be removed.
 _Avoid_: Meeting Commenting Configuration
+
+**Deleted Member**:
+How a member whose account was deleted is shown in what they leave behind: their comments, likes, past meetings and decisions. Nothing identifies the person, and the others stay readable.
+_Avoid_: Anonymous member, former member (a former member only left a group)
+
+**Archived Group**:
+A group whose owner was deleted without handing it over. Its upcoming meetings are cancelled, and it is frozen: nobody can change it, join it, plan meetings, comment or moderate. Its members still read it and can leave it. Final.
+_Avoid_: Closed group, deleted group

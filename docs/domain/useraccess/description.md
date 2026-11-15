@@ -27,4 +27,8 @@ A **Permission** authorizes one action, such as accepting a meeting group propos
 
 The rule is the same for every action: it is allowed when at least one of the user's roles grants its permission, and refused otherwise.
 
+## Leaving
+
+A user can ask to leave the application: a member requests the deletion of their account and an administrator is deleted by another one. Their data is erased or anonymised in every context, see [deleting an account](account-deletion.md).
+
 See the [conceptual model](conceptual-model.md). The creation of a user, member or administrator, is shown in the [event storming of the registration](../registrations/event-storming.md).
