@@ -14,12 +14,25 @@ Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md).
 ## What the context does
 
 - **Creating a meeting group**: a member proposes it, an administrator accepts or rejects the proposal, and an accepted proposal becomes a group. See [creating a meeting group](group-creation.md), its [conceptual model](group-creation-conceptual-model.md) and its [event storming](group-creation-event-storming.md).
-- **Living in a meeting group**: members join and leave, the owner appoints and demotes organizers and can hand the group over to one of them, and the owner and the organizers edit the group. A group can organize new meetings only while its owner's subscription covers it, which [Payments](../payments/description.md) tells Meetings, or while it is the one group of an owner on the free plan. See [the life of a meeting group](group-life.md), its [conceptual model](group-life-conceptual-model.md) and its [event storming](group-life-event-storming.md).
+- **Living in a meeting group**: members join and leave, the owner appoints and demotes organizers and can hand the group over to one of them, and the owner and the organizers edit the group. A group can organize new meetings only while its owner's subscription covers it, which Meetings needs to know from [Payments](../payments/description.md), or while it is the one group of an owner on the free plan. See [the life of a meeting group](group-life.md), its [conceptual model](group-life-conceptual-model.md) and its [event storming](group-life-event-storming.md).
 - **Organizing meetings**: the owner and the organizers of a covered group create meetings, with a start date, a place, an attendee limit, a guest limit and an optional fee. Members sign up during the RSVP term, or say they will not come, and, for a meeting without a fee, a waitlist takes the places that become free. Hosts, organizers and the owner change, cancel and look after a meeting until it starts. See [organizing meetings](organization.md), its [conceptual model](organization-conceptual-model.md) and its [event storming](organization-event-storming.md).
 - **Finding and following**: members find groups and view them, list their own groups, find the meetings of a group, view a meeting with its attendees, and list their own meetings. See [the life of a group](group-life.md#reading) and [organizing meetings](organization.md#reading).
 - **Commenting**: members of the group comment on a meeting, reply, edit and like, and the owner and the organizers moderate and can switch comments off for a meeting. See [commenting](commenting.md), its [conceptual model](commenting-conceptual-model.md) and its [event storming](commenting-event-storming.md).
 
 The fee of a meeting is owed here, and its payment is made in Payments.
+
+## What Meetings needs from other contexts
+
+This page and the following ones describe the information a context needs from another, and how exact or fresh it must be. They never say how the information is obtained: whether it is requested at the moment it is needed or kept up to date beforehand is a technical choice, made in the implementation.
+
+| Information | From | Why | Exactness and freshness |
+| :-- | :-- | :-- | :-- |
+| That a registration was confirmed with the Member role | [Registrations](../registrations/description.md) | To have a member | Each confirmation gives one member, never lost and never twice. A member must exist without noticeable delay, since they may join a group at once |
+| Until when a member's subscription is valid, and whether they ever held one | [Payments](../payments/subscriptions.md) | To know whether a group is covered, whether a transfer completes, and whether the member is on the [free plan](group-life.md#the-free-plan) | The date itself decides coverage, so an expiry needs no delay. A renewal must count without noticeable delay, since the owner expects to organize at once. Whether a member ever held a subscription must be exact when a group is proposed or accepted |
+| That a subscription is about to expire, and that it has expired | [Payments](../payments/subscriptions.md) | To send the reminder and the notice to the owner | A delay only delays the email: it never changes whether a group is covered |
+| That the payment of a place is paid, or has expired | [Payments](../payments/meeting-fees.md) | To confirm or release the places | Without noticeable delay, and never lost. It may come after the start of the meeting |
+| Whether an owner's payout account is validated | [Payments](../payments/meeting-fees.md#the-payout-account) | To allow a fee on a meeting | Exact at the moment a fee is set. A validated account cannot be removed while a meeting with a fee has yet to start, so it never disappears under a fee |
+| Whether a user holds a role that grants a permission | [UserAccess](../useraccess/description.md#permissions) | To allow or refuse each action | Exact at every action |
 
 ## Permissions
 

@@ -106,14 +106,14 @@ Otherwise, the member is taken out of the meetings of the group that have not st
 
 A meeting **with a fee** takes a place in **two steps**. Each attendee owes **(1 + their guests) times the fee** of the meeting, fixed when they sign up. A host owes nothing.
 
-1. **Awaiting payment.** When the member signs up, Meetings keeps the places for them, **awaiting payment**, and tells [Payments](../payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee) what they owe. Payments creates the payment and asks the payment system to collect it. The places are kept only while the payment waits, 30 minutes by default, and **the place is not guaranteed** until it is paid. A meeting without a fee has no such step.
-2. **Confirmed or released.** When Payments tells Meetings that the payment is **paid**, the place is **confirmed**. When it tells Meetings that the payment **expired**, the places are **released**: the member is no longer an attendee, the places can be taken by the next one who signs up, and the member signs up again if they still want to come.
+1. **Awaiting payment.** When the member signs up, Meetings keeps the places for them, **awaiting payment**, and [Payments](../payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee) needs to know what they owe. Payments creates the payment and asks the payment system to collect it. The places are kept only while the payment waits, 30 minutes by default, and **the place is not guaranteed** until it is paid. A meeting without a fee has no such step.
+2. **Confirmed or released.** When the payment is **paid**, the place is **confirmed**. When the payment **expired**, the places are **released**: the member is no longer an attendee, the places can be taken by the next one who signs up, and the member signs up again if they still want to come.
 
-The answer of Payments can arrive after the start of the meeting, since a payment may still be awaited at that moment. It is then recorded all the same.
+The result of the payment can be known after the start of the meeting, since a payment may still be awaited at that moment. It is then recorded all the same.
 
-Meetings tells Payments when a place awaiting payment is lost before it is paid, because the attendee said they will not come, was removed, became a host or left the group, and when the meeting is cancelled. A fee already paid never comes back: the application does not refund.
+Payments needs to know when a place awaiting payment is lost before it is paid, because the attendee said they will not come, was removed, became a host or left the group, and when the meeting is cancelled. A fee already paid never comes back: the application does not refund.
 
-Meetings also answers [Payments](../payments/meeting-fees.md#the-payout-account) when it asks whether an owner has a meeting with a fee that has yet to start, which decides whether the owner can remove their payout account.
+[Payments](../payments/meeting-fees.md#the-payout-account) needs to know whether an owner has a meeting with a fee that has yet to start, which decides whether the owner can remove their payout account.
 
 During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change.
 

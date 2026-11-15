@@ -73,7 +73,7 @@ flowchart LR
         E6 --> P6
 
         E2 --> P3{{Complete the transfer if the candidate's subscription is valid}}:::policy
-        V1[Subscription validity recorded]:::event --> P3
+        V1[Subscription created or renewed, in Payments]:::event --> P3
         P3 --> C6[Complete the transfer]:::command --> A6((Meeting Group)):::aggregate --> E6[Group handed over]:::event
 
         E1 --> P4{{Email the parties concerned}}:::policy
@@ -92,7 +92,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **The request.** The owner designates an organizer. One request is pending at most for a group, and it has no deadline.
 2. **Accepting.** A policy refuses the acceptance without a validated payout account when a meeting with a fee has yet to start. The acceptance does not complete the transfer. The candidate who has no active subscription takes one out, or renews, in Payments, like any payer, and the request stays pending.
-3. **Completing.** The transfer completes when Meetings knows that the candidate's subscription is valid, either because it already was when they accepted, or because Payments announced it afterwards. The candidate becomes the owner, the former owner becomes an organizer, and the group follows the new owner's subscription.
+3. **Completing.** The transfer completes when Meetings knows that the candidate's subscription is valid, either because it already was when they accepted, or because it became valid afterwards. The candidate becomes the owner, the former owner becomes an organizer, and the group follows the new owner's subscription.
 4. **Ending.** The candidate can decline, the owner can cancel, and the request is cancelled by itself if the candidate leaves or is demoted. A completed transfer is final.
 5. **Emails.** Every event of the request sends an email to each party concerned.
 6. **The payments.** The request is refused while a payment of the group's meetings waits. From it until the transfer ends, whichever way, sign-ups to the meetings with a fee are closed, so no payment is created while the receiver of the fees may change. The fees of the sign-ups to come go to the new owner's payout account.
@@ -101,37 +101,37 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 ```mermaid
 flowchart LR
-    classDef command fill:#54A0FF,stroke:#2e6fc0,color:#000
-    classDef aggregate fill:#FFEAA7,stroke:#F39C12,color:#000
-    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
     classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
     classDef external fill:#FF9FF3,stroke:#c36bb8,color:#000
 
     subgraph Payments
         direction LR
-        Y1[Subscription validity changed]:::event
+        Y1[Subscription created or renewed]:::event
         Y2[Subscription about to expire]:::event
         Y3[Subscription expired]:::event
     end
 
     subgraph Meetings
         direction LR
-        Y1 --> P1{{Record the validity}}:::policy --> C1[Record the subscription validity]:::command --> A1((Member Subscription)):::aggregate --> E1[Subscription validity recorded]:::event
-
+        K1(Validity of a member's subscription):::readmodel
         Y2 --> P2{{Remind the owner of the groups}}:::policy
         Y3 --> P3{{Tell the owner of the groups they are no longer covered}}:::policy
     end
 
+    Y1 -.->|needed| K1
+    Y3 -.->|needed| K1
     P2 --> EM[Email service]:::external
     P3 --> EM
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy, pink an external system.
+Orange is an event, purple a policy, green the information Meetings needs, pink an external system. A dotted arrow means that Meetings needs the fact.
 
-1. **Recording.** When Payments announces a new validity, Meetings records it for the member. This is the date that decides whether a meeting can be organized, and it is what completes a transfer.
-2. **Reminding.** When Payments announces that a subscription is about to expire, an email reminds the owner of each group they own.
+1. **The validity.** Meetings needs to know until when a member's subscription is valid. This is the date that decides whether a meeting can be organized, and it is what completes a transfer.
+2. **Reminding.** When a subscription is about to expire, an email reminds the owner of each group they own.
 3. **Expiring.** When it has expired, an email tells the owner that their group is no longer covered. Nothing else changes: the group can no longer organize new meetings, and the meetings already planned stay.
-4. **The free plan.** An owner of whom Meetings records no validity at all has never held a subscription: they are on the [free plan](group-life.md#the-free-plan), with one group, always covered, and two meetings a month. The first validity Payments announces takes them off it for good, and no announcement is needed for the free plan itself.
+4. **The free plan.** An owner of whom Meetings knows no validity at all has never held a subscription: they are on the [free plan](group-life.md#the-free-plan), with one group, always covered, and two meetings a month. The first subscription takes them off it for good.
 
 ## Reading
 
@@ -159,4 +159,4 @@ Blue is a command, orange an event, green a read model.
 2. **The members of a group, my groups.** Both come from the same events as the roles: joining, leaving, appointing, demoting and handing over.
 3. **The upcoming meetings a member hosts.** It is kept up to date by the events of the meetings: a meeting is created, changed or cancelled, and a host is designated or removed. The command to leave the group reads it, and is refused if the member is the last host of one of these meetings. The rule is absolute: a meeting never has no host. When two operations happen together, a host leaving and the other host being removed, only one of them succeeds and the other is refused, as if it had come second.
 
-The rest of the events come from [Payments](../payments/description.md): Meetings only listens to them.
+The facts that come from [Payments](../payments/description.md) are the information Meetings needs, listed in [its description](description.md#what-meetings-needs-from-other-contexts).

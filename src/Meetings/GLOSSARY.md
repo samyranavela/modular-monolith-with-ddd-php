@@ -40,11 +40,11 @@ The owner's proposal to hand the group over to one of its organizers, the candid
 _Avoid_: Ownership change
 
 **Member Subscription**:
-What Meetings knows of a member's subscription: until when it is valid, as announced by Payments.
+What Meetings needs to know of a member's subscription: until when it is valid, and whether they ever held one.
 _Avoid_: Group payment date
 
 **Member Payout Account**:
-What Meetings knows of the payout account of a member: whether it is validated, as announced by Payments. A fee can be set on a meeting only when the owner of its group has a validated one.
+What Meetings needs to know of the payout account of a member: whether it is validated. A fee can be set on a meeting only when the owner of its group has a validated one.
 _Avoid_: Bank account
 
 **Covered Group**:

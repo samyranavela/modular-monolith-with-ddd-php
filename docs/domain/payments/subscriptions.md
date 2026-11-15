@@ -16,7 +16,7 @@ A subscription renews by itself only when its holder turned on [automatic renewa
 
 A payer who **never held a subscription**, a trial included, is on the **free plan**. It has no date and no price: it is what a payer has until their first subscription, and it lets them own **one group** and organize **two meetings a month**, both limits configurable. [Meetings](../meetings/group-life.md#covering-the-group) applies them.
 
-The free plan is **left for good**: as soon as a payer holds a subscription, even an expired one, they never return to it. Payments adds nothing to announce for it: it announces the creation of a subscription, and a member of whom Meetings knows no expiration date has never held one.
+The free plan is **left for good**: as soon as a payer holds a subscription, even an expired one, they never return to it. Payments adds nothing for it: a payer who holds no subscription, and never held one, is on the free plan, and that is all [Meetings](../meetings/description.md#what-meetings-needs-from-other-contexts) needs to know.
 
 ## Buying
 
@@ -60,9 +60,9 @@ A payer can ask their subscription to **renew by itself**. The [payment system](
 
 - **Turning it on.** The payer chooses a period and agrees to be charged again at the end of each one. They can do it while buying or renewing, or later on a subscription that is still active, in which case the first automatic payment is at the expiration date. An expired subscription is renewed first, then the option is turned on.
 - **Turning it off.** The payer can turn it off whenever they want. The subscription then runs until its date, without refund, and ends there.
-- **A period paid.** Each time the payment system announces a period paid, the subscription is renewed exactly as by a manual renewal: when it is still active the period adds up to the expiration date, otherwise it starts at the moment of the payment. The same email confirms it.
+- **A period paid.** Each time the payment system confirms a period paid, the subscription is renewed exactly as by a manual renewal: when it is still active the period adds up to the expiration date, otherwise it starts at the moment of the payment. The same email confirms it.
 - **A failed payment.** The payment system retries by its own rules, how many times and over how long being its own decision, and Payments does nothing in the meantime: the subscription runs until its date, and expires if no payment arrives before. When the payment system gives up, the option is turned off and an **email tells the payer** so, since nothing else would.
-- **The price.** An automatic renewal keeps the period and the country fixed when the option was turned on, and the **price of its next payment**: the active price of the kind *renewal* when the option is turned on, or, for a [trial](#trying), the price of the kind *new* accepted at the start. When the price of the active *renewal* item of that country and period changes, the next payment takes the **new price**, up or down, and an **email announces it** to the payer as soon as the list changes. Deactivating an item changes nothing: the renewal keeps the last price. The payer who does not accept the new price turns the option off themselves.
+- **The price.** An automatic renewal keeps the period and the country fixed when the option was turned on, and the **price of its next payment**: the active price of the kind *renewal* when the option is turned on, or, for a [trial](#trying), the price of the kind *new* accepted at the start. When the price of the active *renewal* item of that country and period changes, the next payment takes the **new price**, up or down, and an **email tells the payer** as soon as the list changes. Deactivating an item changes nothing: the renewal keeps the last price. The payer who does not accept the new price turns the option off themselves.
 
 ## Changing the period
 
@@ -79,27 +79,27 @@ The payer is told by email of the date of the change and of the price.
 
 Nobody asks for it: time does. Payments watches the expiration dates.
 
-- **About to end.** A time before the expiration date, which is configurable and **30 days by default**, Payments announces that the subscription is about to expire, once for each expiration date, **only when automatic renewal is off**. When the option is turned off after that moment, the announcement is made at once. A renewal brings a new date, hence a new announcement later.
-- **About to renew.** At the same moment, 30 days before by default, when automatic renewal is **on**, nothing is announced to the rest of the application, since the subscription is going to renew. Payments itself emails the payer that the subscription is about to renew, with the date and the price. A [trial](#trying) is too short for this delay: its reminder is sent 2 days before its end, by default.
-- **Expired.** When the date passes, the subscription expires, and Payments announces it.
+- **About to end.** A time before the expiration date, which is configurable and **30 days by default**, the subscription is **about to expire**, once for each expiration date, **only when automatic renewal is off**. When the option is turned off after that moment, it is about to expire at once. A renewal brings a new date, hence it is about to expire again later.
+- **About to renew.** At the same moment, 30 days before by default, when automatic renewal is **on**, the subscription is not about to expire, since it is going to renew. Payments itself emails the payer that the subscription is about to renew, with the date and the price. A [trial](#trying) is too short for this delay: its reminder is sent 2 days before its end, by default.
+- **Expired.** When the date passes, the subscription **expires**.
 
 An expired subscription stays, and can be renewed. The renewal price applies, not the price of a purchase.
 
-## What Payments announces
+## What others need to know
 
-The rest of the application does not ask Payments anything: it listens.
+The facts of a subscription that other contexts need, and how exact they must be, are listed in [what Meetings needs from other contexts](../meetings/description.md#what-meetings-needs-from-other-contexts). In short: its expiration date, with every renewal taken into account, that it is about to expire, that it has expired, and whether the payer ever held one.
 
-| When | What is announced |
+| Fact | Who and what |
 | :-- | :-- |
 | A subscription is created or renewed | Its new expiration date, for its holder |
 | A subscription is about to expire | Its holder and its expiration date |
 | A subscription expires | Its holder |
 
-[Meetings](../meetings/group-life.md#when-the-subscription-ends) keeps the expiration date of each member's subscription and decides from it whether a group is covered. It also sends the reminder and the notice to the owner.
+[Meetings](../meetings/group-life.md#when-the-subscription-ends) decides from the expiration date whether a group is covered. It also sends the reminder and the notice to the owner.
 
 ### A hand-over of a group
 
-The hand-over of a group to an organizer has **no special case in Payments**. The organizer who accepts must have an active subscription, and takes one out or renews like any payer, even if they were on the [free plan](#without-a-subscription-the-free-plan); the announced date lets Meetings [complete the transfer](../meetings/group-life.md#handing-the-group-over).
+The hand-over of a group to an organizer has **no special case in Payments**. The organizer who accepts must have an active subscription, and takes one out or renews like any payer, even if they were on the [free plan](#without-a-subscription-the-free-plan); the expiration date lets Meetings [complete the transfer](../meetings/group-life.md#handing-the-group-over).
 
 The former owner's subscription stays theirs. It runs until its end, without refund and without any transfer: it simply stops covering the group.
 

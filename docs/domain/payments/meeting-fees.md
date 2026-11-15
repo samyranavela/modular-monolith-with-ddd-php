@@ -18,7 +18,7 @@ A payment never leaves an end state. A member who signs up again later gets a **
 
 ## Signing up to a meeting with a fee
 
-A meeting that has a fee takes a **place in two steps**, and has **no waitlist**: a place that frees up goes to the next member who signs up. When a member signs up, Meetings keeps the places for them, **awaiting payment**, and tells Payments what they owe. Payments creates the payment and asks the payment system to collect it for the owner's [payout account](description.md#the-payout-account).
+A meeting that has a fee takes a **place in two steps**, and has **no waitlist**: a place that frees up goes to the next member who signs up. When a member signs up, Meetings keeps the places for them, **awaiting payment**, and Payments needs to know what they owe. Payments creates the payment and asks the payment system to collect it for the owner's [payout account](description.md#the-payout-account).
 
 The places are kept **only while the payment waits**: 30 minutes by default, configurable. Until the payment system confirms, **the place is not guaranteed**. A meeting without a fee has no payment step: the member is an attendee at once.
 
@@ -28,14 +28,14 @@ A member has **one payment waiting at most for a meeting**. The owner of the gro
 
 The attendee pays on the page of the payment system, and the money goes from the attendee to the **payout account of the owner**: the application never holds it.
 
-- **Paid.** When the payment system confirms, the payment is paid. Payments tells Meetings, which confirms the attendee's place.
-- **Expired.** When the answer does not come in time, the payment expires. Payments tells Meetings, which releases the places. The member signs up again if they still want to come.
+- **Paid.** When the payment system confirms, the payment is paid. Meetings needs to know it, and confirms the attendee's place.
+- **Expired.** When the answer does not come in time, the payment expires. Meetings needs to know it, and releases the places. The member signs up again if they still want to come.
 
 The amount is fixed when the payment is created. A later change of the fee of the meeting touches neither this payment nor those already paid.
 
 ## Losing the place, and a cancelled meeting
 
-When an attendee who has not paid yet loses the place, because they say they will not come, are removed, become a host or leave the group, Meetings tells Payments and the payment is **cancelled**. When the meeting is cancelled, every payment of the meeting that still waits is cancelled. In both cases the payment system is asked to close what it opened.
+When an attendee who has not paid yet loses the place, because they say they will not come, are removed, become a host or leave the group, Payments needs to know it, and the payment is **cancelled**. When the meeting is cancelled, every payment of the meeting that still waits is cancelled. In both cases the payment system is asked to close what it opened.
 
 ## Refunds
 
@@ -45,20 +45,22 @@ The application **never refunds**. A payment that is paid stays as it is when it
 
 A group enters a [hand-over](../meetings/group-life.md#handing-the-group-over) only when **no payment of its meetings waits**, which Meetings checks when the owner makes the request. From that moment until the hand-over is fully validated or ends, Meetings closes the sign-ups to the meetings of the group that have a fee, so that no payment can be created. When a meeting of the group that has a fee has yet to start, the candidate's acceptance counts only if their payout account is **validated**. A payment never changes receiver.
 
-## What Payments announces
+## What others need to know
 
-| When | What is announced |
+The facts about a fee that Meetings needs, and how exact they must be, are listed in [what Meetings needs from other contexts](../meetings/description.md#what-meetings-needs-from-other-contexts); what Payments needs from Meetings is listed in [what Payments needs from other contexts](description.md#what-payments-needs-from-other-contexts).
+
+| Fact | Concerns |
 | :-- | :-- |
 | A payment is paid | The attendee and the meeting |
 | A payment expires | The attendee and the meeting |
 | A payout account is validated | The owner |
 | A payout account is removed | The owner |
 
-Meetings listens, and **tells Payments** in its turn when a place is awaiting payment, when it is lost before payment, and when a meeting is cancelled. Payments decides nothing about a place: it only says whether the payment is paid.
+Payments decides nothing about a place: it only knows whether the payment is paid.
 
 ## The payout account
 
-The owner of a group sets up where the fees of their meetings are paid, once, for all their groups. The payment system must **validate** the account before it counts, and replacing it starts a new one, which takes over once validated. They can **remove** it only when no meeting of their groups that has a fee has yet to start: as long as the date and time of such a meeting have not passed, it stays. Payments **asks Meetings** at the moment of the removal, and keeps no list of such meetings. Payments tells Meetings when an owner's account is validated, which is what lets that owner's groups give a meeting a fee.
+The owner of a group sets up where the fees of their meetings are paid, once, for all their groups. The payment system must **validate** the account before it counts, and replacing it starts a new one, which takes over once validated. They can **remove** it only when no meeting of their groups that has a fee has yet to start: as long as the date and time of such a meeting have not passed, it stays. Payments needs to know, at the moment of the removal, whether such a meeting exists. Meetings needs to know when an owner's account is validated, which is what lets that owner's groups give a meeting a fee.
 
 ## Emails
 

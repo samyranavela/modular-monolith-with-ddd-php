@@ -58,16 +58,16 @@ classDiagram
 - **Payment Status** has four values. *Paid*, *expired* and *cancelled* are ends.
 - **Payout Account** is where an owner receives fees. It holds the reference given by the payment system, and is **pending** until the payment system validates it, then **validated**. A payer has at most one validated account and one pending, which replaces it once validated. Only a validated account lets a meeting have a fee.
 - **Money Value** is the same as in [subscriptions](subscriptions-conceptual-model.md): an amount in euros, never negative.
-- **Meeting Attendee** is what [Meetings](../meetings/organization-conceptual-model.md) keeps of the place: the amount owed and its status, awaiting payment, attending or released, which follows what Payments announces.
+- **Meeting Attendee** is what [Meetings](../meetings/organization-conceptual-model.md) keeps of the place: the amount owed and its status, awaiting payment, attending or released, which follows the payment.
 
 ## Rules that cross aggregates
 
 - A member has **one payment waiting at most for a meeting**. The rule involves all the payments of the same attendee and meeting, so a domain service checks it, reading what is stored; the rule is absolute: when two payments for the same attendee and meeting are created at the same moment, only one is created.
-- A payout account is removed only when no meeting that has a fee, of the groups of its owner, has yet to start. Payments asks Meetings at the moment of the removal, and keeps no copy.
+- A payout account is removed only when no meeting that has a fee, of the groups of its owner, has yet to start. Payments needs to know it at the moment of the removal.
 
 ## What is not in the model
 
 - No refund, and no record of what the owner received: both belong to the owner's payment system.
 - No debt that outlives the wait: a payment that expires leaves nothing behind.
 - No link between a payment and a group: Payments knows the meeting and the owner, never the group.
-- No copy of the attendee's name or email address.
+- No name and no email address of the attendee: only their identity.

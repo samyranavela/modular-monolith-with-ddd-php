@@ -6,7 +6,7 @@ Terms are defined in the [Payments glossary](../../../src/Payments/GLOSSARY.md).
 
 ## Who takes part
 
-- A **payer** is the person seen from Payments. They exist here once their [registration](../registrations/description.md) is confirmed with the Member role, and they are the same person as the [user](../useraccess/description.md) and the [member](../meetings/description.md#who-takes-part). Payments keeps nothing of the person but their identity: no name and no email address are copied.
+- A **payer** is the person seen from Payments. They exist here once their [registration](../registrations/description.md) is confirmed with the Member role, and they are the same person as the [user](../useraccess/description.md) and the [member](../meetings/description.md#who-takes-part). Payments knows nothing of the person but their identity: neither their name nor their email address.
 - An **administrator** is not a payer: they pay nothing and owe nothing. They manage the price list of the subscriptions.
 - The **owner** of a meeting group is a payer who holds a subscription, or who is on the [free plan](subscriptions.md#without-a-subscription-the-free-plan) with their one group, and who may receive the fees of the meetings of their groups.
 
@@ -43,13 +43,25 @@ A meeting can only have a fee when the owner of its group has a **validated** pa
 
 ## What the context does
 
-- **Selling subscriptions**: a payer starts with a free trial or buys a subscription for a month or a year, renews it before or after it ends, asks it to renew by itself or changes its period, and Payments tells the rest of the application until when it is valid, when it is about to end and when it has ended. See [subscriptions](subscriptions.md).
-- **Collecting the fee of a meeting**: when an attendee signs up to a meeting that has a fee, Payments creates the payment, takes it, and tells Meetings when it is paid or when it ran out of time. See [meeting fees](meeting-fees.md).
+- **Selling subscriptions**: a payer starts with a free trial or buys a subscription for a month or a year, renews it before or after it ends, asks it to renew by itself or changes its period, and Payments is where it is known until when the subscription is valid, when it is about to end and when it has ended. See [subscriptions](subscriptions.md).
+- **Collecting the fee of a meeting**: when an attendee signs up to a meeting that has a fee, Payments creates the payment, takes it, and knows when it is paid or when it ran out of time. See [meeting fees](meeting-fees.md).
 - **Keeping the price list**: an administrator sets the price of each subscription, by country, period and kind. See [the price list](price-list.md).
 - **Setting up a payout account**: the owner of a group sets up where the fees of their meetings are paid.
 - **Reading**: a payer reads their own subscription and their own payments, among them those of the meetings they signed up to. An administrator reads the price list. Nobody reads the payments of someone else.
 
 Emails go to the payer when a subscription is bought or renewed, a trial starts or is about to end, or the period of an automatic renewal changes, as listed in [subscriptions](subscriptions.md#emails). The reminders and notices about the end of a subscription belong to [the life of a meeting group](../meetings/group-life.md#when-the-subscription-ends).
+
+## What Payments needs from other contexts
+
+This page and the following ones describe the information a context needs from another, and how exact or fresh it must be. They never say how the information is obtained: whether it is requested at the moment it is needed or kept up to date beforehand is a technical choice, made in the implementation.
+
+| Information | From | Why | Exactness and freshness |
+| :-- | :-- | :-- | :-- |
+| That a registration was confirmed with the Member role | [Registrations](../registrations/description.md) | To have a payer | Each confirmation gives one payer, never lost and never twice. A payer must exist without noticeable delay, since they may buy at once |
+| The attendee, the meeting, the amount owed and the owner who receives it, when a place is awaiting payment | [Meetings](../meetings/organization.md#the-fee) | To create the payment | Exact, once for each place. Without it there is no payment |
+| That a place awaiting payment is lost, or that a meeting is cancelled | [Meetings](../meetings/organization.md#the-fee) | To cancel the payment that still waits | Prompt. When it is late, the payment may be paid after its end: it is recorded and not refunded |
+| Whether an owner has a meeting with a fee that has yet to start | [Meetings](../meetings/organization.md#the-fee) | To refuse the removal of their payout account | Exact at the moment of the removal |
+| Whether a user holds a role that grants a permission | [UserAccess](../useraccess/description.md#permissions) | To allow or refuse each action | Exact at every action |
 
 ## Permissions
 

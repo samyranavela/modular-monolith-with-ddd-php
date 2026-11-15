@@ -99,7 +99,7 @@ classDiagram
 - **Not Attendee** is a member's decision not to come. It is taken back when the member signs up or reverses it.
 - **Waitlist Member** is a member waiting for a place, without guests. Only a meeting without a fee has a waitlist. The longest-waiting member is the first to be taken. Leaving the waitlist or being taken ends the wait.
 - **Meeting** also remembers when it was changed and by whom, and when and by whom it was cancelled. A cancelled meeting is frozen.
-- **Member Payout Account** is what Meetings knows of the payout account of an owner: only whether it is validated, as announced by [Payments](../payments/description.md). A fee can be set on a meeting only when the owner of its group has a validated one. Meetings holds no payment: it keeps the amount owed and the status of the place, and Payments keeps the payment.
+- **Member Payout Account** is what Meetings needs to know of the payout account of an owner: only whether it is validated, see [what Meetings needs from other contexts](description.md#what-meetings-needs-from-other-contexts). A fee can be set on a meeting only when the owner of its group has a validated one. Meetings holds no payment: it keeps the amount owed and the status of the place, and Payments keeps the payment.
 
 ## Rules that cross aggregates
 

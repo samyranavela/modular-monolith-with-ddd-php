@@ -64,9 +64,9 @@ flowchart LR
         E1 --> P2{{Email the attendee}}:::policy
         E7 --> P2
         E8 --> P2
-        E8 --> P3{{Ask Payments to create the payment}}:::policy
+        E8 --> P3{{Have the payment created, for the amount owed}}:::policy
 
-        E3 --> P6{{Tell Payments the place is lost, if it was awaiting payment}}:::policy
+        E3 --> P6{{Cancel the payment if the place was awaiting payment}}:::policy
         X1 --> P6
         X3 --> P6
 
@@ -85,13 +85,13 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Signing up.** The meeting refuses unless the RSVP term is open, the member is in the group, is neither a host nor an attendee and was not removed, the guests are within the limit, enough places are left and no payment is awaited from them for this meeting. For a meeting with a fee, a policy also refuses it while the group is in a hand-over. A member who had said they will not come changes their mind.
 2. **Without a fee.** The member becomes an attendee at once and gets an email.
-3. **With a fee.** The places are kept, awaiting payment. An email tells the member the places and the time they are kept, and Payments is asked to create the payment for the amount owed.
-4. **Paid or expired.** When Payments announces the payment paid, the place is confirmed and the attendee is told. When it announces it expired, the places are released and the member is told. A released meeting with a fee has no waitlist to fill, so nothing else follows: the next member to sign up takes the places.
-5. **Saying they will not come.** The decision is recorded. If the member was an attendee, awaiting payment or not, they also give up their place and their guests'. A payment still awaited is cancelled by telling Payments.
+3. **With a fee.** The places are kept, awaiting payment. An email tells the member the places and the time they are kept, and the payment is created for the amount owed.
+4. **Paid or expired.** When the payment is paid, the place is confirmed and the attendee is told. When it has expired, the places are released and the member is told. A released meeting with a fee has no waitlist to fill, so nothing else follows: the next member to sign up takes the places.
+5. **Saying they will not come.** The decision is recorded. If the member was an attendee, awaiting payment or not, they also give up their place and their guests'. A payment still awaited is cancelled.
 6. **Taking back.** The member reverses their decision, and is neither attending nor not attending.
 7. **The waitlist.** Only a meeting without a fee has one. A member joins it only when the meeting is full, without guests, and leaves it whenever they want.
 8. **Filling the free places.** Places become free when an attendee gives up their place, is removed, becomes a host, or the attendee limit is raised. For a meeting with a waitlist, the policy takes the member waiting for the longest, one place each, and repeats while there are places and members waiting. The taken member keeps their sign-up date.
-9. **Losing the place before paying.** When an attendee gives up the place, is removed or becomes a host while the payment is awaited, Meetings tells Payments, which cancels it.
+9. **Losing the place before paying.** When an attendee gives up the place, is removed or becomes a host while the payment is awaited, the payment is cancelled.
 
 ## Looking after the meeting
 
@@ -119,8 +119,8 @@ flowchart LR
 
         E3 --> P1{{Email the removed attendee with the reason}}:::policy
         E4 --> P2{{Email the attendees and the waitlist}}:::policy
-        E4 --> P3{{Tell Payments to cancel the payments still awaited}}:::policy
-        E3 --> P4{{Tell Payments the place is lost, if it was awaiting payment}}:::policy
+        E4 --> P3{{Cancel the payments still awaited}}:::policy
+        E3 --> P4{{Cancel the payment if the place was awaiting payment}}:::policy
     end
 
     P1 --> EM[Email service]:::external
@@ -133,7 +133,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Hosts.** Any member of the group can be designated. A member who was an attendee stops being one, which frees their places for the waitlist, and a member who was waiting leaves the waitlist. Removing the last host is refused: another one is designated first.
 2. **Removing an attendee.** The reason is mandatory, the places are freed for the waitlist, and the removed member cannot sign up again.
-3. **Cancelling.** The meeting remembers who cancelled and when, and is then frozen. The cancellation is final. Meetings tells Payments, which cancels every payment of the meeting that still waits. A fee already paid is not refunded.
+3. **Cancelling.** The meeting remembers who cancelled and when, and is then frozen. The cancellation is final. Every payment of the meeting that still waits is cancelled. A fee already paid is not refunded.
 4. **Emails.** The removed attendee is told with the reason, and the attendees and the waitlist are told of a cancellation.
 
 ## The group and Payments
@@ -144,6 +144,7 @@ flowchart LR
     classDef aggregate fill:#FFEAA7,stroke:#F39C12,color:#000
     classDef event fill:#FF9F43,stroke:#c26a12,color:#000
     classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
+    classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
 
     subgraph Payments
         direction LR
@@ -158,16 +159,18 @@ flowchart LR
         P1 --> C2[Leave the waitlist, for the member]:::command --> A2((Meeting)):::aggregate --> E2[Member left the waitlist]:::event
         P1 --> C4[Remove the host, for the member]:::command --> A4((Meeting)):::aggregate --> E4[Host removed]:::event
 
-        Y1 --> P2{{Record the account}}:::policy --> C3[Record the payout account]:::command --> A3((Member Payout Account)):::aggregate --> E3[Payout account recorded]:::event
-        Y2 --> P2
+        K1(Whether the owner's payout account is validated):::readmodel
     end
+
+    Y1 -.->|needed| K1
+    Y2 -.->|needed| K1
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy.
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, green the information Meetings needs. A dotted arrow means that Meetings needs the fact.
 
 1. **Leaving the group.** The group's event is the trigger. On each meeting of the group that has not started, the member is treated as if they said they will not come, or they leave the waitlist, or they stop being a host. The freed places go to the waitlist of a meeting that has one, as in [attending](#attending-and-the-waitlist), and a payment still awaited is cancelled.
 2. **The last host.** The group refuses the departure of a member who is the last host of a meeting that has not started, so this policy never leaves a meeting without a host. Another host must be designated first.
-3. **The payout account.** Meetings records whether the owner's payout account is validated, as Payments announces it, and a fee can be set on a meeting only when it is. The paid and expired payments are handled in [attending](#attending-and-the-waitlist).
+3. **The payout account.** Meetings needs to know whether the owner's payout account is validated, and a fee can be set on a meeting only when it is. The paid and expired payments are handled in [attending](#attending-and-the-waitlist).
 
 ## Reading
 
@@ -193,4 +196,4 @@ Orange is an event, green a read model.
 3. **My meetings.** It gathers, for each member, the meetings where they host, attend or wait.
 4. **Who sees what.** The views do not change the meeting, so they raise no event of their own. Who is allowed to see each one is in [organizing meetings](organization.md#reading).
 
-The rest of the events come from [Payments](../payments/description.md) and from [the life of the group](group-life-event-storming.md): Meetings only listens to them.
+The facts that come from [Payments](../payments/description.md) are the information Meetings needs, listed in [its description](description.md#what-meetings-needs-from-other-contexts); the others come from [the life of the group](group-life-event-storming.md).

@@ -57,7 +57,7 @@ What happens to the former owner's own subscription belongs to [Payments](../pay
 
 ## Covering the group
 
-A group is covered by the subscription of **its owner**, and only a covered group can organize meetings. Meetings keeps, for each member, **until when** their subscription is valid, as announced by [Payments](../payments/description.md). The group is covered when its owner's subscription is still valid, from the moment the group is created, and the group follows the new owner's subscription after a hand-over.
+A group is covered by the subscription of **its owner**, and only a covered group can organize meetings. Meetings needs to know, for each member, **until when** their subscription is valid and whether they ever held one, see [what Meetings needs from other contexts](description.md#what-meetings-needs-from-other-contexts). The group is covered when its owner's subscription is still valid, from the moment the group is created, and the group follows the new owner's subscription after a hand-over.
 
 There is no limit on the number of groups an owner's subscription covers.
 
@@ -73,7 +73,7 @@ The free plan is left for good with the first subscription or trial. The group i
 
 ### When the subscription ends
 
-Payments announces when an owner's subscription **expires**, and also when it is **about to**. Two emails follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
+When an owner's subscription is **about to expire**, and when it **expires**, two emails follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
 
 An uncovered group is not closed down. Only one thing changes: it **cannot organize new meetings**.
 
@@ -81,7 +81,7 @@ An uncovered group is not closed down. Only one thing changes: it **cannot organ
 - Members can still join, leave and comment.
 - The owner stays the owner: nothing is handed over by itself.
 
-The group is covered again when the owner renews their subscription, which Payments announces, or when the group is [handed over](#handing-the-group-over) to an organizer who activates their own. A hand-over stays possible while the group is uncovered.
+The group is covered again when the owner renews their subscription, which Meetings needs to know, or when the group is [handed over](#handing-the-group-over) to an organizer who activates their own. A hand-over stays possible while the group is uncovered.
 
 ## Editing the group
 
