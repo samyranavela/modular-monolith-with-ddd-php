@@ -28,10 +28,10 @@ flowchart LR
         E4 --> P2{{Notify the proposer that the group exists}}:::policy
         E3 --> P3{{Notify the proposer of the rejection}}:::policy
 
-        E1 -.-> R1[My proposals]:::readmodel
+        E1 -.-> R1(My proposals):::readmodel
         E2 -.-> R1
         E3 -.-> R1
-        E1 -.-> R2[All proposals, by status]:::readmodel
+        E1 -.-> R2(All proposals, by status):::readmodel
         E2 -.-> R2
         E3 -.-> R2
     end

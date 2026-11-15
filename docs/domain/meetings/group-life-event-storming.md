@@ -107,36 +107,27 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 ```mermaid
 flowchart LR
-    classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
     classDef event fill:#FF9F43,stroke:#c26a12,color:#000
     classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
-    classDef external fill:#FF9FF3,stroke:#c36bb8,color:#000
 
     subgraph Payments
         direction LR
         Y1[Subscription created or renewed]:::event
-        Y2[Subscription about to expire]:::event
-        Y3[Subscription expired]:::event
     end
 
     subgraph Meetings
         direction LR
         K1(Validity of a member's subscription):::readmodel
-        Y2 --> P2{{Remind the owner of the groups}}:::policy
-        Y3 --> P3{{Notify the owner that their groups are no longer covered}}:::policy
     end
 
     Y1 -.->|needed| K1
-    P2 --> EM[Notifications]:::external
-    P3 --> EM
 ```
 
-Orange is an event, purple a policy, green the information Meetings needs, pink an external system. A dotted arrow means that Meetings needs the fact.
+Orange is an event, green the information Meetings needs. A dotted arrow means that Meetings needs the fact.
 
 1. **The validity.** Meetings needs to know until when a member's subscription is valid. This is the date that decides whether a meeting can be organized, and it is what completes a transfer.
-2. **Reminding.** When a subscription is about to expire, a notification reminds the owner of each group they own.
-3. **Expiring.** When it has expired, a notification tells the owner that their group is no longer covered. Nothing else changes: the group can no longer organize new meetings, and the meetings already planned stay.
-4. **The free plan.** An owner of whom Meetings knows no validity at all has never held a subscription: they are on the [free plan](group-life.md#the-free-plan), with one group, always covered, and two meetings a month. The first subscription takes them off it for good.
+2. **Expiring.** When the date has passed, the group is no longer covered. Nothing else changes: the group can no longer organize new meetings, and the meetings already planned stay. Meetings notifies nobody: [Payments](../payments/subscriptions.md#notifications) tells the owner, as the payer, that the subscription is about to expire and that it has expired.
+3. **The free plan.** An owner of whom Meetings knows no validity at all has never held a subscription: they are on the [free plan](group-life.md#the-free-plan), with one group, always covered, and two meetings a month. The first subscription takes them off it for good.
 
 ## Reading
 
@@ -148,8 +139,8 @@ flowchart LR
 
     subgraph Meetings
         direction LR
-        G1[Group created]:::event & G2[Group edited]:::event & G3[Member joined the group]:::event & G4[Member left the group]:::event --> R1(All the groups):::readmodel
-        G1 & G2 & G3 & G4 & G5[Organizer appointed]:::event & G6[Organizer demoted]:::event & G8[Organizer stepped down]:::event & G7[Group handed over]:::event --> R2(A group):::readmodel
+        G1[Meeting group created]:::event & G2[Group edited]:::event & G3[Member joined the group]:::event & G4[Member left the group]:::event & G9[Group archived]:::event --> R1(All the groups):::readmodel
+        G1 & G2 & G3 & G4 & G9 & G5[Organizer appointed]:::event & G6[Organizer demoted]:::event & G8[Organizer stepped down]:::event & G7[Group handed over]:::event --> R2(A group):::readmodel
         G1 & G3 & G4 & G5 & G6 & G8 & G7 --> R3(The members of a group):::readmodel
         G1 & G3 & G4 & G5 & G6 & G8 & G7 --> R4(My groups):::readmodel
 
@@ -160,7 +151,7 @@ flowchart LR
 
 Blue is a command, orange an event, green a read model.
 
-1. **All the groups, a group.** Each is kept up to date by the events of the group: its creation, its edits, the members who join and leave, the organizers appointed, demoted or stepped down, and a hand-over. The number of members comes from the same events.
+1. **All the groups, a group.** Each is kept up to date by the events of the group: its creation, its edits, the members who join and leave, the organizers appointed, demoted or stepped down, a hand-over, and its archiving, which both views show. The number of members comes from the same events.
 2. **The members of a group, my groups.** Both come from the same events as the roles: joining, leaving, appointing, demoting, stepping down and handing over.
 3. **The upcoming meetings a member hosts.** It is kept up to date by the events of the meetings: a meeting is created, changed or cancelled, and a host is designated or removed. The command to leave the group reads it, and is refused if the member is the last host of one of these meetings. The rule is absolute: a meeting never has no host. When two operations happen together, a host leaving and the other host being removed, or the last two hosts leaving, only one of them succeeds and the other is refused, as if it had come second.
 

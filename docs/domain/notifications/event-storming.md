@@ -21,7 +21,7 @@ flowchart LR
         D1 --> E2[Email sent]:::event
         D1 --> E3[Email failed]:::event
         E3 --> P4{{Whenever an email failed, try again within the limits}}:::policy --> C2
-        RM1[Email address of the member]:::readmodel --> C2
+        RM1(Email address of the member):::readmodel --> C2
     end
 
     subgraph Required[Sending a required message]
@@ -37,8 +37,8 @@ flowchart LR
         direction LR
         C5[Mark a notification as read]:::command --> N2((Notification)):::aggregate --> E7[Notification read]:::event
         C6[Mark all as read]:::command --> N3((Notification)):::aggregate --> E8[All notifications read]:::event
-        V1[My notifications]:::readmodel
-        V2[My unread count]:::readmodel
+        V1(My notifications):::readmodel
+        V2(My unread count):::readmodel
     end
 
     subgraph Erasing[When a member is erased]

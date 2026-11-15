@@ -25,6 +25,8 @@ A meeting needs **at least one host** to take place. An action that would leave 
 - **Designating.** A host, or the owner or an organizer of the group, designates a member of the group as a host. If the member was an attendee, their attendance ends: their place and their guests' are freed, for the [waitlist](#the-waitlist) when the meeting has one, and a payment still awaited is cancelled. If they were waiting, they leave the waitlist.
 - **Removing.** A host steps down, or another host, the owner or an organizer removes them, and they become a plain member again. This is refused for the last host: another one must be designated first.
 
+A member designated or removed by somebody else is notified. Nothing is sent to a host who steps down, or who stops being one by leaving the group.
+
 ## Creating a meeting
 
 The owner or an organizer creates a meeting in a group, and only a **covered** group can organize one. A group covered by the [free plan](group-life.md#the-free-plan) can have at most **two meetings a month**, configurable: meetings are counted by the month of their start date, a cancelled one does not count, and creating a third in a month, or moving one into a month that already holds two, is refused. A domain service checks it, reading what is stored; the rule is absolute: when two meetings are created at the same moment, the third of the month is refused.
@@ -36,7 +38,7 @@ A meeting has:
 - a **venue**: a name, an address, a postal code and a city;
 - an optional **attendee limit** and a **guest limit**, see [limits](#limits);
 - an **RSVP term**, the period during which members can sign up. Its start and its end are both optional, and sign-ups never stay open past the start of the meeting;
-- an optional **event fee**, an amount in euros, see [the fee](#the-fee). A fee can be set only when the owner of the group has a **validated payout account**, which Meetings knows from [Payments](../payments/description.md#the-payout-account).
+- an optional **meeting fee**, an amount in euros, see [the fee](#the-fee). A fee can be set only when the owner of the group has a **validated payout account**, which Meetings knows from [Payments](../payments/description.md#the-payout-account).
 
 Its [hosts](#hosts) are chosen among the members of the group. If none is chosen, the creator is the host.
 
@@ -64,7 +66,8 @@ A member of the group signs up, with a number of guests. They need:
 - a number of guests within the guest limit;
 - enough places for themselves and their guests;
 - no payment already awaited from them for this meeting;
-- for a meeting with a fee, the group not to be in a [hand-over](group-life.md#handing-the-group-over): sign-ups to its meetings with a fee are closed from the request until the hand-over ends.
+- for a meeting with a fee, the group not to be in a [hand-over](group-life.md#handing-the-group-over): sign-ups to its meetings with a fee are closed from the request until the hand-over ends;
+- for a meeting with a fee, the owner of the group not to be [locked](../useraccess/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups are closed from the request until it ends.
 
 A member who had said they would not come simply changes their mind.
 
@@ -94,7 +97,7 @@ Removal is **final for this meeting**: the member cannot sign up again. They can
 
 A host, or the owner or an organizer of the group, cancels the meeting. The meeting remembers who and when. A cancelled meeting is frozen: nobody can sign up, wait or change anything, and the cancellation is final.
 
-Every attendee and every member on the waitlist is notified. Every payment still awaited is cancelled. A fee already paid is not refunded: the owner decides, in their own payment system, see [Payments](../payments/meeting-fees.md#refunds).
+Every attendee, every member on the waitlist and every host but the one who cancels is notified. Every payment still awaited is cancelled. A fee already paid is not refunded: the owner decides, in their own payment system, see [Payments](../payments/meeting-fees.md#refunds).
 
 ## When a member leaves the group
 
@@ -113,9 +116,11 @@ The result of the payment can be known after the start of the meeting, since a p
 
 Payments needs to know when a place awaiting payment is lost before it is paid, because the attendee said they will not come, was removed, became a host or left the group, and when the meeting is cancelled. A fee already paid never comes back: the application does not refund.
 
-[Payments](../payments/meeting-fees.md#the-payout-account) needs to know whether an owner has a meeting with a fee that has yet to start, which decides whether the owner can remove their payout account.
+[Payments](../payments/meeting-fees.md#the-payout-account) needs to know whether a meeting with a fee has yet to start in a group a member owns, or in a group whose [hand-over](group-life.md#handing-the-group-over) they have accepted and that is not yet complete, which decides whether they can remove their payout account.
 
 During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change. The rule is absolute: when a sign-up to such a meeting and the hand-over request happen at the same moment, not both succeed. Either the sign-up is taken first and the request is refused because a payment waits, or the request is taken first and the sign-up is refused as closed.
+
+The same holds while the owner of the group is [locked](../useraccess/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups to the meetings with a fee are closed until the request ends, and a sign-up and the deletion request at the same moment do not both succeed.
 
 ## Notifications
 
@@ -128,14 +133,16 @@ Each of these is a notification handed to [Notifications](../notifications/descr
 | A place awaiting payment is confirmed | The attendee |
 | A place awaiting payment is released | The member |
 | An attendee is removed | The attendee, with the reason |
-| The meeting is cancelled, or its group is archived | Every attendee and every member on the waitlist |
+| The meeting is cancelled, or its group is archived | Every attendee, every member on the waitlist and every host, except the one who cancels |
+| A member is designated host by somebody else, at the creation of the meeting or later | The member, with the place they give up if they were signed up |
+| A host is removed by somebody else | The former host |
 
 ## Reading
 
 Read-only views, kept up to date by the events of the meetings, let members find a meeting and follow it.
 
 - **The meetings of a group**: its meetings that have not started first, then the past ones, a cancelled meeting being marked as such. Any member sees it, so that they can decide to join the group.
-- **A meeting**: its title, description, start, place, RSVP term, limits, places left, fee and hosts, whether it is cancelled, and for the reader whether they host it, attend it, wait for it, or said they will not come. A member on the waitlist also sees their rank.
+- **A meeting**: its title, description, start, venue, RSVP term, limits, places left, fee and hosts, whether it is cancelled, and for the reader whether they host it, attend it, wait for it, or said they will not come. A member on the waitlist also sees their rank.
 - **The attendees of a meeting**: who attends, with their number of guests. The members of the group see it. For a meeting with a fee, the hosts, the owner and the organizers also see whether each place is awaiting payment or confirmed.
 - **The waitlist of a meeting**: who waits, in order. The hosts, the owner and the organizers of the group see it.
 - **My meetings**: the meetings where the member is a host, an attendee or waiting, with that status, those that have not started first.

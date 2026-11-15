@@ -17,7 +17,7 @@ A named set of permissions that a user holds. There are two, Member and Administ
 _Avoid_: Profile, group
 
 **Permission**:
-The authorization to perform one action. An action is allowed when the user's role grants its permission.
+The authorization to perform one action. An action is allowed when the user's role grants its permission. Each permission reads or changes something, and one that changes something is refused to a locked account.
 _Avoid_: Right, privilege
 
 **Account Deletion Request**:
@@ -25,7 +25,7 @@ A member's request to leave the application for good. It can be made only when n
 _Avoid_: Account closure, unsubscribe
 
 **Locked Account**:
-The state of a user whose deletion request is pending. They can sign in to cancel the request or export their data, and do nothing else.
+The state of a user whose deletion request is pending. They can sign in and read everything an active member reads, cancel the request, export their data and mark their notifications as read, and change nothing else. UserAccess applies it by refusing them every permission that changes something.
 _Avoid_: Suspended account, blocked user
 
 **Open Item**:

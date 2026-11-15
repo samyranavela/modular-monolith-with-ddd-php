@@ -31,7 +31,7 @@ Four things must be settled before a request is accepted. They are the **open it
 | :-- | :-- | :-- |
 | A group the member owns that is **under hand-over** | [Meetings](../meetings/group-life.md#roles-in-a-group) | Wait until the hand-over ends: it completes and the group is no longer theirs, or it ends otherwise and the group is back to being theirs, and not under hand-over. |
 | An upcoming meeting where the member is the **last host** of a group that goes on | [Meetings](../meetings/organization.md#hosts) | Designate another host, or cancel the meeting. |
-| A **payment that waits**, for the member's own places or for a meeting of a group they own | [Payments](../payments/meeting-fees.md) | Wait: it ends by itself, in 30 minutes by default. |
+| A **payment that waits**, for the member's own places or for a meeting of a group they own | [Payments](../payments/meeting-fees.md) | Wait: it ends by itself, in 30 minutes by default. It cannot come back once the account is locked. |
 | A **meeting group proposal** that is pending | [Meetings](../meetings/group-creation.md) | Wait for an administrator to decide. |
 
 Some remarks:
@@ -45,9 +45,15 @@ Nothing is refused to an administrator for these reasons: an administrator is ne
 
 ## Locked account
 
-From the request until it ends, the account is **locked**. The member can still sign in, and can do **two things only**: cancel the request, and [export their data](#exporting-the-data).
+From the request until it ends, the account is **locked**. The member can still sign in and **reads everything an active member reads**: their groups, their meetings, the comments, their subscription, their payments and their inbox. They **change nothing**, with three exceptions: cancelling the request, [exporting their data](#exporting-the-data), and marking their notifications as read.
 
-A locked member takes part in nothing but signing in, cancelling the request and exporting their data: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate.
+UserAccess applies the lock through the [permissions](description.md#permissions): it refuses a locked user every permission whose action changes something, apart from these three. The other contexts ask, as for any action, whether it is allowed, and need not know the lock for that.
+
+A locked member takes part in nothing: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate.
+
+What was set up before the request goes on by itself: an automatic renewal that falls during the grace period is charged as usual.
+
+While the owner of a group is locked, **sign-ups to its meetings that have a fee are closed**, as during a [hand-over](../meetings/group-life.md#handing-the-group-over), so that no payment is created for an owner who may be gone. They reopen if the request is cancelled. The rule is absolute: when a sign-up to such a meeting and the owner's deletion request happen at the same moment, not both succeed. Either the sign-up comes first and the request is refused because a payment waits, or the request comes first and the sign-up is refused as closed. Hence no payment can wait when the deletion is carried out.
 
 What others do can still change the picture. A host who was not the last may find themselves the last when the other host leaves. That is checked when the deletion is carried out, see below.
 
@@ -71,8 +77,8 @@ The confirmed registration of the user is **deleted**, since it holds the same l
 
 The member **leaves every group they belong to except the groups they own**, as if they left it themselves, see [leaving](../meetings/group-life.md#leaving) and [when a member leaves the group](../meetings/organization.md#when-a-member-leaves-the-group): they are taken out of the upcoming meetings, an attendee loses their place and their guests', the places go to the waitlist, a waiting member leaves it, and a host stops being one. An owner cannot leave: the groups they own are archived, below. A hand-over that names them as candidate has already ended as cancelled by itself.
 
-- **A group the member owns is archived**, unless it was handed over before. The owner stays the owner of an archived group. Its upcoming meetings are **cancelled**, with the usual notification to attendees and the waitlist. The group is then **frozen**: nobody can change it, join it, plan meetings in it, comment or moderate, and nothing is added to it. Its members still see it and can still leave it, since it keeps its past and its comments. Its owner is shown as a **deleted member**.
-- **What the member wrote stays, anonymously.** Their comments stay in the conversation with their text and their date, and the author is shown as a **deleted member**: the replies stay readable. Their likes stay counted, and a like of a deleted member shows no one. Nobody can edit or remove the comments of a deleted member except the owner and the organizers, as for any [former member](../meetings/commenting.md#when-a-member-leaves-the-group).
+- **A group the member owns is archived**, unless it was handed over before. The owner stays the owner of an archived group. Its upcoming meetings are **cancelled**, with the usual notification to attendees, the waitlist and hosts. The group is then **frozen**: nobody can change it, join it, plan meetings in it, comment or moderate, and nothing is added to it. Its members still see it and can still leave it, since it keeps its past and its comments. Its owner is shown as a **deleted member**.
+- **What the member wrote stays, anonymously.** Their comments stay in the conversation with their text and their date, and the author is shown as a **deleted member**: the replies stay readable. Their likes stay counted, and a like of a deleted member shows no one. Nobody can edit the comments of a deleted member, and only the owner and the organizers can remove them, as for any [former member](../meetings/commenting.md#when-a-member-leaves-the-group).
 - **What is decided stays.** A group proposal the member made and that was decided, a meeting they hosted, a group they once belonged to: each keeps the deleted member in place of the person.
 - **Their place in past meetings** counts in the numbers of attendees and is no longer attached to anyone.
 
@@ -81,7 +87,7 @@ The members of an archived group are notified.
 ### What happens in Payments
 
 - The payer is **anonymised**: Payments knew nothing of the person but their identifier, so nothing more has to be erased there.
-- Their **subscription ends** with the account: an automatic renewal is stopped and no new period is bought. There is **no refund**: the application never refunds, see [the end of a subscription](../payments/subscriptions.md#when-a-subscription-ends).
+- Their **subscription ends** with the account: an automatic renewal is stopped and no new period is bought. There is **no refund**, not even of a renewal charged during the grace period: the application never refunds, see [the end of a subscription](../payments/subscriptions.md#when-a-subscription-ends).
 - Their **payout account is removed**. This removal is **not refused** by the rule that refuses it while a meeting with a fee has yet to start, see [the payout account](../payments/meeting-fees.md): the meetings of the groups concerned are cancelled or the groups handed over. The fees of the meetings of a group handed over go to the new owner's account, and the meetings of an archived group are cancelled, so no fee waits for the removed account.
 - Their **payments are kept**, the subscriptions as well as the fees of the meetings, **without an identity**. They are the accounting record, kept for **10 years**, the period the law requires for accounting records, which is configurable, and then deleted. A fee already paid stays paid: the owner of the group decides on a refund in their own payment system.
 
@@ -121,7 +127,7 @@ Each of these is a notification handed to [Notifications](../notifications/descr
 | The request ends because something stands in the way when the grace period is over | The member, with the open items |
 | The deletion is carried out | The member, at the address that is erased by it |
 | A group is archived | Its members |
-| The meetings of an archived group are cancelled | Their attendees and waitlist, as for any [cancelled meeting](../meetings/organization.md#cancelling-a-meeting) |
+| The meetings of an archived group are cancelled | Their attendees, waitlist and hosts, as for any [cancelled meeting](../meetings/organization.md#cancelling-a-meeting) |
 | An export is ready | The member |
 
 ## Reading
@@ -130,7 +136,7 @@ Each of these is a notification handed to [Notifications](../notifications/descr
 - **My deletion request.** Whether one is pending, since when, and when it will be carried out. Only the member reads it.
 - **My exports.** The exports that are ready and until when. Only the member reads them.
 
-A locked member reads these three, and nothing else. An administrator who is deleted cannot read anything afterwards.
+A locked member reads these three, like everything else an active member reads. An administrator who is deleted cannot read anything afterwards.
 
 ## What stands outside this page
 
@@ -142,9 +148,9 @@ A locked member reads these three, and nothing else. An administrator who is del
 
 | Who needs it | Information | From | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
-| UserAccess | The open items of a member: the groups they own, the meetings where they are the last host, the proposals pending | [Meetings](../meetings/description.md) | Exact at the request, and again when the deletion is carried out |
+| UserAccess | The open items of a member: the groups they own that are under hand-over, the meetings where they are the last host, the proposals pending. And the groups they own, which would be archived | [Meetings](../meetings/description.md) | Exact at the request, and again when the deletion is carried out |
 | UserAccess | Whether a payment waits for the member, as an attendee or as the owner of a group | [Payments](../payments/description.md) | Exact at the request, and again when the deletion is carried out |
-| Meetings | That a member's account is locked, and that it is gone | UserAccess | Prompt for the lock, since a hand-over to them must be refused. Never lost for the deletion |
+| Meetings | That a member's account is locked, and that it is gone | UserAccess | Exact when a candidate is designated, since a hand-over to a locked member must be refused, and at a sign-up to a meeting with a fee, which is closed while the owner of the group is locked. Prompt otherwise, and never lost for the deletion |
 | Payments | That a payer's account is gone | UserAccess | Never lost |
 | Registrations | That a user's account is gone | UserAccess | Never lost |
 | Each context | What it holds about a person, for the export | Itself | As of the day of the export |

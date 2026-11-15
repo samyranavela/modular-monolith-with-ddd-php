@@ -11,7 +11,7 @@ classDiagram
         description
         proposed at
     }
-    class Location {
+    class Place {
         city
         country
     }
@@ -35,13 +35,13 @@ classDiagram
     }
     class Member
 
-    MeetingGroupProposal --> Location : is about
+    MeetingGroupProposal --> Place : is about
     MeetingGroupProposal --> ProposalStatus : is in
     MeetingGroupProposal "1" --> "0..1" Decision : ends with
     MeetingGroupProposal "*" --> "1" Member : proposed by
     MeetingGroupProposal "1" ..> "0..1" MeetingGroup : once accepted, leads to
 
-    MeetingGroup --> Location : is about
+    MeetingGroup --> Place : is about
     MeetingGroup "1" --> "1..*" MeetingGroupMember : has
     MeetingGroupMember "*" --> "1" Member : is
 
@@ -52,7 +52,7 @@ classDiagram
 
     Decision "*" --> "1" User : decided by
     Member ..> User : is a
-    User "1" --> "1..*" UserRole : has
+    User "*" --> "1" UserRole : has
 ```
 
 ## Reading it

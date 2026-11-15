@@ -47,6 +47,10 @@ A registration waits for **48 hours**, whether it is a registration or an invita
 
 Deleting is housekeeping, not the rule: from the moment the 48 hours are over, the link is refused, even if the registration has not been deleted yet. Whoever follows an old link is told that it is expired or invalid, without knowing which: a deleted registration and a made-up link look the same.
 
+## When the account is deleted
+
+When the account of a user is [erased](../useraccess/account-deletion.md#what-happens-in-registrations), their confirmed registration is deleted, since it holds the same login, email address, names and password. Its login and its email address are free again, as after an expiry.
+
 ## Registering again with the same email
 
 Someone who never received the email, or lost it, registers again with the same address. The system answers the same neutral sentence whatever the situation, so the answer cannot be used to discover which addresses are registered:

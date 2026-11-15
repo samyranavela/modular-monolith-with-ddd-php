@@ -29,7 +29,7 @@ The length a subscription is bought or renewed for: a month or a year. The set i
 _Avoid_: Duration, term
 
 **Subscription Payment**:
-The purchase of a first subscription: a price for a period and a country, waiting for the payment system. It ends paid or expired.
+The purchase of a first subscription: a price for a period, waiting for the payment system. It ends paid or expired.
 _Avoid_: Order
 
 **Subscription Renewal Payment**:
@@ -37,19 +37,15 @@ The purchase of a further period of an existing subscription, expired or not. It
 _Avoid_: Extension
 
 **Automatic Renewal**:
-An option of a subscription, off by default except during a free trial, where it is on from the start, that makes the payment system repeat the payment at the end of each period. It keeps a period and a country, and the price of its next payment, which follows the price list (the item of kind *renewal*, or of kind *new* for a trial until its first payment); the payer can turn it off at any time.
+An option of a subscription, off by default except during a free trial, where it is on from the start, that makes the payment system repeat the payment at the end of each period. It keeps a period, and the price of its next payment, which follows the active price of the price list; the payer can turn it off at any time.
 _Avoid_: Auto-pay, recurring payment
 
 **Price List Item**:
-The price of one subscription for a country, a period and a kind, which is new or renewal. It is active or inactive, and only one is active for a given country, period and kind.
+The price of one subscription for a period, the same for every payer, whatever their country, for a first purchase and for a renewal. It is active or inactive, and only one is active for a given period: every payment is at that active price.
 _Avoid_: Tariff, rate
 
-**Price Kind**:
-Whether a price is for a first purchase (*new*) or for any renewal, manual or automatic (*renewal*).
-_Avoid_: Category, type
-
 **Free Trial**:
-The first 7 days of a subscription, which a payer who never held one starts without paying. Automatic renewal is on from the start, so the first payment is taken at the end, at the active price of kind *new* at that moment, unless the payer turns it off. It happens once per payer.
+The first 7 days of a subscription, which a payer who never held one starts without paying. Automatic renewal is on from the start, so the first payment is taken at the end, at the active price at that moment, unless the payer turns it off. It happens once per payer.
 _Avoid_: Demo, test period
 
 **Free Plan**:

@@ -51,7 +51,7 @@ flowchart LR
     E3 -->|role Member| Y1
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink another context.
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
 ## Reading it
 

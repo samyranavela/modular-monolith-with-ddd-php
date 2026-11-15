@@ -43,10 +43,10 @@ An organizer can neither appoint nor demote another organizer.
 The owner cannot leave, so the group changes hands in one way only: the owner **proposes a transfer** to one of the group's organizers, who becomes the new owner once they accept and have an active subscription. A candidate on the [free plan](#the-free-plan) can be chosen: they take a subscription out to complete the transfer.
 
 - **The request.** The owner designates an organizer of the group, who must not be [locked](../useraccess/account-deletion.md) by a pending deletion of their account: the designation is refused otherwise. A **transfer request** is created, which is pending. There is one pending request at most for a group, and it never expires. The request is refused while a [payment](../payments/meeting-fees.md#a-hand-over-of-the-group) of one of the group's meetings still waits. From the request until the transfer ends, whichever way, **sign-ups to the group's meetings that have a fee are closed**, so that no payment is created while the receiver of the fees may change. The two rules are absolute: when a sign-up to a meeting with a fee and the request happen at the same moment, not both succeed. Either the sign-up comes first and the request is refused because a payment waits, or the request comes first and the sign-up is refused as closed.
-- **Accepting.** The candidate accepts. When a meeting of the group that has a fee has yet to start, the acceptance counts only if the candidate has a **validated payout account**: otherwise it is refused, and the candidate sets one up first. Accepting also means having an **active subscription**: a candidate who has none takes one out, or renews, in [Payments](../payments/subscriptions.md#a-hand-over-of-a-group), like any payer. The request stays pending until Meetings knows from Payments that the subscription is valid, and completes at once when it already is. Only then is the transfer complete.
+- **Accepting.** The candidate accepts. When a meeting of the group that has a fee has yet to start, the acceptance counts only if the candidate has a **validated payout account**: otherwise it is refused, and the candidate sets one up first. From the acceptance until the transfer ends, the candidate cannot [remove that account](../payments/meeting-fees.md#the-payout-account), and the rule is absolute: when the acceptance and the removal happen at the same moment, only one succeeds. Accepting also means having an **active subscription**: a candidate who has none takes one out, or renews, in [Payments](../payments/subscriptions.md#a-hand-over-of-a-group), like any payer. The request stays pending until Meetings knows from Payments that the subscription is valid, and completes at once when it already is. Only then is the transfer complete.
 - **Declining.** The candidate can decline, and the request ends. The sign-ups to the meetings with a fee reopen.
 - **Cancelling.** The owner can cancel a pending request, and the request ends.
-- **Ending by itself.** If the candidate leaves the group, is demoted, or becomes locked by a pending deletion of their account, while the request is pending, the request is cancelled by itself, not declined. When the owner's request and the candidate's deletion request arrive at the same moment, the first to arrive wins: if the deletion request comes second it cancels the hand-over request, and if the hand-over request comes second it is refused.
+- **Ending by itself.** If the candidate leaves the group, is demoted or steps down, or becomes locked by a pending deletion of their account, while the request is pending, the request is cancelled by itself, not declined. When the owner's request and the candidate's deletion request arrive at the same moment, the first to arrive wins: if the deletion request comes second it cancels the hand-over request, and if the hand-over request comes second it is refused.
 - **Completing.** The candidate becomes the owner and the former owner becomes an organizer. The group is then covered by the new owner's subscription, and the sign-ups to its meetings with a fee reopen. The fees of the sign-ups to come go to the new owner's payout account, and those already paid stay with the former owner's.
 
 Every one of these steps sends a **notification to the party concerned**: the candidate, of the request and of its cancellation by the owner; the owner, of the acceptance, of the refusal, of the confirmation of the candidate's subscription and of the cancellation by itself (the candidate left, was demoted or is locked); both, of the completion. See [the catalogue](../notifications/catalogue.md#meetings-groups).
@@ -73,7 +73,7 @@ The free plan is left for good with the first subscription or trial. The group i
 
 ### When the subscription ends
 
-When an owner's subscription is **about to expire**, and when it **expires**, two notifications follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
+When an owner's subscription is **about to expire**, and when it **expires**, the owner is notified by [Payments](../payments/subscriptions.md#notifications), as the payer who holds it. Meetings sends nothing of its own: the expiration date is all it needs.
 
 An uncovered group is not closed down. Only one thing changes: it **cannot organize new meetings**.
 
@@ -90,7 +90,7 @@ A group whose owner's account is deleted without the group having been handed ov
 - nobody can change it, join it, create, change or cancel a meeting in it, designate a host, comment, reply, edit, like, remove a comment or moderate; nothing is added to it;
 - its upcoming meetings are cancelled, and its members are notified, see [the catalogue](../notifications/catalogue.md#meetings-groups);
 - its members still see it, with its past, its meetings and its comments, and can still **leave** it;
-- the owner **stays the owner**, shown as a [deleted member](../../../src/Meetings/GLOSSARY.md#commenting) since the person was erased, and the rule that the owner cannot leave stands.
+- the owner **stays the owner**, shown as a [deleted member](../../../src/Meetings/GLOSSARY.md#language) since the person was erased, and the rule that the owner cannot leave stands.
 
 ## Editing the group
 
@@ -100,8 +100,8 @@ The owner and the organizers can change the **name**, the **description** and th
 
 Members find and follow groups through read-only views, kept up to date by the events of the groups.
 
-- **All the groups**: the name, the description, the place and the number of members of every group, so that a member can find one to join.
-- **A group**: its name, description, place, number of members, its owner and its organizers, and its meetings, see [organizing meetings](organization.md#reading).
+- **All the groups**: the name, the description, the place and the number of members of every group, and whether it is archived, so that a member can find one to join.
+- **A group**: its name, description, place, number of members, its owner and its organizers, whether it is archived, and its meetings, see [organizing meetings](organization.md#reading).
 - **The members of a group**: who belongs to it and with which role. The members of the group see it.
 - **My groups**: the groups a member belongs to, with their role in each.
 - **The upcoming meetings a member hosts**: for each group, the meetings that have not started and are not cancelled where the member is a host, with the number of hosts of each. It is not shown to anyone: it only lets the group refuse the departure of the last host of a meeting.

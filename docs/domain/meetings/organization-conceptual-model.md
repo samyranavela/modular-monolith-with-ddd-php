@@ -12,7 +12,7 @@ classDiagram
         start date
         attendee limit
         guest limit
-        event fee
+        meeting fee
         created at
         changed at
         cancelled at
@@ -81,7 +81,7 @@ classDiagram
     Meeting "*" --> "0..1" Member : cancelled by
     MeetingHost "*" --> "1" Member : is
     MeetingAttendee --> AttendeeStatus : is
-    MeetingAttendee "0..1" --> "1" Removal : may have
+    MeetingAttendee "1" --> "0..1" Removal : may have
     MeetingAttendee "*" --> "1" Member : is
     NotAttendee "*" --> "1" Member : is
     WaitlistMember "*" --> "1" Member : is
@@ -106,7 +106,7 @@ classDiagram
 
 - **Two meetings a month on the free plan.** A group on the [free plan](group-life.md#the-free-plan) can have at most two meetings, not cancelled, starting in the same month. The rule involves the group and its meetings, so a domain service checks it when a meeting is created or its start date changes, reading what is stored; the rule is absolute: when two meetings are created at the same moment, the third of the month is refused.
 - **The last host.** A member cannot leave the group while they are the last host of a meeting that has not started. The rule involves the group and its meetings, so a domain service checks it; the rule is absolute: when the last two hosts leave at the same moment, only one succeeds and the other is refused.
-- **A sign-up to a meeting with a fee and a hand-over.** Sign-ups to a meeting with a fee are closed from a hand-over request, and the request is refused while a payment waits; the rule is absolute: when a sign-up and the request happen at the same moment, not both succeed, see [the conceptual model of the life of a group](group-life-conceptual-model.md#rules-that-cross-aggregates).
+- **A sign-up to a meeting with a fee and a hand-over.** Sign-ups to a meeting with a fee are closed from a hand-over request, and the request is refused while a payment waits; the rule is absolute: when a sign-up and the request happen at the same moment, not both succeed, see [the conceptual model of the life of a group](group-life-conceptual-model.md#rules-that-cross-aggregates). The same holds while the owner of the group is locked by a pending deletion of their account: sign-ups to its meetings with a fee are closed until that request ends, and a sign-up and the deletion request at the same moment do not both succeed.
 - **A fee needs a validated payout account.** Setting a fee reads the owner's account as Meetings knows it. A meeting with a fee also has no waitlist, so setting a fee is refused while members wait.
 
 ## What is not in the model

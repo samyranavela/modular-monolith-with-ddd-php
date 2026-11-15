@@ -11,6 +11,7 @@ flowchart LR
     classDef event fill:#FF9F43,stroke:#c26a12,color:#000
     classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
+    classDef external fill:#FF9FF3,stroke:#c36bb8,color:#000
 
     OO[Owner or organizer]:::actor --> C1
     HO[Host, owner or organizer]:::actor --> C2
@@ -18,13 +19,16 @@ flowchart LR
     subgraph Meetings
         direction LR
         C1[Create a meeting]:::command --> P1{{Refuse a third meeting a month on the free plan}}:::policy --> A1((Meeting Group)):::aggregate --> E1[Meeting created]:::event
+        E1 --> P3{{Notify the hosts chosen, other than the creator}}:::policy
         C2[Change the meeting]:::command --> P2{{Refuse moving it into a month with two on the free plan}}:::policy --> A2((Meeting)):::aggregate --> E2[Meeting changed]:::event
     end
+
+    P3 --> EM[Notifications]:::external
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command.
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
-1. **Creating.** The command goes through the meeting group, which refuses it unless the group is covered and not archived and the hosts are members of the group. With no host chosen, the creator is the host. The hosts are recorded as the meeting is created. For a group on the [free plan](group-life.md#the-free-plan), a policy also refuses a meeting when two others, not cancelled, already start in the same month.
+1. **Creating.** The command goes through the meeting group, which refuses it unless the group is covered and not archived and the hosts are members of the group. With no host chosen, the creator is the host. The hosts are recorded as the meeting is created, and those chosen by the creator, other than themselves, are notified. For a group on the [free plan](group-life.md#the-free-plan), a policy also refuses a meeting when two others, not cancelled, already start in the same month.
 2. **Changing.** Any of the meeting's attributes can change, as long as the attendee limit does not drop below the places taken. On the free plan, moving the start date into a month that already holds two meetings is refused. The meeting remembers who changed it and when. A change can free places, which is handled in the next part.
 
 ## Attending and the waitlist
@@ -46,7 +50,7 @@ flowchart LR
 
     subgraph Meetings
         direction LR
-        C1[Sign up with guests]:::command --> G1{{Refuse a meeting with a fee during a hand-over}}:::policy --> A1((Meeting)):::aggregate
+        C1[Sign up with guests]:::command --> G1{{Refuse a meeting with a fee during a hand-over or while the owner is locked}}:::policy --> A1((Meeting)):::aggregate
         A1 --> E1[Attendee signed up, no fee]:::event
         A1 --> E8[Places kept awaiting payment, fee]:::event
         C2[Say I will not come]:::command --> A2((Meeting)):::aggregate --> E2[Member said they will not come]:::event
@@ -83,7 +87,7 @@ flowchart LR
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
-1. **Signing up.** The meeting refuses unless the RSVP term is open, the member is in the group, is neither a host nor an attendee and was not removed, the guests are within the limit, enough places are left and no payment is awaited from them for this meeting. For a meeting with a fee, a policy also refuses it while the group is in a hand-over. The rule is absolute: when a sign-up and the hand-over request happen at the same moment, not both succeed, see [handing the group over](group-life-event-storming.md#handing-the-group-over). A member who had said they will not come changes their mind.
+1. **Signing up.** The meeting refuses unless the RSVP term is open, the member is in the group, is neither a host nor an attendee and was not removed, the guests are within the limit, enough places are left and no payment is awaited from them for this meeting. For a meeting with a fee, a policy also refuses it while the group is in a hand-over, or while its owner is locked by a pending deletion of their account. The rule is absolute: when a sign-up and the hand-over request, or the owner's deletion request, happen at the same moment, not both succeed, see [handing the group over](group-life-event-storming.md#handing-the-group-over). A member who had said they will not come changes their mind.
 2. **Without a fee.** The member becomes an attendee at once and is notified.
 3. **With a fee.** The places are kept, awaiting payment. A notification tells the member the places and until when they are kept, and the payment is created for the amount owed.
 4. **Paid or expired.** When the payment is paid, the place is confirmed and the attendee is told. When it has expired, the places are released and the member is told. A released meeting with a fee has no waitlist to fill, so nothing else follows: the next member to sign up takes the places.
@@ -118,13 +122,17 @@ flowchart LR
         C4[Cancel the meeting]:::command --> A4((Meeting)):::aggregate --> E4[Meeting cancelled]:::event
 
         E3 --> P1{{Notify the removed attendee with the reason}}:::policy
-        E4 --> P2{{Notify the attendees and the waitlist}}:::policy
+        E4 --> P2{{Notify the attendees, the waitlist and the other hosts}}:::policy
+        E1 --> P5{{Notify the host designated by somebody else}}:::policy
+        E2 --> P6{{Notify the host removed by somebody else}}:::policy
         E4 --> P3{{Cancel the payments still awaited}}:::policy
         E3 --> P4{{Cancel the payment if the place was awaiting payment}}:::policy
     end
 
     P1 --> EM[Notifications]:::external
     P2 --> EM
+    P5 --> EM
+    P6 --> EM
     P3 --> PAY[Payments]:::external
     P4 --> PAY
 ```
@@ -134,7 +142,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 1. **Hosts.** Any member of the group can be designated. A member who was an attendee stops being one, which frees their places for the waitlist, and a member who was waiting leaves the waitlist. Removing the last host is refused: another one is designated first.
 2. **Removing an attendee.** The reason is mandatory, the places are freed for the waitlist, and the removed member cannot sign up again.
 3. **Cancelling.** The meeting remembers who cancelled and when, and is then frozen. The cancellation is final. Every payment of the meeting that still waits is cancelled. A fee already paid is not refunded.
-4. **Notifications.** The removed attendee is told with the reason, and the attendees and the waitlist are told of a cancellation.
+4. **Notifications.** The removed attendee is told with the reason. The attendees, the waitlist and the hosts, except the one who cancels, are told of a cancellation. A member designated host, or a host removed, by somebody else is told; a host who steps down is not.
 
 ## The group and Payments
 
@@ -159,23 +167,28 @@ flowchart LR
         P1 --> C1[Say I will not come, for the member]:::command --> A1((Meeting)):::aggregate --> E1[Member said they will not come]:::event
         P1 --> C2[Leave the waitlist, for the member]:::command --> A2((Meeting)):::aggregate --> E2[Member left the waitlist]:::event
         P1 --> C4[Remove the host, for the member]:::command --> A4((Meeting)):::aggregate --> E4[Host removed]:::event
-        E1 --> P2{{Cancel the payment if the place was awaiting payment}}:::policy
+        A1 --> E5[Attendee gave up their place, if the member was an attendee]:::event
+        E5 --> P2{{Cancel the payment if the place was awaiting payment}}:::policy
 
         K1(Whether the owner's payout account is validated):::readmodel
     end
 
     Y1 -.->|needed| K1
     Y2 -.->|needed| K1
-    P2 --> PAY[Payments]:::external
+    P2 --> Payments
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy, green the information Meetings needs, pink an external system. A dotted arrow means that Meetings needs the fact.
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, green the information Meetings needs. A dotted arrow means that Meetings needs the fact.
 
-1. **Leaving the group.** The group's event is the trigger. On each meeting of the group that has not started, the member is treated as if they said they will not come, or they leave the waitlist, or they stop being a host. The freed places go to the waitlist of a meeting that has one, as in [attending](#attending-and-the-waitlist), and a payment still awaited is cancelled.
+1. **Leaving the group.** The group's event is the trigger. On each meeting of the group that has not started, the member is treated as if they said they will not come, or they leave the waitlist, or they stop being a host. A member who was an attendee gives up their place, as in any other case. The freed places go to the waitlist of a meeting that has one, as in [attending](#attending-and-the-waitlist), and a payment still awaited is cancelled.
 2. **The last host.** The group refuses the departure of a member who is the last host of a meeting that has not started, so this policy never leaves a meeting without a host. Another host must be designated first. The refusal is absolute: when the last two hosts leave at the same moment, only one succeeds.
 3. **The payout account.** Meetings needs to know whether the owner's payout account is validated, and a fee can be set on a meeting only when it is. The paid and expired payments are handled in [attending](#attending-and-the-waitlist).
 
 ## Reading
+
+One diagram for each view, with the events that keep it up to date.
+
+**The meetings of a group**
 
 ```mermaid
 flowchart LR
@@ -185,12 +198,73 @@ flowchart LR
     subgraph Meetings
         direction LR
         M1[Meeting created]:::event & M2[Meeting changed]:::event & M3[Meeting cancelled]:::event --> R1(The meetings of a group):::readmodel
-        M1 & M2 & M3 & M4[Host designated]:::event & M5[Host removed]:::event & A1[Attendee signed up]:::event & A5[Places kept awaiting payment]:::event & A6[Place confirmed]:::event & A7[Places released]:::event & A2[Attendee gave up their place]:::event & A3[Attendee removed]:::event & A4[Waitlist member became attendee]:::event --> R2(A meeting):::readmodel
-        A1 & A5 & A6 & A7 & A2 & A3 & A4 & M4 --> R3(The attendees of a meeting):::readmodel
-        W1[Member joined the waitlist]:::event & W2[Member left the waitlist]:::event & A4 & M4 --> R4(The waitlist of a meeting):::readmodel
-        M1 & M2 & M3 & M4 & M5 & A1 & A5 & A6 & A7 & A2 & A3 & A4 & W1 & W2 --> R5(My meetings):::readmodel
+    end
+```
+
+Orange is an event, green a read model.
+
+**A meeting**
+
+```mermaid
+flowchart LR
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
+
+    subgraph Meetings
+        direction LR
+        M1[Meeting created]:::event & M2[Meeting changed]:::event & M3[Meeting cancelled]:::event & M4[Host designated]:::event & M5[Host removed]:::event --> R2(A meeting):::readmodel
+        A1[Attendee signed up]:::event & A5[Places kept awaiting payment]:::event & A6[Place confirmed]:::event & A7[Places released]:::event --> R2
+        A2[Attendee gave up their place]:::event & A3[Attendee removed]:::event & A4[Waitlist member became attendee]:::event --> R2
         N1[Member said they will not come]:::event & N2[Decision taken back]:::event --> R2
-        N1 & N2 --> R5
+    end
+```
+
+Orange is an event, green a read model.
+
+**The attendees of a meeting**
+
+```mermaid
+flowchart LR
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
+
+    subgraph Meetings
+        direction LR
+        A1[Attendee signed up]:::event & A5[Places kept awaiting payment]:::event & A6[Place confirmed]:::event & A7[Places released]:::event --> R3(The attendees of a meeting):::readmodel
+        A2[Attendee gave up their place]:::event & A3[Attendee removed]:::event & A4[Waitlist member became attendee]:::event & M4[Host designated]:::event --> R3
+    end
+```
+
+Orange is an event, green a read model.
+
+**The waitlist of a meeting**
+
+```mermaid
+flowchart LR
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
+
+    subgraph Meetings
+        direction LR
+        W1[Member joined the waitlist]:::event & W2[Member left the waitlist]:::event & A4[Waitlist member became attendee]:::event & M4[Host designated]:::event --> R4(The waitlist of a meeting):::readmodel
+    end
+```
+
+Orange is an event, green a read model.
+
+**My meetings**
+
+```mermaid
+flowchart LR
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef readmodel fill:#10AC84,stroke:#0b7a5c,color:#000
+
+    subgraph Meetings
+        direction LR
+        M1[Meeting created]:::event & M2[Meeting changed]:::event & M3[Meeting cancelled]:::event & M4[Host designated]:::event & M5[Host removed]:::event --> R5(My meetings):::readmodel
+        A1[Attendee signed up]:::event & A5[Places kept awaiting payment]:::event & A6[Place confirmed]:::event & A7[Places released]:::event --> R5
+        A2[Attendee gave up their place]:::event & A3[Attendee removed]:::event & A4[Waitlist member became attendee]:::event --> R5
+        W1[Member joined the waitlist]:::event & W2[Member left the waitlist]:::event & N1[Member said they will not come]:::event & N2[Decision taken back]:::event --> R5
     end
 ```
 
