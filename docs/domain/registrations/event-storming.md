@@ -9,6 +9,7 @@ flowchart LR
     classDef event fill:#FF9F43,stroke:#c26a12,color:#000
     classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
+    classDef external fill:#FF9FF3,stroke:#c36bb8,color:#000
 
     subgraph Registrations
         direction LR
@@ -19,6 +20,8 @@ flowchart LR
         E1 --> P1{{Send the confirmation link}}:::policy
         E7 --> P1
         E2 --> P1
+
+        R2 -.-> P4{{When the address already belongs to a user, only notify its owner}}:::policy
 
         C1[Confirm registration]:::command --> RA3((User Registration)):::aggregate --> E3[Registration confirmed]:::event
 
@@ -40,18 +43,21 @@ flowchart LR
         Y1[Create payer]:::command --> YA((Payer)):::aggregate --> E6[Payer created]:::event
     end
 
+    P1 --> EM[Notifications]:::external
+    P4 --> EM
+
     E3 --> U1
     E3 -->|role Member| M1
     E3 -->|role Member| Y1
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command.
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink another context.
 
 ## Reading it
 
 1. **Registering.** The person registers. A registration is created for the Member role, and the confirmation link goes out as a reaction to the event, not as part of the command.
 2. **Inviting.** The operator or an administrator invites someone. The registration is created for the Administrator role, and the same policy sends the link.
-3. **Registering again.** Same aggregate, same registration: a new link is sent and the deadline starts again. When the address belongs to an existing user, nothing here happens: an email says so instead, and no registration is touched.
+3. **Registering again.** Same aggregate, same registration: a new link is sent and the deadline starts again. When the address belongs to an existing user, nothing here happens: a required message says so instead, and no registration is touched.
 4. **Confirming.** The registration is confirmed, if it is still waiting and before its deadline. For an invitation, this is where the person gives their login, password and names. This is the only fact of Registrations that other contexts need.
 5. **After the confirmation.** Each context that needs the person creates what it needs, in reaction to the same event: UserAccess always creates a user, with the role of the registration. Meetings and Payments create a member and a payer only for the Member role, and they do not wait for each other.
 6. **Expiring.** When 48 hours pass without confirmation, the registration is deleted. Nobody asked for it: it is time that triggers it.

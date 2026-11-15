@@ -49,7 +49,7 @@ A meeting can only have a fee when the owner of its group has a **validated** pa
 - **Setting up a payout account**: the owner of a group sets up where the fees of their meetings are paid.
 - **Reading**: a payer reads their own subscription and their own payments, among them those of the meetings they signed up to. An administrator reads the price list. Nobody reads the payments of someone else.
 
-Emails go to the payer when a subscription is bought or renewed, a trial starts or is about to end, or the period of an automatic renewal changes, as listed in [subscriptions](subscriptions.md#emails). The reminders and notices about the end of a subscription belong to [the life of a meeting group](../meetings/group-life.md#when-the-subscription-ends).
+[Notifications](../notifications/description.md) go to the payer when a subscription is bought or renewed, a trial starts or is about to end, or the period of an automatic renewal changes, as listed in [subscriptions](subscriptions.md#notifications). The reminders and notices about the end of a subscription belong to [the life of a meeting group](../meetings/group-life.md#when-the-subscription-ends).
 
 ## What Payments needs from other contexts
 

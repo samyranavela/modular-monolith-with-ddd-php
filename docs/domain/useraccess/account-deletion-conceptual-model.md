@@ -68,7 +68,7 @@ classDiagram
 
 - **Account Deletion Request** is the only thing that decides the deletion. It is created when the member requests it, with the day it will be carried out, which is the end of the grace period. It is **Pending** until it ends: **Cancelled** by the member, or by the application when something stands in the way at the end, with the reason, or **Completed** when the deletion is carried out. A user has one pending request at most, and as many ended ones as they like: they are kept, without anything that identifies the person, as the trace that a deletion happened.
 - **User state** says what the user can do. **Active** is the ordinary case. **Locked** is the state of a pending request: the user can only cancel it and export their data. **Deleted** is the end: the login, the email address, the names and the password are erased and the user can no longer sign in. Only the identifier remains.
-- **Data Export** is what a user asks to receive. It is ready after a while, and expires after another. Its content is not part of the model: it is what each context holds about the person on the day.
+- **Data Export** is what a member asks to receive. It is ready after a while, and expires after another. Its content is not part of the model: it is what each context holds about the person on the day.
 - **Member** and **Payer** are the same person seen from Meetings and Payments. When the user is deleted, both become anonymous: the others know them as a **deleted member**, and what they hold keeps the identifier alone.
 - **Meeting Group** has a status. **Archived** is final: the group is frozen, with its past, its comments and its anonymous owner. A group is archived only when its owner is deleted and the group was not handed over.
 

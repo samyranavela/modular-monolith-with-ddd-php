@@ -10,6 +10,8 @@ A **User** is someone who can sign in with a login and a password. A user comes 
 
 The user is the same person that other contexts know under other names: a member in Meetings, a payer in Payments. An administrator is only a user. UserAccess is the context that says who the person is; the others decide what that person can be.
 
+[Notifications](../notifications/description.md) needs the email address of a user to send an email, and to know when a user is erased, see [account deletion](account-deletion.md).
+
 ## Roles
 
 A user has **one or more roles**. A role is a named set of permissions. The application has two:

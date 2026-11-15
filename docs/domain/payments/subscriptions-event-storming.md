@@ -38,7 +38,7 @@ flowchart LR
     P1 --> PS1
     P4 --> PS2
 
-    E3 --> P8{{Email the payer}}:::policy
+    E3 --> P8{{Notify the payer}}:::policy
     E7 --> P8
     E3 -.->|new expiration date| MT[Meetings]:::external
     E7 -.->|new expiration date| MT
@@ -53,7 +53,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 3. **Paid.** The payment system's answer is the only thing that marks the payment as paid. That event, and not the command of the payer, is what creates the subscription, active, with an expiration date one period after the moment of payment.
 4. **Expired.** When time passes without an answer, nobody asked: the payment expires, nothing is created, and the payer may start again.
 5. **Renewing.** A payer with a subscription, active or expired, renews it by the same path, with a renewal payment and the price of the renewal kind. The paid event renews the subscription: the period adds up to the date when the subscription was still active, and starts at the payment otherwise.
-6. **The expiration date.** Both a creation and a renewal bring a new expiration date, which [Meetings](../meetings/group-life-event-storming.md) needs to know (dotted arrow). The payer also gets an email.
+6. **The expiration date.** Both a creation and a renewal bring a new expiration date, which [Meetings](../meetings/group-life-event-storming.md) needs to know (dotted arrow). The payer is also notified.
 
 ## Automatic renewal
 
@@ -79,12 +79,12 @@ flowchart LR
     subgraph EP[Each period]
         direction LR
         PS3[Payment system]:::external --> M1[Record a period paid]:::command --> S3((Subscription)):::aggregate --> E3[Subscription renewed]:::event
-        PS4[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S4((Subscription)):::aggregate --> E4[Automatic renewal turned off]:::event --> P6{{Email the payer}}:::policy
+        PS4[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S4((Subscription)):::aggregate --> E4[Automatic renewal turned off]:::event --> P6{{Notify the payer}}:::policy
     end
 
     subgraph Price
         direction LR
-        E5[Price of a list item changed]:::event --> P3{{Email the payers whose automatic renewal is concerned}}:::policy
+        E5[Price of a list item changed]:::event --> P3{{Notify the payers whose automatic renewal is concerned}}:::policy
         E5 --> P5{{Take the new price for their next payment}}:::policy
     end
 
@@ -101,9 +101,9 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Turning it on.** The payer chooses a period and agrees to be charged again at the end of each period. The subscription keeps the period, the country and the price, and the payment system is asked to repeat the payment.
 2. **Turning it off.** The payer turns it off whenever they want, and the payment system is asked to stop. The subscription runs until its date.
-3. **A period paid.** Nobody in Payments asks for the renewal: the payment system confirms a period paid, and the subscription is renewed exactly as by a manual renewal, with the same new expiration date and the same email.
-4. **Given up.** After its own retries, the payment system reports that it gives up, and the option is turned off, and an email tells the payer. Between a first failure and that moment, Payments does nothing.
-5. **The price.** When the price of the active *renewal* item changes, every automatic renewal with the same country and period takes the new price for its next payment, and an email tells the payer. The payer who refuses turns the option off. A deactivation changes nothing.
+3. **A period paid.** Nobody in Payments asks for the renewal: the payment system confirms a period paid, and the subscription is renewed exactly as by a manual renewal, with the same new expiration date and the same notification.
+4. **Given up.** After its own retries, the payment system reports that it gives up, and the option is turned off, and a notification tells the payer. Between a first failure and that moment, Payments does nothing.
+5. **The price.** When the price of the active *renewal* item changes, every automatic renewal with the same country and period takes the new price for its next payment, and a notification tells the payer. The payer who refuses turns the option off. A deactivation changes nothing.
 
 ## Trying
 
@@ -122,14 +122,14 @@ flowchart LR
         direction LR
         C1[Start a trial]:::command --> S1((Subscription)):::aggregate --> E1[Trial started]:::event
         E1 --> P1{{Ask the payment system to keep the payment method and repeat the payment}}:::policy
-        E1 --> P2{{Email the payer}}:::policy
+        E1 --> P2{{Notify the payer}}:::policy
     end
 
     subgraph TE["End of the trial"]
         direction LR
-        T1[Reminder date reached, 2 days before the end by default]:::event --> P3{{Email the payer that the first payment is near}}:::policy
+        T1[Reminder date reached, 2 days before the end by default]:::event --> P3{{Notify the payer that the first payment is near}}:::policy
         PS1[Payment system]:::external --> M1[Record a period paid]:::command --> S2((Subscription)):::aggregate --> E2[Subscription renewed]:::event
-        PS2[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S3((Subscription)):::aggregate --> E3[Automatic renewal turned off]:::event --> P5{{Email the payer}}:::policy
+        PS2[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S3((Subscription)):::aggregate --> E3[Automatic renewal turned off]:::event --> P5{{Notify the payer}}:::policy
     end
 
     PA --> C1
@@ -161,7 +161,7 @@ flowchart LR
     PA[Payer]:::actor
     C1[Change the period of the automatic renewal]:::command --> S1((Subscription)):::aggregate --> E1[Period of the automatic renewal changed]:::event
     E1 --> P1{{Ask the payment system to charge the new price at the end of the period}}:::policy
-    E1 --> P2{{Email the payer}}:::policy
+    E1 --> P2{{Notify the payer}}:::policy
     PS1[Payment system]:::external --> M1[Record a period paid]:::command --> S2((Subscription)):::aggregate --> E2[Subscription renewed]:::event
     PA --> C1
     P1 --> PS2[Payment system]:::external
@@ -190,7 +190,7 @@ flowchart LR
         direction LR
         T1[Reminder date reached, 30 days before by default]:::event --> P1{{Remind, whichever way applies}}:::policy
         P1 -->|automatic renewal off| A1[Note the subscription as about to expire]:::command --> S1((Subscription)):::aggregate --> E1[Subscription about to expire]:::event
-        P1 -->|automatic renewal on| EM1[Email the payer that it is about to renew]:::command
+        P1 -->|automatic renewal on| EM1[Notify the payer that it is about to renew]:::command
         E2[Automatic renewal turned off after that date]:::event --> A1
     end
 
@@ -207,7 +207,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, p
 
 ### Reading it
 
-1. **The reminder date.** Time brings it, a configurable delay before the expiration date. Two cases: with automatic renewal off, the subscription is noted as about to expire, once for each expiration date; with it on, only an email to the payer goes out, with the date and the price, and the subscription is not about to expire.
+1. **The reminder date.** Time brings it, a configurable delay before the expiration date. Two cases: with automatic renewal off, the subscription is noted as about to expire, once for each expiration date; with it on, only a notification to the payer goes out, with the date and the price, and the subscription is not about to expire.
 2. **Turned off late.** When automatic renewal is turned off after the reminder date has passed, it is noted as about to expire at once, since its moment is already behind.
 3. **Expiring.** When the expiration date passes, the subscription expires, whatever the option, and the payer can renew it. This is the case when an automatic payment did not arrive in time.
 4. **What Meetings does.** Meetings needs to know both facts. It sends the reminder and the notice to the owner, and it decides from the date, not from these facts, whether a group is [covered](../meetings/group-life.md#covering-the-group).

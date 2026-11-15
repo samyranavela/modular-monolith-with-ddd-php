@@ -61,7 +61,7 @@ flowchart LR
         X3[Host designated, if the member was an attendee]:::event --> P1
         P1 --> C6[Take the next member of the waitlist]:::command --> A6((Meeting)):::aggregate --> E7[Waitlist member became attendee]:::event
 
-        E1 --> P2{{Email the attendee}}:::policy
+        E1 --> P2{{Notify the attendee}}:::policy
         E7 --> P2
         E8 --> P2
         E8 --> P3{{Have the payment created, for the amount owed}}:::policy
@@ -76,7 +76,7 @@ flowchart LR
         E10 --> P2
     end
 
-    P2 --> EM[Email service]:::external
+    P2 --> EM[Notifications]:::external
     P3 --> PAY[Payments]:::external
     P6 --> PAY
 ```
@@ -84,8 +84,8 @@ flowchart LR
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
 1. **Signing up.** The meeting refuses unless the RSVP term is open, the member is in the group, is neither a host nor an attendee and was not removed, the guests are within the limit, enough places are left and no payment is awaited from them for this meeting. For a meeting with a fee, a policy also refuses it while the group is in a hand-over. A member who had said they will not come changes their mind.
-2. **Without a fee.** The member becomes an attendee at once and gets an email.
-3. **With a fee.** The places are kept, awaiting payment. An email tells the member the places and the time they are kept, and the payment is created for the amount owed.
+2. **Without a fee.** The member becomes an attendee at once and is notified.
+3. **With a fee.** The places are kept, awaiting payment. A notification tells the member the places and until when they are kept, and the payment is created for the amount owed.
 4. **Paid or expired.** When the payment is paid, the place is confirmed and the attendee is told. When it has expired, the places are released and the member is told. A released meeting with a fee has no waitlist to fill, so nothing else follows: the next member to sign up takes the places.
 5. **Saying they will not come.** The decision is recorded. If the member was an attendee, awaiting payment or not, they also give up their place and their guests'. A payment still awaited is cancelled.
 6. **Taking back.** The member reverses their decision, and is neither attending nor not attending.
@@ -117,13 +117,13 @@ flowchart LR
         C3[Remove an attendee with a reason]:::command --> A3((Meeting)):::aggregate --> E3[Attendee removed]:::event
         C4[Cancel the meeting]:::command --> A4((Meeting)):::aggregate --> E4[Meeting cancelled]:::event
 
-        E3 --> P1{{Email the removed attendee with the reason}}:::policy
-        E4 --> P2{{Email the attendees and the waitlist}}:::policy
+        E3 --> P1{{Notify the removed attendee with the reason}}:::policy
+        E4 --> P2{{Notify the attendees and the waitlist}}:::policy
         E4 --> P3{{Cancel the payments still awaited}}:::policy
         E3 --> P4{{Cancel the payment if the place was awaiting payment}}:::policy
     end
 
-    P1 --> EM[Email service]:::external
+    P1 --> EM[Notifications]:::external
     P2 --> EM
     P3 --> PAY[Payments]:::external
     P4 --> PAY
@@ -134,7 +134,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 1. **Hosts.** Any member of the group can be designated. A member who was an attendee stops being one, which frees their places for the waitlist, and a member who was waiting leaves the waitlist. Removing the last host is refused: another one is designated first.
 2. **Removing an attendee.** The reason is mandatory, the places are freed for the waitlist, and the removed member cannot sign up again.
 3. **Cancelling.** The meeting remembers who cancelled and when, and is then frozen. The cancellation is final. Every payment of the meeting that still waits is cancelled. A fee already paid is not refunded.
-4. **Emails.** The removed attendee is told with the reason, and the attendees and the waitlist are told of a cancellation.
+4. **Notifications.** The removed attendee is told with the reason, and the attendees and the waitlist are told of a cancellation.
 
 ## The group and Payments
 

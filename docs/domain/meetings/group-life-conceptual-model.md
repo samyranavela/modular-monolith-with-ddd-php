@@ -68,7 +68,7 @@ classDiagram
 - **Meeting Group Member** links a member to a group, with a role and the dates they joined and left. A member who left no longer counts, and can join again as a new member.
 - **Group Role** has three values. Exactly one member of a group is the owner at any time.
 - **Ownership Transfer Request** exists to hand the group over. It knows the owner who asked and the candidate. It records the moment the candidate accepted, which is not yet the end: the request completes only once the candidate's subscription is known to be valid, and its status then becomes accepted. While it is pending, sign-ups to the group's meetings that have a fee are closed. A declined or cancelled request ends the same way, with its date.
-- **Member Subscription** is what Meetings needs to know of a member's subscription: until when it is valid, and whether they ever held one. The group is **covered** if its owner's subscription is valid, and the group has no date of its own. This date is what decides whether a meeting can be organized: the facts that a subscription is about to expire or has expired only trigger emails, so a late fact cannot make the rule wrong.
+- **Member Subscription** is what Meetings needs to know of a member's subscription: until when it is valid, and whether they ever held one. The group is **covered** if its owner's subscription is valid, and the group has no date of its own. This date is what decides whether a meeting can be organized: the facts that a subscription is about to expire or has expired only trigger notifications, so a late fact cannot make the rule wrong.
 
 ## Rules that cross aggregates
 

@@ -62,9 +62,9 @@ Payments decides nothing about a place: it only knows whether the payment is pai
 
 The owner of a group sets up where the fees of their meetings are paid, once, for all their groups. The payment system must **validate** the account before it counts, and replacing it starts a new one, which takes over once validated. They can **remove** it only when no meeting of their groups that has a fee has yet to start: as long as the date and time of such a meeting have not passed, it stays. Payments needs to know, at the moment of the removal, whether such a meeting exists. Meetings needs to know when an owner's account is validated, which is what lets that owner's groups give a meeting a fee.
 
-## Emails
+## Notifications
 
-Payments sends **no email** for a fee: the receipt is the payment system's. What the attendee learns of their place, awaiting payment, confirmed or released, is told by [Meetings](../meetings/organization.md#emails).
+Payments sends **no notification** for a fee: the receipt is the payment system's. What the attendee learns of their place, awaiting payment, confirmed or released, is notified by [Meetings](../meetings/organization.md#notifications).
 
 ## Reading
 

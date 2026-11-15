@@ -13,7 +13,7 @@ The role the person will receive is decided when the registration is created, an
 
 ## Registering
 
-A person registers by giving a **login**, a **password**, an **email address**, a **first name** and a **last name**. This creates a **User Registration** for the Member role, which waits for confirmation, and sends a **confirmation link** to the address.
+A person registers by giving a **login**, a **password**, an **email address**, a **first name** and a **last name**. This creates a **User Registration** for the Member role, which waits for confirmation, and sends a **confirmation link** to the address, as a [required message](../notifications/description.md#required-messages).
 
 Two rules protect the identifiers:
 
@@ -22,7 +22,7 @@ Two rules protect the identifiers:
 
 ## Inviting an administrator
 
-An existing administrator, or whoever operates the application, invites someone by giving only their **email address**. This creates a User Registration for the Administrator role, and sends a confirmation link to the address. The invitation is the only way to have an administrator: the first one is invited by whoever operates the application, since no administrator exists yet to do it.
+An existing administrator, or whoever operates the application, invites someone by giving only their **email address**. This creates a User Registration for the Administrator role, and sends a confirmation link to the address, as a [required message](../notifications/description.md#required-messages). The invitation is the only way to have an administrator: the first one is invited by whoever operates the application, since no administrator exists yet to do it.
 
 An invitation is refused when the address is already used, by a user or by a registration waiting for confirmation. Whoever invites is an authenticated, trusted person, so the refusal can say so plainly, unlike the neutral answer given to someone registering themselves.
 
@@ -55,6 +55,6 @@ Someone who never received the email, or lost it, registers again with the same 
 | :-- | :-- |
 | Unknown | A new registration is created and a link is sent. |
 | Registration waiting for confirmation | A new link is sent and the 48 hours start again. The registration itself is left as it was, so nobody can take over someone else's sign-up. |
-| Already a user | An email tells the owner that an account already exists. Nothing is created. |
+| Already a user | A [required message](../notifications/description.md#required-messages) tells the owner that an account already exists. Nothing is created. |
 
 See the [conceptual model](conceptual-model.md) and the [event storming](event-storming.md) of the registration.
