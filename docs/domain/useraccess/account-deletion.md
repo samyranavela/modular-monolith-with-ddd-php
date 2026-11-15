@@ -45,9 +45,9 @@ Nothing is refused to an administrator for these reasons: an administrator is ne
 
 ## Locked account
 
-From the request until it ends, the account is **locked**. The member can still sign in and **reads everything an active member reads**: their groups, their meetings, the comments, their subscription, their payments and their inbox. They **change nothing**, with three exceptions: cancelling the request, [exporting their data](#exporting-the-data), and marking their notifications as read.
+From the request until it ends, the account is **locked**. The member can still sign in and **reads everything an active member reads**: their groups, their meetings, the comments, their subscription, their payments and their inbox. They **change nothing**, with four exceptions: cancelling the request, [exporting their data](#exporting-the-data), marking their notifications as read, and [changing their password](profile-management.md#changing-the-password).
 
-UserAccess applies the lock through the [permissions](description.md#permissions): it refuses a locked user every permission whose action changes something, apart from these three. The other contexts ask, as for any action, whether it is allowed, and need not know the lock for that.
+UserAccess applies the lock through the [permissions](description.md#permissions): it refuses a locked user every permission whose action changes something, apart from these four. The other contexts ask, as for any action, whether it is allowed, and need not know the lock for that.
 
 A locked member takes part in nothing: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate.
 

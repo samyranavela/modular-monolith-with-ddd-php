@@ -9,7 +9,7 @@ The other contexts decide *that* someone must be notified and *who*. Notificatio
 ## Who takes part
 
 - A **member** is the person who is notified, and the only one who reads their own notifications. Nobody reads the notifications of someone else.
-- An **administrator** is not an ordinary user: they read everything the permissions allow, but they are never notified and have no inbox. The only email they receive is the [required message](#required-messages) that confirms their address, sent when they are invited, before they are one.
+- An **administrator** is not an ordinary user: they read everything the permissions allow, but they are never notified and have no inbox. The only emails they receive are [required messages](#required-messages): the confirmation of their address when they are invited, before they are one, and the security messages of [profile management](../useraccess/profile-management.md#messages), such as a password reset link.
 - An **address** is where a [required message](#required-messages) goes when there is no member: a person who has not confirmed their registration yet, or a member whose account has just been erased.
 - The **other contexts** are the ones that have something to report. Each hands Notifications who to notify, what happened and the data that goes with it.
 
@@ -43,7 +43,7 @@ The text is written from the data and the current template when the member reads
 
 ## Required messages
 
-Some emails have no member to belong to, or cannot be left to a member's choice: the confirmation link that proves an email address, for a registration as for the invitation of an administrator, the notice that an account already exists, the notice that an account was erased. They are **required messages**.
+Some emails have no member to belong to, or cannot be left to a member's choice: the confirmation link that proves an email address, for a registration as for the invitation of an administrator, the notice that an account already exists, the notice that an account was erased, and the messages of [profile management](../useraccess/profile-management.md#messages): the confirmation of a new address, the notice to the old address, the password reset link and the notice of a password change. They are **required messages**.
 
 A required message goes to an address, by email only. It has no inbox, nothing to read and no preference that could turn it off. It is in the catalogue like any other kind, listed apart.
 

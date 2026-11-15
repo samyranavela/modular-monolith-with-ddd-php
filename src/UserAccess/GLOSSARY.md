@@ -25,7 +25,7 @@ A member's request to leave the application for good. It can be made only when n
 _Avoid_: Account closure, unsubscribe
 
 **Locked Account**:
-The state of a user whose deletion request is pending. They can sign in and read everything an active member reads, cancel the request, export their data and mark their notifications as read, and change nothing else. UserAccess applies it by refusing them every permission that changes something.
+The state of a user whose deletion request is pending. They can sign in and read everything an active member reads, cancel the request, export their data, mark their notifications as read and change their password, and change nothing else. UserAccess applies it by refusing them every permission that changes something.
 _Avoid_: Suspended account, blocked user
 
 **Open Item**:
@@ -39,6 +39,14 @@ _Avoid_: Cooling-off, delay
 **Deleted User**:
 A user whose login, email address, names and password were erased. Only the identifier remains, which names nobody. Final.
 _Avoid_: Disabled user, archived user
+
+**Address Change Request**:
+A user's request to give their account a new email address, created when the new address is free and pending until a link sent to it is followed. The current address stays the user's until then. A user has one pending at most.
+_Avoid_: Email update, address update
+
+**Password Reset Request**:
+What anyone with the address of a user creates when they forgot the password: a link, sent to the address, valid for one hour and one use. A user has one pending at most.
+_Avoid_: Recovery, password recovery
 
 **Data Export**:
 A document gathering what each context holds about a member, which they ask for at any time. An administrator has none. It is ready after a while and expires after a limited time.
