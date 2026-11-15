@@ -64,6 +64,10 @@ classDiagram
 - **Meeting Group** exists only from an accepted proposal, and a proposal leads to one group at most. It takes the name, the description and the place of the proposal, and from then on lives on its own: a later change to one does not touch the other.
 - **Meeting Group Member** links a group to a member and gives the member a role. At creation there is exactly one: the proposer, as the **Owner**. The rest of the life of the group is in [the life of a meeting group](group-life.md).
 
+## Rules that cross aggregates
+
+- **The free plan.** A member who never held a subscription owns at most one group. The proposal and its acceptance both check it, reading the groups of the member and the expiration date that Meetings keeps for them, in a domain service.
+
 ## What is not in the model
 
 - The proposal does not hold a name for its proposer or for the administrator who decided: only their identity. A screen that shows names asks for them elsewhere.

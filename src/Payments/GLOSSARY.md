@@ -17,7 +17,7 @@ Where the owner of a group receives the fees of its meetings, set up once for al
 _Avoid_: Bank account, wallet
 
 **Money Value**:
-An amount that is not negative, with its currency.
+An amount in euros that is not negative. The application has one currency.
 _Avoid_: Price (for the amount itself)
 
 **Subscription**:
@@ -43,6 +43,18 @@ _Avoid_: Auto-pay, recurring payment
 **Price List Item**:
 The price of one subscription for a country, a period and a kind, which is new or renewal. It is active or inactive, and only one is active for a given country, period and kind.
 _Avoid_: Tariff, rate
+
+**Price Kind**:
+Whether a price is for a first purchase (*new*) or for any renewal, manual or automatic (*renewal*).
+_Avoid_: Category, type
+
+**Free Trial**:
+The first 7 days of a subscription, which a payer who never held one starts without paying. Automatic renewal is on from the start, so the first payment is taken at the end unless the payer turns it off. It happens once per payer.
+_Avoid_: Demo, test period
+
+**Free Plan**:
+What a payer has while they hold no subscription and never did: one group and two meetings a month. It is left for good with the first subscription, a trial included.
+_Avoid_: Starter, basic plan
 
 **Meeting Fee Payment**:
 What an attendee pays the owner of the group to take a place in a meeting that has a fee, guests included. It is created when the attendee signs up, waits a short time for the payment system, and ends paid, expired or cancelled. Until it is paid, the place is not guaranteed.

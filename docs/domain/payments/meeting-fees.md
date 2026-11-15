@@ -6,7 +6,7 @@ Terms are defined in the [Payments glossary](../../../src/Payments/GLOSSARY.md).
 
 ## What a meeting fee payment is
 
-A **meeting fee payment** belongs to **one attendee for one meeting**. It holds the **amount** and its currency, which [Meetings](../meetings/organization.md#the-fee) computes as (1 + the attendee's guests) times the fee of the meeting, and the **owner of the group who receives it**, whom Meetings names. Payments does not decide the amount: it receives it.
+A **meeting fee payment** belongs to **one attendee for one meeting**. It holds the **amount**, in euros, which [Meetings](../meetings/organization.md#the-fee) computes as (1 + the attendee's guests) times the fee of the meeting, and the **owner of the group who receives it**, whom Meetings names. Payments does not decide the amount: it receives it.
 
 A payment waits for the [payment system](description.md#the-payment-system) for a short time, then ends in one of three ways:
 

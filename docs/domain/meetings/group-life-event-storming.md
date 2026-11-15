@@ -47,7 +47,6 @@ flowchart LR
     classDef event fill:#FF9F43,stroke:#c26a12,color:#000
     classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
-    classDef hotspot fill:#FF6B81,stroke:#c4384f,color:#000
     classDef external fill:#FF9FF3,stroke:#c36bb8,color:#000
 
     OW[Owner]:::actor --> C1
@@ -57,8 +56,8 @@ flowchart LR
 
     subgraph Meetings
         direction LR
-        C1[Request a transfer to an organizer]:::command --> A1((Transfer Request)):::aggregate --> E1[Transfer requested]:::event
-        C2[Accept the transfer]:::command --> A2((Transfer Request)):::aggregate --> E2[Transfer accepted by the candidate]:::event
+        C1[Request a transfer to an organizer]:::command --> G1{{Refuse while a payment of the group's meetings waits}}:::policy --> A1((Transfer Request)):::aggregate --> E1[Transfer requested]:::event
+        C2[Accept the transfer]:::command --> G2{{Refuse without a validated payout account, if a meeting with a fee has yet to start}}:::policy --> A2((Transfer Request)):::aggregate --> E2[Transfer accepted by the candidate]:::event
         C3[Decline the transfer]:::command --> A3((Transfer Request)):::aggregate --> E3[Transfer declined]:::event
         C4[Cancel the transfer]:::command --> A4((Transfer Request)):::aggregate --> E4[Transfer cancelled]:::event
 
@@ -67,9 +66,14 @@ flowchart LR
         X3[Organizer stepped down]:::event --> P1
         P1 --> C5[Cancel the transfer by itself]:::command --> A5((Transfer Request)):::aggregate --> E5[Transfer cancelled by itself]:::event
 
-        E2 --> P2{{Ask Payments to make sure the candidate has an active subscription}}:::policy
+        E1 --> P5{{Close the sign-ups to the meetings with a fee}}:::policy
+        E3 --> P6{{Reopen the sign-ups to the meetings with a fee}}:::policy
+        E4 --> P6
+        E5 --> P6
+        E6 --> P6
 
-        V1[Subscription validity recorded]:::event --> P3{{Complete the transfer once the candidate is valid}}:::policy
+        E2 --> P3{{Complete the transfer if the candidate's subscription is valid}}:::policy
+        V1[Subscription validity recorded]:::event --> P3
         P3 --> C6[Complete the transfer]:::command --> A6((Meeting Group)):::aggregate --> E6[Group handed over]:::event
 
         E1 --> P4{{Email the parties concerned}}:::policy
@@ -80,19 +84,18 @@ flowchart LR
         E6 --> P4
     end
 
-    P2 --> H1[How Payments confirms or takes out the subscription: to specify with Payments]:::hotspot
-    H1 --> V1
+    PAY[Payments]:::external --> V1
     P4 --> EM[Email service]:::external
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, red a point left open, pink an external system.
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
 1. **The request.** The owner designates an organizer. One request is pending at most for a group, and it has no deadline.
-2. **Accepting.** The candidate's acceptance does not complete the transfer: it asks Payments to make sure the candidate has an active subscription. The request stays pending.
-3. **Completing.** The transfer completes only when Meetings records that the candidate's subscription is valid, as announced by Payments. The candidate becomes the owner, the former owner becomes an organizer, and the group follows the new owner's subscription.
+2. **Accepting.** A policy refuses the acceptance without a validated payout account when a meeting with a fee has yet to start. The acceptance does not complete the transfer. The candidate who has no active subscription takes one out, or renews, in Payments, like any payer, and the request stays pending.
+3. **Completing.** The transfer completes when Meetings knows that the candidate's subscription is valid, either because it already was when they accepted, or because Payments announced it afterwards. The candidate becomes the owner, the former owner becomes an organizer, and the group follows the new owner's subscription.
 4. **Ending.** The candidate can decline, the owner can cancel, and the request is cancelled by itself if the candidate leaves or is demoted. A completed transfer is final.
 5. **Emails.** Every event of the request sends an email to each party concerned.
-6. **The open point.** How Payments checks, or takes out, the subscription is specified in the Payments documentation. This page only needs its answer: the subscription of the candidate is valid.
+6. **The payments.** The request is refused while a payment of the group's meetings waits. From it until the transfer ends, whichever way, sign-ups to the meetings with a fee are closed, so no payment is created while the receiver of the fees may change. The fees of the sign-ups to come go to the new owner's payout account.
 
 ## Covering the group
 
@@ -128,6 +131,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, p
 1. **Recording.** When Payments announces a new validity, Meetings records it for the member. This is the date that decides whether a meeting can be organized, and it is what completes a transfer.
 2. **Reminding.** When Payments announces that a subscription is about to expire, an email reminds the owner of each group they own.
 3. **Expiring.** When it has expired, an email tells the owner that their group is no longer covered. Nothing else changes: the group can no longer organize new meetings, and the meetings already planned stay.
+4. **The free plan.** An owner of whom Meetings records no validity at all has never held a subscription: they are on the [free plan](group-life.md#the-free-plan), with one group, always covered, and two meetings a month. The first validity Payments announces takes them off it for good, and no announcement is needed for the free plan itself.
 
 ## Reading
 

@@ -34,8 +34,7 @@ classDiagram
         Validated
     }
     class MoneyValue {
-        amount
-        currency
+        amount in euros
     }
 
     Payer "1" --> "*" MeetingFeePayment : pays, as the attendee
@@ -58,7 +57,7 @@ classDiagram
 - **Meeting Fee Payment** is the aggregate at the centre. It knows the attendee who pays, the owner who receives, the meeting, the amount and the limit of its wait for the payment system. It decides its own end: paid when the payment system confirms, expired when the limit passes, or cancelled. Once ended, it never changes its status again, but it can record a payment that arrives after its end. Its owner is named by Meetings when it is created and never changes.
 - **Payment Status** has four values. *Paid*, *expired* and *cancelled* are ends.
 - **Payout Account** is where an owner receives fees. It holds the reference given by the payment system, and is **pending** until the payment system validates it, then **validated**. A payer has at most one validated account and one pending, which replaces it once validated. Only a validated account lets a meeting have a fee.
-- **Money Value** is the same as in [subscriptions](subscriptions-conceptual-model.md): an amount, never negative, with its currency.
+- **Money Value** is the same as in [subscriptions](subscriptions-conceptual-model.md): an amount in euros, never negative.
 - **Attendee Fee** is what [Meetings](../meetings/organization-conceptual-model.md) knows of the payment: the amount and whether it is paid or awaiting payment, as announced by Payments.
 
 ## Rules that cross aggregates

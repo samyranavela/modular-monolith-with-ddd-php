@@ -44,7 +44,7 @@ What Meetings knows of a member's subscription: until when it is valid, as annou
 _Avoid_: Group payment date
 
 **Covered Group**:
-A meeting group whose owner's subscription is still valid. Only a covered group can organize new meetings; an uncovered group is not closed, and its planned meetings stay.
+A meeting group whose owner's subscription is still valid, or the one group of an owner on the free plan, who never held a subscription and cannot own another. Only a covered group can organize new meetings, and a group on the free plan has at most two a month; an uncovered group is not closed, and its planned meetings stay.
 _Avoid_: Paid group, group expiration
 
 **Meeting**:
@@ -52,7 +52,7 @@ An event organized by a covered meeting group, with a start date, a place, an RS
 _Avoid_: Event
 
 **Meeting Attendee**:
-A member who has declared they will attend a meeting, possibly with guests. An attendee takes a place and owes the event fee. An attendee removed from a meeting cannot sign up to it again. A host is never an attendee.
+A member who has declared they will attend a meeting, possibly with guests. An attendee takes a place and owes the event fee. For a meeting with a fee, the place is awaiting payment until Payments says it is paid, then confirmed, or released if the payment expires. An attendee removed from a meeting cannot sign up to it again. A host is never an attendee.
 _Avoid_: Participant
 
 **Guest**:
@@ -68,7 +68,7 @@ The maximum number of guests one attendee may bring. 0 means no guests.
 A member who has declared they will not attend a meeting. The decision can be reversed.
 
 **Waitlist**:
-The ordered queue of members, without guests, who want to attend a meeting that is full. Whenever places become free, the member waiting for the longest becomes an attendee, one place each, while there are places and members waiting.
+The ordered queue of members, without guests, who want to attend a meeting without a fee that is full. A meeting with a fee has none. Whenever places become free, the member waiting for the longest becomes an attendee, one place each, while there are places and members waiting.
 _Avoid_: Waiting list
 
 **Host**:
@@ -78,7 +78,7 @@ A member of the group responsible for holding one meeting, typically the person 
 The period during which members can sign up to a meeting.
 
 **Event Fee**:
-The amount each attendee owes for a meeting, guests included. Marked as paid once Payments confirms the payment.
+The amount each attendee owes for a meeting, guests included. The place is confirmed once Payments confirms the payment. A fee can be set only when the owner of the group has a validated payout account.
 _Avoid_: Ticket price
 
 ## Commenting

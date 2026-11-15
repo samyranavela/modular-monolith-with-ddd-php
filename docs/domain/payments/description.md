@@ -43,13 +43,13 @@ A meeting can only have a fee when the owner of its group has a **validated** pa
 
 ## What the context does
 
-- **Selling subscriptions**: a payer buys a subscription for a month or a year, renews it before or after it ends, or asks it to renew by itself, and Payments tells the rest of the application until when it is valid, when it is about to end and when it has ended. See [subscriptions](subscriptions.md).
+- **Selling subscriptions**: a payer starts with a free trial or buys a subscription for a month or a year, renews it before or after it ends, asks it to renew by itself or changes its period, and Payments tells the rest of the application until when it is valid, when it is about to end and when it has ended. See [subscriptions](subscriptions.md).
 - **Collecting the fee of a meeting**: when an attendee signs up to a meeting that has a fee, Payments creates the payment, takes it, and tells Meetings when it is paid or when it ran out of time. See [meeting fees](meeting-fees.md).
 - **Keeping the price list**: an administrator sets the price of each subscription, by country, period and kind. See [the price list](price-list.md).
 - **Setting up a payout account**: the owner of a group sets up where the fees of their meetings are paid.
 - **Reading**: a payer reads their own subscription and their own payments, among them those of the meetings they signed up to. An administrator reads the price list. Nobody reads the payments of someone else.
 
-Two emails go out, to the payer: a confirmation when a subscription is bought, and one when it is renewed. The reminders and notices about the end of a subscription belong to [the life of a meeting group](../meetings/group-life.md#when-the-subscription-ends).
+Emails go to the payer when a subscription is bought or renewed, a trial starts or is about to end, or the period of an automatic renewal changes, as listed in [subscriptions](subscriptions.md#emails). The reminders and notices about the end of a subscription belong to [the life of a meeting group](../meetings/group-life.md#when-the-subscription-ends).
 
 ## Permissions
 

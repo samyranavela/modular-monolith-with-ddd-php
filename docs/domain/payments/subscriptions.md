@@ -6,11 +6,17 @@ Terms are defined in the [Payments glossary](../../../src/Payments/GLOSSARY.md).
 
 ## What a subscription is
 
-A payer holds **one subscription at most**. It has a **period**, which is a month or a year and which is the length of the last purchase, and an **expiration date**. It is **active** until that date and **expired** after.
+A payer holds **one subscription at most**, which can start with a [free trial](#trying). It has a **period**, which is a month or a year and which is the length of the last purchase, and an **expiration date**. It is **active** until that date and **expired** after.
 
 A subscription covers **every group its holder owns**, with no limit on their number: [Meetings](../meetings/group-life.md#covering-the-group) decides what coverage allows, and Payments only says until when the subscription is valid.
 
 A subscription renews by itself only when its holder turned on [automatic renewal](#renewing-automatically). Otherwise it ends on its date, and the payer renews it when they want to. A subscription is not cancelled, and there is no refund.
+
+## Without a subscription: the free plan
+
+A payer who **never held a subscription**, a trial included, is on the **free plan**. It has no date and no price: it is what a payer has until their first subscription, and it lets them own **one group** and organize **two meetings a month**, both limits configurable. [Meetings](../meetings/group-life.md#covering-the-group) applies them.
+
+The free plan is **left for good**: as soon as a payer holds a subscription, even an expired one, they never return to it. Payments adds nothing to announce for it: it announces the creation of a subscription, and a member of whom Meetings knows no expiration date has never held one.
 
 ## Buying
 
@@ -24,6 +30,18 @@ The purchase creates a **subscription payment**, which holds the price and the p
 A payer has **one payment waiting at a time**, purchase or renewal. They pay it or let it expire before starting another.
 
 The price is fixed when the payment is created. A change of the price list does not touch a payment that waits.
+
+## Trying
+
+A payer who never held a subscription can start with a **free trial** instead of paying at once.
+
+- **Once only.** A trial is for a payer who has never held a subscription, a trial included. A payer who tried once, and let it end, buys like anyone else.
+- **How long.** **7 days**, configurable.
+- **How it starts.** The payer chooses a period and a country, sees the price of the kind *new*, and agrees to be charged at the end of the trial. The [payment system](description.md#the-payment-system) collects and keeps their payment method, and charges nothing yet.
+- **During the trial.** The subscription exists at once, active, and expires 7 days later. It covers the payer's groups like any other. [Automatic renewal](#renewing-automatically) is on from the start, for the chosen period and at the price accepted.
+- **At the end.** The payment system takes the first payment, and the subscription is renewed exactly as by an automatic renewal: the period adds up to the end of the trial, so nothing is lost. The payer is told of the date and the price before it happens.
+- **Not continuing.** The payer turns automatic renewal off before the end. The subscription runs until the end of the trial, nothing is charged, and the payer cannot try again.
+- **A failed payment.** As for any automatic renewal: Payments does nothing in the meantime, and the subscription expires if no payment arrives before.
 
 ## Renewing
 
@@ -45,6 +63,17 @@ A payer can ask their subscription to **renew by itself**. The [payment system](
 - **A period paid.** Each time the payment system announces a period paid, the subscription is renewed exactly as by a manual renewal: when it is still active the period adds up to the expiration date, otherwise it starts at the moment of the payment. The same email confirms it.
 - **A failed payment.** The payment system retries by its own rules, and Payments does nothing in the meantime: the subscription runs until its date, and expires if no payment arrives before. When the payment system gives up, the option is turned off.
 - **The price.** An automatic renewal keeps the period, the country and the price fixed when the option was turned on, and they change only at a renewal or when the option is turned on again. When the price list changes the price that applies to a payer whose option is on, the new price takes effect at their next automatic renewal, and an **email announces the change** to that payer as soon as the list changes, whether the price goes up or down. The payer who does not accept it turns the option off themselves.
+
+## Changing the period
+
+A payer whose subscription is **active** can change the period of its automatic renewal, from a month to a year or the other way. The change **never takes effect before the end of the current period**.
+
+- **From a month to a year.** The month in progress is not touched. At its end, the payer is charged the price of the year and the subscription then runs for 12 months from that date.
+- **From a year to a month.** The year in progress runs to its end, without refund, then the subscription renews by the month.
+- **No credit, no refund.** Nothing overlaps and nothing is deducted: the new period starts exactly where the old one ends.
+- **Without automatic renewal.** The payer turns it on with the new period, which asks them to agree to be charged. A payer who prefers to pay by hand [renews](#renewing) with the period they want, and the period adds up as usual.
+
+The payer is told by email of the date of the change and of the price.
 
 ## When a subscription ends
 
@@ -70,7 +99,7 @@ The rest of the application does not ask Payments anything: it listens.
 
 ### A hand-over of a group
 
-The hand-over of a group to an organizer has **no special case in Payments**. The organizer who accepts must have an active subscription, and takes one out or renews like any payer; the announced date lets Meetings [complete the transfer](../meetings/group-life.md#handing-the-group-over).
+The hand-over of a group to an organizer has **no special case in Payments**. The organizer who accepts must have an active subscription, and takes one out or renews like any payer, even if they were on the [free plan](#without-a-subscription-the-free-plan); the announced date lets Meetings [complete the transfer](../meetings/group-life.md#handing-the-group-over).
 
 The former owner's subscription stays theirs. It runs until its end, without refund and without any transfer: it simply stops covering the group.
 
@@ -82,6 +111,9 @@ The former owner's subscription stays theirs. It runs until its end, without ref
 | A subscription is renewed, by the payer or automatically | The payer |
 | A subscription with automatic renewal on is about to renew | The payer, with the date and the price |
 | The price of an automatic renewal is going to change | The payer, with the new price |
+| A trial starts | The payer, with the date and the price of the first payment |
+| A trial is about to end | The payer, with the date and the price, **2 days before** its end by default, configurable |
+| The period of an automatic renewal is changed | The payer, with the date of the change and the price |
 
 The reminder of a subscription that is about to **expire**, with automatic renewal off, is sent by [Meetings](../meetings/group-life.md#when-the-subscription-ends) to the owner, for the groups concerned.
 

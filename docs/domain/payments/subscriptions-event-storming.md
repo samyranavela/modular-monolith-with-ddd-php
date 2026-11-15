@@ -105,6 +105,76 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 4. **Given up.** After its own retries, the payment system announces that it gives up, and the option is turned off. Between a first failure and that moment, Payments does nothing.
 5. **The price.** When a price of the list changes, an email goes to every payer whose automatic renewal depends on that price. The renewal keeps its fixed price until the next period, where the new one applies. The payer who refuses turns the option off.
 
+## Trying
+
+```mermaid
+flowchart LR
+    classDef command fill:#54A0FF,stroke:#2e6fc0,color:#000
+    classDef aggregate fill:#FFEAA7,stroke:#F39C12,color:#000
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
+    classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
+    classDef external fill:#FF9FF3,stroke:#c25fb3,color:#000
+
+    PA[Payer]:::actor
+
+    subgraph Start
+        direction LR
+        C1[Start a trial]:::command --> S1((Subscription)):::aggregate --> E1[Trial started]:::event
+        E1 --> P1{{Ask the payment system to keep the payment method and repeat the payment}}:::policy
+        E1 --> P2{{Email the payer}}:::policy
+    end
+
+    subgraph End
+        direction LR
+        T1[Reminder date reached, 2 days before the end by default]:::event --> P3{{Email the payer that the first payment is near}}:::policy
+        PS1[Payment system]:::external --> M1[Record a period paid]:::command --> S2((Subscription)):::aggregate --> E2[Subscription renewed]:::event
+        PS2[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S3((Subscription)):::aggregate --> E3[Automatic renewal turned off]:::event
+    end
+
+    PA --> C1
+    P1 --> PS3[Payment system]:::external
+    E1 --> P4{{Announce the new expiration date}}:::policy --> MT[Meetings]:::external
+    E2 --> P4
+```
+
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
+
+### Reading it
+
+1. **Starting.** A payer who never held a subscription starts a trial. The command creates the subscription at once, active, expiring after the length of the trial, with automatic renewal on for the period, the country and the price accepted. No payment is created: nothing is charged yet.
+2. **The announcement.** The creation brings an expiration date, announced to [Meetings](../meetings/group-life-event-storming.md) like any other, so the groups are covered during the trial.
+3. **The end.** Nobody in Payments asks for the first payment: the payment system announces a period paid, and the subscription is renewed as by any automatic renewal.
+4. **Not continuing.** The payer turns automatic renewal off, as in [automatic renewal](#automatic-renewal), and the subscription ends with the trial.
+
+## Changing the period
+
+```mermaid
+flowchart LR
+    classDef command fill:#54A0FF,stroke:#2e6fc0,color:#000
+    classDef aggregate fill:#FFEAA7,stroke:#F39C12,color:#000
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
+    classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
+    classDef external fill:#FF9FF3,stroke:#c25fb3,color:#000
+
+    PA[Payer]:::actor
+    C1[Change the period of the automatic renewal]:::command --> S1((Subscription)):::aggregate --> E1[Period of the automatic renewal changed]:::event
+    E1 --> P1{{Ask the payment system to charge the new price at the end of the period}}:::policy
+    E1 --> P2{{Email the payer}}:::policy
+    PS1[Payment system]:::external --> M1[Record a period paid]:::command --> S2((Subscription)):::aggregate --> E2[Subscription renewed]:::event
+    PA --> C1
+    P1 --> PS2[Payment system]:::external
+```
+
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
+
+### Reading it
+
+1. **Asking.** The subscription must be active. It changes the period of the next payment and nothing else: its expiration date does not move.
+2. **At the end of the period.** The payment system takes the new price and announces a period paid. The subscription is renewed for the new period, which starts exactly at the old expiration date.
+3. **No credit, no refund.** Neither is computed: the old period is not shortened and the new one is not started early.
+
 ## When a subscription ends
 
 ```mermaid
