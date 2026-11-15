@@ -29,7 +29,11 @@ A **Permission** authorizes one action, such as accepting a meeting group propos
 
 The rule is the same for every action: it is allowed when the user's role grants its permission, and refused otherwise.
 
-The context that defines a permission also says whether its action **reads** or **changes** something. That is what a [locked account](account-deletion.md#locked-account) rests on: UserAccess refuses a locked user every permission that changes something, with three exceptions, cancelling their deletion request, exporting their data and marking their notifications as read. The lock is thus applied in one place, and no context has to know it to refuse an action.
+The context that defines a permission also says whether its action **reads** or **changes** something. That is what a [locked account](account-deletion.md#locked-account) rests on: UserAccess refuses a locked user every permission that changes something, with four exceptions, cancelling their deletion request, exporting their data, marking their notifications as read and changing their password, see [profile management](profile-management.md). The lock is thus applied in one place, and no context has to know it to refuse an action.
+
+## Profile
+
+A user changes their own email address and their own password, and gets back in after forgetting the password, see [profile management](profile-management.md).
 
 ## Leaving
 

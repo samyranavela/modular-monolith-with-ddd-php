@@ -4,7 +4,7 @@ The catalogue lists every **kind** of notification the application sends, groupe
 
 The names are descriptive: the identifier of each kind is a matter for the implementation. The text of the templates is not written here, only the data it needs.
 
-Unless a table says otherwise, every kind goes to the **inbox and by email**. A [required message](description.md#required-messages) is by email only, to an address. An administrator is never a recipient.
+Unless a table says otherwise, every kind goes to the **inbox and by email**. A [required message](description.md#required-messages) is by email only, to an address. An administrator is never notified: the only emails that reach one are required messages, which go to an address.
 
 When something is cancelled or removed for a **reason**, the reason is part of the data and shown to the member.
 
@@ -30,6 +30,21 @@ See [registering again with the same email](../registrations/description.md#regi
 | **Deletion carried out** | *Required message.* The address erased by the deletion | The date of the deletion |
 
 See [account deletion](../useraccess/account-deletion.md#notifications). An administrator who is deleted is not told.
+
+## UserAccess: profile
+
+Required messages, to an address, see [profile management](../useraccess/profile-management.md#messages).
+
+| Kind | For | Data |
+| :-- | :-- | :-- |
+| **Address change requested** | The current address of the user | The new address and the date. No link and no secret. Sent whatever the situation of the new address |
+| **Address change confirmation** | The new address | The confirmation link and when it expires |
+| **Address changed** | The old address | The new address and the date |
+| **Password reset link** | The address of the user | The link and when it expires |
+| **No account for this address** | The address that asked for a reset and has no user | Nothing but the fact |
+| **Password changed** | The current address | The date, and whether the password was changed or reset |
+
+A change of address to the address of a user sends the existing kind **Account already exists**, listed under Registrations.
 
 ## Meetings: groups
 

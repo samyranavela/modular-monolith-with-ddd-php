@@ -37,7 +37,7 @@ The sending of a notification through one channel other than the inbox: when it 
 _Avoid_: Dispatch, send
 
 **Required Message**:
-An email that goes to an address and not to a member, and that cannot be left to the member's choice: the confirmation of an address, the notice that an account already exists, the notice that an account was erased. It has no inbox and nothing to read.
+An email that goes to an address and not to a member, and that cannot be left to the member's choice: the confirmation of an address, the notice that an account already exists, the notice that an account was erased, and the security messages of a change of address or password. It has no inbox and nothing to read.
 _Avoid_: System email, transactional email
 
 **Address**:
