@@ -46,10 +46,10 @@ classDiagram
     MeetingFeePayment ..> PayoutAccount : is paid on that of its owner
 
     namespace Meetings {
-        class AttendeeFee
+        class MeetingAttendee
     }
 
-    MeetingFeePayment ..> AttendeeFee : its payment is announced as
+    MeetingFeePayment ..> MeetingAttendee : its answer confirms or releases the place of
 ```
 
 ## Reading it
@@ -58,12 +58,12 @@ classDiagram
 - **Payment Status** has four values. *Paid*, *expired* and *cancelled* are ends.
 - **Payout Account** is where an owner receives fees. It holds the reference given by the payment system, and is **pending** until the payment system validates it, then **validated**. A payer has at most one validated account and one pending, which replaces it once validated. Only a validated account lets a meeting have a fee.
 - **Money Value** is the same as in [subscriptions](subscriptions-conceptual-model.md): an amount in euros, never negative.
-- **Attendee Fee** is what [Meetings](../meetings/organization-conceptual-model.md) knows of the payment: the amount and whether it is paid or awaiting payment, as announced by Payments.
+- **Meeting Attendee** is what [Meetings](../meetings/organization-conceptual-model.md) keeps of the place: the amount owed and its status, awaiting payment, attending or released, which follows what Payments announces.
 
 ## Rules that cross aggregates
 
-- A member has **one payment waiting at most for a meeting**. The rule involves all the payments of the same attendee and meeting, so a domain service checks it, reading what is stored; the rare race is left to a technical choice.
-- A payout account is removed only when no meeting that has a fee, of the groups of its owner, has yet to start. Payments reads this from what Meetings announced.
+- A member has **one payment waiting at most for a meeting**. The rule involves all the payments of the same attendee and meeting, so a domain service checks it, reading what is stored; the rule is absolute: when two payments for the same attendee and meeting are created at the same moment, only one is created.
+- A payout account is removed only when no meeting that has a fee, of the groups of its owner, has yet to start. Payments asks Meetings at the moment of the removal, and keeps no copy.
 
 ## What is not in the model
 

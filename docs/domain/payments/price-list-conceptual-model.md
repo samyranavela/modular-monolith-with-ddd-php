@@ -50,7 +50,7 @@ classDiagram
 
 ## Rules that cross aggregates
 
-- **One active item per country, period and kind.** The rule involves every item, so a domain service checks it when an item is created or activated, reading what is stored. The rare race of two administrators acting at the same instant is left to a technical choice.
+- **One active item per country, period and kind.** The rule involves every item, so a domain service checks it when an item is created or activated, reading what is stored. The rule is absolute: when two administrators act at the same moment, only one succeeds.
 
 ## What is not in the model
 

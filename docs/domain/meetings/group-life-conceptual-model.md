@@ -72,8 +72,8 @@ classDiagram
 
 ## Rules that cross aggregates
 
-- **The free plan.** A member who never held a subscription owns at most one group. The rule reads the expiration date that Meetings keeps for each member and the groups they own, so a domain service checks it; the rare race of two groups created at the same instant is left to a technical choice.
-- **A hand-over and the payments.** A transfer can be requested only when no payment of the group's meetings waits, and a candidate's acceptance counts only if their payout account is validated when a meeting with a fee has yet to start. The rule reads the meetings of the group and the account as [Meetings knows it](organization-conceptual-model.md), so a domain service checks it; the rare race of a sign-up at the very moment of the request is left to a technical choice.
+- **The free plan.** A member who never held a subscription owns at most one group. The rule reads the expiration date that Meetings keeps for each member and the groups they own, so a domain service checks it; the rule is absolute: when two groups are created for the same member at the same moment, only one is.
+- **A hand-over and the payments.** A transfer can be requested only when no payment of the group's meetings waits, and a candidate's acceptance counts only if their payout account is validated when a meeting with a fee has yet to start. The rule reads the meetings of the group and the account as [Meetings knows it](organization-conceptual-model.md), so a domain service checks it; the rule is absolute: when a sign-up and the request happen at the same moment, one of them is refused, so that no payment waits once the request is accepted.
 
 ## What is not in the model
 

@@ -8,7 +8,7 @@ Terms are defined in the [Payments glossary](../../../src/Payments/GLOSSARY.md).
 
 - A **payer** is the person seen from Payments. They exist here once their [registration](../registrations/description.md) is confirmed with the Member role, and they are the same person as the [user](../useraccess/description.md) and the [member](../meetings/description.md#who-takes-part). Payments keeps nothing of the person but their identity: no name and no email address are copied.
 - An **administrator** is not a payer: they pay nothing and owe nothing. They manage the price list of the subscriptions.
-- The **owner** of a meeting group is a payer who holds a subscription, and who may receive the fees of the meetings of their groups.
+- The **owner** of a meeting group is a payer who holds a subscription, or who is on the [free plan](subscriptions.md#without-a-subscription-the-free-plan) with their one group, and who may receive the fees of the meetings of their groups.
 
 ## Two kinds of payment
 
@@ -55,6 +55,6 @@ Emails go to the payer when a subscription is bought or renewed, a trial starts 
 
 Every action of Payments is protected by a permission that Payments defines, such as changing a price or setting up a payout account. [UserAccess](../useraccess/description.md#permissions) holds the roles and which permissions each one grants, and Payments never names a role.
 
-## Left open
+## Delays and limits
 
-- **Delays.** The time a payment waits for the system's answer is configurable, 30 minutes by default. How long before the end of a subscription Payments says it is about to end is configurable, 30 days by default.
+- The time a payment waits for the system's answer is configurable, 30 minutes by default. How long before the end of a subscription Payments says it is about to end is configurable, 30 days by default. The length of a free trial is configurable, 7 days by default, and so is the reminder before its first payment, 2 days by default. The limits of the free plan, one group and two meetings a month, are configurable too.

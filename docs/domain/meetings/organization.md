@@ -20,14 +20,14 @@ A meeting only changes **before it starts**, and only while it is **not cancelle
 
 A **host** is a member of the group who is responsible for holding the meeting, typically the person it takes place with. A host is **not an attendee**: they take no place, owe no fee, and do not sign up. Like the staff of a cinema, they are there for the meeting to happen.
 
-A meeting needs **at least one host** to take place. An action that would leave none is refused.
+A meeting needs **at least one host** to take place. An action that would leave none is refused, **always**: even when two actions happen at the same moment, such as the last two hosts leaving, only one succeeds.
 
 - **Designating.** A host, or the owner or an organizer of the group, designates a member of the group as a host. If the member was an attendee, their attendance ends: their place and their guests' are freed, for the [waitlist](#the-waitlist) when the meeting has one, and a payment still awaited is cancelled. If they were waiting, they leave the waitlist.
 - **Removing.** A host steps down, or another host, the owner or an organizer removes them, and they become a plain member again. This is refused for the last host: another one must be designated first.
 
 ## Creating a meeting
 
-The owner or an organizer creates a meeting in a group, and only a **covered** group can organize one. A group covered by the [free plan](group-life.md#the-free-plan) can have at most **two meetings a month**, configurable: meetings are counted by the month of their start date, a cancelled one does not count, and creating a third in a month, or moving one into a month that already holds two, is refused. A domain service checks it, reading what is stored; the rare race is left to a technical choice.
+The owner or an organizer creates a meeting in a group, and only a **covered** group can organize one. A group covered by the [free plan](group-life.md#the-free-plan) can have at most **two meetings a month**, configurable: meetings are counted by the month of their start date, a cancelled one does not count, and creating a third in a month, or moving one into a month that already holds two, is refused. A domain service checks it, reading what is stored; the rule is absolute: when two meetings are created at the same moment, the third of the month is refused.
 
 A meeting has:
 
@@ -112,6 +112,8 @@ A meeting **with a fee** takes a place in **two steps**. Each attendee owes **(1
 The answer of Payments can arrive after the start of the meeting, since a payment may still be awaited at that moment. It is then recorded all the same.
 
 Meetings tells Payments when a place awaiting payment is lost before it is paid, because the attendee said they will not come, was removed, became a host or left the group, and when the meeting is cancelled. A fee already paid never comes back: the application does not refund.
+
+Meetings also answers [Payments](../payments/meeting-fees.md#the-payout-account) when it asks whether an owner has a meeting with a fee that has yet to start, which decides whether the owner can remove their payout account.
 
 During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change.
 

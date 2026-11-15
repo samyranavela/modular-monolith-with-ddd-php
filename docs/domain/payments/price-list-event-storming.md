@@ -10,7 +10,6 @@ flowchart LR
     classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
     classDef readmodel fill:#10AC84,stroke:#0b7a5e,color:#000
-    classDef hotspot fill:#FF6B81,stroke:#c0394f,color:#000
 
     AD[Administrator]:::actor
 
@@ -20,7 +19,6 @@ flowchart LR
         C2[Change the price]:::command --> I2((Price List Item)):::aggregate --> E2[Price of the item changed]:::event
         C3[Deactivate the item]:::command --> I3((Price List Item)):::aggregate --> E3[Price list item deactivated]:::event
         C4[Activate the item]:::command --> P5{{Refuse if another item is active for the same country, period and kind}}:::policy --> I4((Price List Item)):::aggregate --> E4[Price list item activated]:::event
-        H1[Two administrators at the same instant]:::hotspot
     end
 
     subgraph Effects
@@ -48,11 +46,11 @@ flowchart LR
     E4 --> R2
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, green a read model, red an open question.
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, green a read model.
 
 ## Reading it
 
-1. **Creating.** The item is created active. A policy first checks that no other item is active for the same country, period and kind. The race of two administrators is a hotspot left to a technical choice.
+1. **Creating.** The item is created active. A policy first checks that no other item is active for the same country, period and kind. When two administrators act at the same moment, only one succeeds.
 2. **Changing the price.** Only the price changes, never the country, the period or the kind.
 3. **Deactivating and activating.** Both do nothing when the item is already in that state. Activating is refused when another item is active for the same triple.
 4. **The email.** It follows a change of price only when the item is active and of the kind *renewal*. It goes to the payers whose [automatic renewal](subscriptions-event-storming.md#automatic-renewal) has the same country and the same period. Nothing goes out for the other events.

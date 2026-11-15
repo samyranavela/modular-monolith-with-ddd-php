@@ -38,7 +38,6 @@ flowchart LR
     classDef aggregate fill:#FFEAA7,stroke:#F39C12,color:#000
     classDef event fill:#FF9F43,stroke:#c26a12,color:#000
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
-    classDef hotspot fill:#FF6B81,stroke:#c4384f,color:#000
 
     MB[Member of the group]:::actor --> C1
     MB --> C2
@@ -51,14 +50,13 @@ flowchart LR
         C3[Edit the comment]:::command --> A3((Comment)):::aggregate --> E3[Comment edited]:::event
     end
 
-    H1[Maximum length of a comment: left for later]:::hotspot
 ```
 
-Blue is a command, pale yellow an aggregate, orange an event, darker yellow someone who asks for a command, red a point left open.
+Blue is a command, pale yellow an aggregate, orange an event, darker yellow someone who asks for a command.
 
-1. **Writing.** The comment is refused unless the author is a member of the group, commenting is enabled and the text is not empty. The meeting's cancellation or end does not matter.
+1. **Writing.** The comment is refused unless the author is a member of the group, commenting is enabled and the text is not empty and has at most 2000 characters. The meeting's cancellation or end does not matter.
 2. **Replying.** The same checks apply, and the comment answered must not be removed. A reply to a reply attaches to the comment it answers, so a reply never has replies of its own.
-3. **Editing.** Only the author, with a text that is not empty, while commenting is enabled and the comment is not removed. The comment remembers when it was edited.
+3. **Editing.** Only the author, with a text that is not empty and has at most 2000 characters, while commenting is enabled and the comment is not removed. The comment remembers when it was edited.
 4. **Membership.** The writer is checked against the members of the group at that moment. A member who left cannot write, but what they wrote stays.
 
 ## Removing

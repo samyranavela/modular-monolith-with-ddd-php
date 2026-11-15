@@ -26,9 +26,9 @@ While commenting is disabled, nobody can write a comment or a reply, edit a comm
 A member of the group writes a comment on a meeting. It needs:
 
 - commenting to be enabled for the meeting;
-- a text, which is not empty.
+- a text, which is not empty and has at most **2000 characters**, a limit that is configurable.
 
-The comment remembers its author and when it was written. A maximum length is left for later.
+The comment remembers its author and when it was written. The same limit holds for a reply and for an edit.
 
 ## Replying
 
@@ -63,7 +63,7 @@ Every member of the group sees how many likes a comment has and who liked it.
 
 The comments and the likes of a member who leaves the group **stay**. The former member can no longer write, reply, edit, remove or like, since they are no longer a member, but the owner and the organizers can still remove their comments.
 
-What happens to a member's content when their account is deleted is not decided here: it concerns every context and will be specified on its own. Until then, a comment whose author is gone stays readable.
+What happens to a member's content when their account is deleted concerns every context, and is described on its own page, [deleting an account](../account-deletion.md). A comment whose author is gone stays readable.
 
 ## Emails
 

@@ -96,7 +96,8 @@ flowchart LR
 
     subgraph Removing
         direction LR
-        C3[Remove the payout account]:::command --> A3((Payout Account)):::aggregate --> E3[Payout account removed]:::event
+        C3[Remove the payout account]:::command --> G3{{Refuse if Meetings says a meeting with a fee has yet to start}}:::policy --> A3((Payout Account)):::aggregate --> E3[Payout account removed]:::event
+        G3 -.-> MT2[Meetings]:::external
     end
 
     OW --> C1
@@ -112,4 +113,4 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Setting up.** The owner starts the setup, and the account is pending. A policy asks the payment system to validate it, which the owner completes with it.
 2. **Validated.** The answer of the payment system validates the account, and Payments announces it. That is what lets the groups of the owner give a meeting a fee. When it replaces an earlier account, the new one takes over at that moment.
-3. **Removing.** The owner removes the account, refused while a meeting that has a fee, of their groups, has yet to start. Payments announces the removal so that Meetings stops accepting a fee for them.
+3. **Removing.** The owner removes the account. Payments asks Meetings whether a meeting that has a fee, of the owner's groups, has yet to start, and refuses if there is one. Payments announces the removal so that Meetings stops accepting a fee for them.

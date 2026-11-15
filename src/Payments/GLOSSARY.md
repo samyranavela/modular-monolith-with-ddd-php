@@ -37,7 +37,7 @@ The purchase of a further period of an existing subscription, expired or not. It
 _Avoid_: Extension
 
 **Automatic Renewal**:
-An option of a subscription, off by default, that makes the payment system repeat the payment at the end of each period. It has a period and a price fixed when it is turned on, and the payer can turn it off at any time.
+An option of a subscription, off by default, that makes the payment system repeat the payment at the end of each period. It keeps a period and a country, and the price of its next payment, which follows the price list; the payer can turn it off at any time.
 _Avoid_: Auto-pay, recurring payment
 
 **Price List Item**:

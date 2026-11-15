@@ -157,6 +157,6 @@ Blue is a command, orange an event, green a read model.
 
 1. **All the groups, a group.** Each is kept up to date by the events of the group: its creation, its edits, the members who join and leave, the organizers appointed and demoted, and a hand-over. The number of members comes from the same events.
 2. **The members of a group, my groups.** Both come from the same events as the roles: joining, leaving, appointing, demoting and handing over.
-3. **The upcoming meetings a member hosts.** It is kept up to date by the events of the meetings: a meeting is created, changed or cancelled, and a host is designated or removed. The command to leave the group reads it, and is refused if the member is the last host of one of these meetings. Two operations can happen together, a host leaving and the other host being removed, so this rule cannot be made absolute by the group alone: how the application deals with that is a technical choice.
+3. **The upcoming meetings a member hosts.** It is kept up to date by the events of the meetings: a meeting is created, changed or cancelled, and a host is designated or removed. The command to leave the group reads it, and is refused if the member is the last host of one of these meetings. The rule is absolute: a meeting never has no host. When two operations happen together, a host leaving and the other host being removed, only one of them succeeds and the other is refused, as if it had come second.
 
 The rest of the events come from [Payments](../payments/description.md): Meetings only listens to them.

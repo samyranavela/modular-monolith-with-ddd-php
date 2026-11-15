@@ -58,7 +58,7 @@ Meetings listens, and **tells Payments** in its turn when a place is awaiting pa
 
 ## The payout account
 
-The owner of a group sets up where the fees of their meetings are paid, once, for all their groups. The payment system must **validate** the account before it counts, and replacing it starts a new one, which takes over once validated. They can **remove** it only when no meeting of their groups that has a fee has yet to start: as long as the date and time of such a meeting have not passed, it stays. Payments tells Meetings when an owner's account is validated, which is what lets that owner's groups give a meeting a fee.
+The owner of a group sets up where the fees of their meetings are paid, once, for all their groups. The payment system must **validate** the account before it counts, and replacing it starts a new one, which takes over once validated. They can **remove** it only when no meeting of their groups that has a fee has yet to start: as long as the date and time of such a meeting have not passed, it stays. Payments **asks Meetings** at the moment of the removal, and keeps no list of such meetings. Payments tells Meetings when an owner's account is validated, which is what lets that owner's groups give a meeting a fee.
 
 ## Emails
 
@@ -69,12 +69,12 @@ Payments sends **no email** for a fee: the receipt is the payment system's. What
 - **Own payments**: for each one, the meeting, the amount and its status. The attendee reads only their own.
 - **The place of an attendee**: hosts, the owner and the organizers see whether an attendee is awaiting payment or confirmed. This is read in Meetings, not here. For the details of a payment, the owner goes to their own payment system.
 
-An administrator reads no payment for now.
+An administrator reads no payment.
 
 ## Permissions
 
 Payments defines two permissions for the actions of this page: reading one's own meeting fee payments and managing a payout account, which covers setting it up, replacing it and removing it. [UserAccess](../useraccess/description.md#permissions) grants them to the Member role.
 
-## Left open
+## Delays
 
-- **Delays.** The time a payment waits for the payment system is configurable, 30 minutes by default, the shortest a session of the payment system can last.
+The time a payment waits for the payment system is configurable, 30 minutes by default, the shortest a session of the payment system can last.

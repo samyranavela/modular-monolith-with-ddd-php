@@ -80,12 +80,13 @@ flowchart LR
     subgraph EP[Each period]
         direction LR
         PS3[Payment system]:::external --> M1[Record a period paid]:::command --> S3((Subscription)):::aggregate --> E3[Subscription renewed]:::event
-        PS4[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S4((Subscription)):::aggregate --> E4[Automatic renewal turned off]:::event
+        PS4[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S4((Subscription)):::aggregate --> E4[Automatic renewal turned off]:::event --> P6{{Email the payer}}:::policy
     end
 
     subgraph Price
         direction LR
         E5[Price of a list item changed]:::event --> P3{{Email the payers whose automatic renewal is concerned}}:::policy
+        E5 --> P5{{Take the new price for their next payment}}:::policy
     end
 
     PA --> O1
@@ -102,8 +103,8 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 1. **Turning it on.** The payer chooses a period and agrees to be charged again at the end of each period. The subscription keeps the period, the country and the price, and the payment system is asked to repeat the payment.
 2. **Turning it off.** The payer turns it off whenever they want, and the payment system is asked to stop. The subscription runs until its date.
 3. **A period paid.** Nobody in Payments asks for the renewal: the payment system announces a period paid, and the subscription is renewed exactly as by a manual renewal, with the same announcement and the same email.
-4. **Given up.** After its own retries, the payment system announces that it gives up, and the option is turned off. Between a first failure and that moment, Payments does nothing.
-5. **The price.** When a price of the list changes, an email goes to every payer whose automatic renewal depends on that price. The renewal keeps its fixed price until the next period, where the new one applies. The payer who refuses turns the option off.
+4. **Given up.** After its own retries, the payment system announces that it gives up, and the option is turned off, and an email tells the payer. Between a first failure and that moment, Payments does nothing.
+5. **The price.** When the price of the active *renewal* item changes, every automatic renewal with the same country and period takes the new price for its next payment, and an email tells the payer. The payer who refuses turns the option off. A deactivation changes nothing.
 
 ## Trying
 
@@ -129,7 +130,7 @@ flowchart LR
         direction LR
         T1[Reminder date reached, 2 days before the end by default]:::event --> P3{{Email the payer that the first payment is near}}:::policy
         PS1[Payment system]:::external --> M1[Record a period paid]:::command --> S2((Subscription)):::aggregate --> E2[Subscription renewed]:::event
-        PS2[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S3((Subscription)):::aggregate --> E3[Automatic renewal turned off]:::event
+        PS2[Payment system]:::external --> M2[Record that the payment system gave up]:::command --> S3((Subscription)):::aggregate --> E3[Automatic renewal turned off]:::event --> P5{{Email the payer}}:::policy
     end
 
     PA --> C1

@@ -36,12 +36,16 @@ A member who looks after a meeting group below its owner, and stands in when the
 _Avoid_: Admin, co-owner
 
 **Ownership Transfer Request**:
-The owner's proposal to hand the group over to one of its organizers, the candidate. It is pending until the candidate accepts and Payments confirms that their subscription is valid; it can be declined by the candidate, cancelled by the owner, or cancelled by itself if the candidate leaves or is demoted. A completed transfer is final.
+The owner's proposal to hand the group over to one of its organizers, the candidate. It can be made only while no payment of the group's meetings waits, and it closes the sign-ups to the meetings with a fee until it ends. It is pending until the candidate accepts, with a validated payout account when a meeting with a fee has yet to start, and Meetings knows from Payments that their subscription is valid; it can be declined by the candidate, cancelled by the owner, or cancelled by itself if the candidate leaves or is demoted. A completed transfer is final.
 _Avoid_: Ownership change
 
 **Member Subscription**:
 What Meetings knows of a member's subscription: until when it is valid, as announced by Payments.
 _Avoid_: Group payment date
+
+**Member Payout Account**:
+What Meetings knows of the payout account of a member: whether it is validated, as announced by Payments. A fee can be set on a meeting only when the owner of its group has a validated one.
+_Avoid_: Bank account
 
 **Covered Group**:
 A meeting group whose owner's subscription is still valid, or the one group of an owner on the free plan, who never held a subscription and cannot own another. Only a covered group can organize new meetings, and a group on the free plan has at most two a month; an uncovered group is not closed, and its planned meetings stay.

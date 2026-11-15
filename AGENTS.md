@@ -87,7 +87,7 @@ a controller or a service call for a service, not just "it didn't throw."
 ## Architecture and tooling
 
 - Layout: `App\<Module>\{Domain,Application,Infrastructure,Ui,Contract}` for UserAccess, Registrations,
-  Administration, Meetings, Payments, plus `App\SharedKernel`. Modules reach each other only through `Contract`.
+  Meetings, Payments, plus `App\SharedKernel`. Modules reach each other only through `Contract`.
 - Module boundaries are enforced by Deptrac (`deptrac.yaml`); API Platform is the HTTP layer (DTO resources in
   `Ui\Api\Resource`). See `CODING_STANDARDS.md` and `docs/`.
 - Everything runs in Docker through the Makefile (`make help`): `make up`, `make install`, `make qa`. Run PHP, Composer
