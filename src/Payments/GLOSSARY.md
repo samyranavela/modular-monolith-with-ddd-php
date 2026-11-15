@@ -59,3 +59,7 @@ _Avoid_: Starter, basic plan
 **Meeting Fee Payment**:
 What an attendee pays the owner of the group to take a place in a meeting that has a fee, guests included. It is created when the attendee signs up, waits a short time for the payment system, and ends paid, expired or cancelled. Until it is paid, the place is not guaranteed.
 _Avoid_: Debt, ticket, transaction
+
+**Anonymised Payer**:
+A payer whose account was deleted. Their subscription ended with no refund, their payout account was removed, and their payments are kept as the accounting record, without an identity.
+_Avoid_: Deleted payer

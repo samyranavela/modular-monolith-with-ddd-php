@@ -63,7 +63,7 @@ Every member of the group sees how many likes a comment has and who liked it.
 
 The comments and the likes of a member who leaves the group **stay**. The former member can no longer write, reply, edit, remove or like, since they are no longer a member, but the owner and the organizers can still remove their comments.
 
-What happens to a member's content when their account is deleted concerns every context, and is described on its own page, [deleting an account](../account-deletion.md). A comment whose author is gone stays readable.
+What happens to a member's content when their account is deleted concerns every context, and is described on its own page, [deleting an account](../useraccess/account-deletion.md). A comment whose author is gone stays readable.
 
 ## Emails
 
