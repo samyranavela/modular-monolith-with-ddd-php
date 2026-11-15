@@ -54,7 +54,7 @@ classDiagram
 
 ## What is not in the model
 
-- No maximum length for a comment: it is left for later.
+- No limit on the number of comments or replies. The text of each has at most 2000 characters.
 - No history of the edits of a comment, only the date of the last one.
 - No history of likes taken back.
 - No attachment, mention or reaction other than the like.

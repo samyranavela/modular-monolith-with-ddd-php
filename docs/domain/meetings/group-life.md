@@ -40,14 +40,14 @@ An organizer can neither appoint nor demote another organizer.
 
 ## Handing the group over
 
-The owner cannot leave, so the group changes hands in one way only: the owner **proposes a transfer** to one of the group's organizers, who becomes the new owner once they accept and have an active subscription.
+The owner cannot leave, so the group changes hands in one way only: the owner **proposes a transfer** to one of the group's organizers, who becomes the new owner once they accept and have an active subscription. A candidate on the [free plan](#the-free-plan) can be chosen: they take a subscription out to complete the transfer.
 
-- **The request.** The owner designates an organizer of the group. A **transfer request** is created, which is pending. There is one pending request at most for a group, and it never expires.
-- **Accepting.** The candidate accepts, and accepting includes having an **active subscription**: if they have none, they take one out as part of accepting. The request stays pending until [Payments](../payments/description.md) confirms that the subscription is in effect and valid. Only then is the transfer complete.
-- **Declining.** The candidate can decline, and the request ends.
+- **The request.** The owner designates an organizer of the group. A **transfer request** is created, which is pending. There is one pending request at most for a group, and it never expires. The request is refused while a [payment](../payments/meeting-fees.md#a-hand-over-of-the-group) of one of the group's meetings still waits. From the request until the transfer ends, whichever way, **sign-ups to the group's meetings that have a fee are closed**, so that no payment is created while the receiver of the fees may change.
+- **Accepting.** The candidate accepts. When a meeting of the group that has a fee has yet to start, the acceptance counts only if the candidate has a **validated payout account**: otherwise it is refused, and the candidate sets one up first. Accepting also means having an **active subscription**: a candidate who has none takes one out, or renews, in [Payments](../payments/subscriptions.md#a-hand-over-of-a-group), like any payer. The request stays pending until Meetings knows from Payments that the subscription is valid, and completes at once when it already is. Only then is the transfer complete.
+- **Declining.** The candidate can decline, and the request ends. The sign-ups to the meetings with a fee reopen.
 - **Cancelling.** The owner can cancel a pending request, and the request ends.
 - **Ending by itself.** If the candidate leaves the group, or is demoted, while the request is pending, the request is cancelled.
-- **Completing.** The candidate becomes the owner and the former owner becomes an organizer. The group is then covered by the new owner's subscription.
+- **Completing.** The candidate becomes the owner and the former owner becomes an organizer. The group is then covered by the new owner's subscription, and the sign-ups to its meetings with a fee reopen. The fees of the sign-ups to come go to the new owner's payout account, and those already paid stay with the former owner's.
 
 Every one of these steps sends an **email to each party concerned**, the owner and the candidate: the request, the acceptance, the confirmation of the subscription, the refusal, the cancellation by the owner, the cancellation by itself and the completion.
 
@@ -57,13 +57,23 @@ What happens to the former owner's own subscription belongs to [Payments](../pay
 
 ## Covering the group
 
-A group is covered by the subscription of **its owner**, and only a covered group can organize meetings. Meetings keeps, for each member, **until when** their subscription is valid, as announced by [Payments](../payments/description.md). The group is covered when its owner's subscription is still valid, from the moment the group is created, and the group follows the new owner's subscription after a hand-over.
+A group is covered by the subscription of **its owner**, and only a covered group can organize meetings. Meetings needs to know, for each member, **until when** their subscription is valid and whether they ever held one, see [what Meetings needs from other contexts](description.md#what-meetings-needs-from-other-contexts). The group is covered when its owner's subscription is still valid, from the moment the group is created, and the group follows the new owner's subscription after a hand-over.
 
 There is no limit on the number of groups an owner's subscription covers.
 
+### The free plan
+
+An owner who has **never held a subscription**, a trial included, is on the [free plan](../payments/subscriptions.md#without-a-subscription-the-free-plan), and Meetings knows it because it holds no expiration date for them. Such an owner has **one group**, which is covered. The limit is configurable.
+
+A member on the free plan **cannot own a second group**: they cannot [propose](group-creation.md#proposing) one while they own one, and a proposal of theirs cannot be accepted if they have become owner of a group in the meantime. They take a subscription or a trial first. Hence a group on the free plan is always covered, and an owner holding a subscription may own as many groups as they like.
+
+A covered group on the free plan can have at most **two meetings a month**, see [creating a meeting](organization.md#creating-a-meeting). Its other rules are those of any covered group. A transfer of the group to a member on the free plan completes only once that member holds a valid subscription, see [handing the group over](#handing-the-group-over).
+
+The free plan is left for good with the first subscription or trial. The group is then covered by the subscription as usual, and when it expires the group is uncovered, not back on the free plan.
+
 ### When the subscription ends
 
-Payments announces when an owner's subscription **expires**, and also when it is **about to**. Two emails follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
+When an owner's subscription is **about to expire**, and when it **expires**, two emails follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
 
 An uncovered group is not closed down. Only one thing changes: it **cannot organize new meetings**.
 
@@ -71,7 +81,7 @@ An uncovered group is not closed down. Only one thing changes: it **cannot organ
 - Members can still join, leave and comment.
 - The owner stays the owner: nothing is handed over by itself.
 
-The group is covered again when the owner renews their subscription, which Payments announces, or when the group is [handed over](#handing-the-group-over) to an organizer who activates their own. A hand-over stays possible while the group is uncovered.
+The group is covered again when the owner renews their subscription, which Meetings needs to know, or when the group is [handed over](#handing-the-group-over) to an organizer who activates their own. A hand-over stays possible while the group is uncovered.
 
 ## Editing the group
 

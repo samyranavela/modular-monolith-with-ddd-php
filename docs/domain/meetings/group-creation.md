@@ -10,7 +10,7 @@ A member proposes a group by giving a **name**, a **city**, a **country** and, o
 
 This creates a **Meeting Group Proposal**, which is **pending**. The group does not exist yet, and nothing can be organized in it.
 
-Nothing limits the proposals: a member can have several waiting at once, and two proposals can carry the same name.
+Nothing limits the proposals of a member who holds a subscription: they can have several waiting at once, and two proposals can carry the same name. A member on the [free plan](group-life.md#the-free-plan) who already owns a group cannot propose another: they take a subscription or a trial first.
 
 ## Deciding
 
@@ -20,6 +20,8 @@ An administrator decides in one of two ways:
 
 - **Accept** the proposal.
 - **Reject** it. A rejection must give a **reason**.
+
+Accepting is refused when the proposer is on the free plan and has become owner of a group since they proposed: the administrator then rejects the proposal, with that reason.
 
 A proposal is decided **once**. The decision is final: it is neither changed nor undone. The proposal keeps who decided, when, and the reason of a rejection.
 

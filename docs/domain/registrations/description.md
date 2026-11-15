@@ -34,12 +34,12 @@ The login rule applies at that moment: if the chosen login is taken, the person 
 
 Following the link confirms the registration. A registration can be confirmed once, and only before it expires.
 
-A confirmed registration is the signal that the person is real. The rest of the system then creates what it needs for that person, according to the role of the registration:
+A confirmed registration is the signal that the person is real. The other contexts need to know that a registration was confirmed, and with which role, and each creates what it needs for that person:
 
 - **Member role**: a [user](../useraccess/description.md), a member of the meeting groups and a payer.
 - **Administrator role**: a user only. An administrator is not a member and not a payer.
 
-Nothing of that exists before the confirmation.
+Nothing of that exists before the confirmation. Each confirmation must give exactly one user, and for the Member role one member and one payer: never lost and never twice. How each context learns of the confirmation is a technical choice, made in the implementation.
 
 ## Expiring
 
