@@ -28,7 +28,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **Creating.** Every meeting gets its switch when it is created, enabled.
 2. **Turning it off or on.** Only the owner and the organizers of the group can. Asking for the state the switch is already in is accepted and raises no event.
-3. **What it blocks.** The writing, the replying, the editing and the likes in the next parts check the switch. Removing does not.
+3. **What it blocks.** The writing, the replying, the editing and the likes in the next parts check the switch. Removing does not. An archived group blocks all of them, removing and the switch itself included.
 
 ## Writing, replying and editing
 
@@ -57,7 +57,8 @@ Blue is a command, pale yellow an aggregate, orange an event, darker yellow some
 1. **Writing.** The comment is refused unless the author is a member of the group, commenting is enabled and the text is not empty and has at most 2000 characters. The meeting's cancellation or end does not matter.
 2. **Replying.** The same checks apply, and the comment answered must not be removed. A reply to a reply attaches to the comment it answers, so a reply never has replies of its own.
 3. **Editing.** Only the author, with a text that is not empty and has at most 2000 characters, while commenting is enabled and the comment is not removed. The comment remembers when it was edited.
-4. **Membership.** The writer is checked against the members of the group at that moment. A member who left cannot write, but what they wrote stays.
+4. **Archived group.** Every command of this part is refused once the group is archived.
+5. **Membership.** The writer is checked against the members of the group at that moment. A member who left cannot write, but what they wrote stays.
 
 ## Removing
 
@@ -87,7 +88,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 
 1. **By the author.** No reason is asked. The author may be a former member of the group, who then cannot: only the owner and the organizers remove their comment.
 2. **By the owner or an organizer.** The reason is mandatory. The comment stays in the conversation as removed, with the person who removed it and the reason.
-3. **After the removal.** The comment can no longer be edited, replied to or liked, and its likes are no longer shown. Removal is final, and works whether commenting is enabled or not.
+3. **After the removal.** The comment can no longer be edited, replied to or liked, and its likes are no longer shown. Removal is final, and works whether commenting is enabled or not, but not once the group is archived.
 4. **Notification.** Only a removal by somebody else tells the author, with the reason. Nothing is sent when somebody replies or likes.
 
 ## Likes
@@ -111,7 +112,7 @@ flowchart LR
 
 Blue is a command, pale yellow an aggregate, orange an event, darker yellow someone who asks for a command.
 
-1. **Liking.** The member must belong to the group, commenting must be enabled and the comment must not be removed. A member likes a comment once, their own included.
+1. **Liking.** The member must belong to the group, commenting must be enabled, the group must not be archived and the comment must not be removed. A member likes a comment once, their own included.
 2. **Taking back.** The same conditions apply, and the member must have liked the comment.
 
 ## Reading

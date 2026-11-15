@@ -11,7 +11,7 @@ classDiagram
         description
         proposed at
     }
-    class Location {
+    class Place {
         city
         country
     }
@@ -35,13 +35,13 @@ classDiagram
     }
     class Member
 
-    MeetingGroupProposal --> Location : is about
+    MeetingGroupProposal --> Place : is about
     MeetingGroupProposal --> ProposalStatus : is in
     MeetingGroupProposal "1" --> "0..1" Decision : ends with
     MeetingGroupProposal "*" --> "1" Member : proposed by
     MeetingGroupProposal "1" ..> "0..1" MeetingGroup : once accepted, leads to
 
-    MeetingGroup --> Location : is about
+    MeetingGroup --> Place : is about
     MeetingGroup "1" --> "1..*" MeetingGroupMember : has
     MeetingGroupMember "*" --> "1" Member : is
 
@@ -52,7 +52,7 @@ classDiagram
 
     Decision "*" --> "1" User : decided by
     Member ..> User : is a
-    User "1" --> "1..*" UserRole : has
+    User "*" --> "1" UserRole : has
 ```
 
 ## Reading it
@@ -66,7 +66,7 @@ classDiagram
 
 ## Rules that cross aggregates
 
-- **The free plan.** A member who never held a subscription owns at most one group. The proposal and its acceptance both check it, knowing the groups of the member and whether they ever held a subscription, in a domain service.
+- **The free plan.** A member who never held a subscription owns at most one group. The proposal and its acceptance both check it, knowing the groups of the member and whether they ever held a subscription, in a domain service, at the acceptance of a proposal and not at the creation of the group, which is a reaction; the rule is absolute: when two proposals of the same member are accepted at the same moment, only one is accepted.
 
 ## What is not in the model
 

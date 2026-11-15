@@ -47,6 +47,10 @@ A registration waits for **48 hours**, whether it is a registration or an invita
 
 Deleting is housekeeping, not the rule: from the moment the 48 hours are over, the link is refused, even if the registration has not been deleted yet. Whoever follows an old link is told that it is expired or invalid, without knowing which: a deleted registration and a made-up link look the same.
 
+## When the account is deleted
+
+When the account of a user is [erased](../useraccess/account-deletion.md#what-happens-in-registrations), their confirmed registration is deleted, since it holds the same login, email address, names and password. Its login and its email address are free again, as after an expiry.
+
 ## Registering again with the same email
 
 Someone who never received the email, or lost it, registers again with the same address. The system answers the same neutral sentence whatever the situation, so the answer cannot be used to discover which addresses are registered:
@@ -54,7 +58,7 @@ Someone who never received the email, or lost it, registers again with the same 
 | Situation of the address | What happens behind the answer |
 | :-- | :-- |
 | Unknown | A new registration is created and a link is sent. |
-| Registration waiting for confirmation | A new link is sent and the 48 hours start again. The registration itself is left as it was, so nobody can take over someone else's sign-up. |
+| Registration waiting for confirmation | A new link is sent and the 48 hours start again. The registration itself is left as it was, so nobody can take over someone else's registration. |
 | Already a user | A [required message](../notifications/description.md#required-messages) tells the owner that an account already exists. Nothing is created. |
 
 See the [conceptual model](conceptual-model.md) and the [event storming](event-storming.md) of the registration.

@@ -37,7 +37,7 @@ classDiagram
     Comment "*" --> "1" Member : written by
     Comment "*" --> "0..1" Comment : replies to
     Comment --> CommentStatus : is
-    Comment "0..1" --> "1" Removal : may have
+    Comment "1" --> "0..1" Removal : may have
     Removal "*" --> "1" Member : by
     Comment "1" --> "*" Like : has
     Like "*" --> "1" Member : by
@@ -45,11 +45,12 @@ classDiagram
 
 ## Reading it
 
-- **Commenting Switch** belongs to one meeting and is created enabled with it. It is the only thing that allows or forbids comments, and only the owner and the organizers of the meeting's group change it.
+- **Commenting Switch** belongs to one meeting and is created enabled with it. Besides the archiving of the group, it is the only thing that allows or forbids comments, and only the owner and the organizers of the meeting's group change it.
 - **Comment** is written by a member of the group on a meeting, and remembers its text, when it was written and when it was edited. A **reply** is a comment that replies to another, and the model keeps one level: a reply never has a reply of its own.
 - **Comment Status** says whether the comment is still shown or was removed. A removed comment keeps its place in the conversation, so that its replies stay readable, and is final.
 - **Removal** records who removed a comment and when, and the reason when it was removed by somebody other than its author.
 - **Like** links a member to a comment, once. It is taken back by removing it, and a member's likes are counted by the comment: its number of likes is what readers see.
+- **Archived group.** When the meeting's group is archived, the switch acts as if it were off and moderation stops too: no comment is written, edited, liked or removed, and the switch does not change.
 - **Meeting Group** is where the roles come from: the writer must be a member of the group, and the owner and the organizers are the ones who moderate. A meeting cannot change group, so a comment always belongs to the same one.
 
 ## What is not in the model

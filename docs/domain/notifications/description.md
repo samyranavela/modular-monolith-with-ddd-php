@@ -55,6 +55,8 @@ A member, for themselves:
 - **marks** one notification as read, or all of them,
 - **counts** the notifications they have not read.
 
+A member whose [account is locked](../useraccess/account-deletion.md#locked-account) still reads their inbox and marks notifications as read.
+
 A notification stays in the inbox once read. The member cannot delete one, and how long they are kept is left for later.
 
 ## One fact, one notification
@@ -71,7 +73,7 @@ The notifications of a member are part of the [export of their data](../useracce
 
 ## When an account is erased
 
-The notifications of an erased member go with the account: their inbox is deleted. The required message that confirms the erasure goes to the address that the erasure freed. See [account deletion](../useraccess/account-deletion.md).
+The notifications of an erased member go with the account: their inbox is deleted. The required message that confirms the erasure goes to the address that the erasure takes away: the address comes with the fact, so the message needs no member. See [account deletion](../useraccess/account-deletion.md).
 
 ## What Notifications needs from other contexts
 
@@ -79,9 +81,9 @@ This page and the following ones describe the information a context needs from a
 
 | Information | From | Why | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
-| The email address of a member | [UserAccess](../useraccess/description.md) | To send the email of a notification | Exact when the email is sent. An address changed since is the one used |
+| The email address of a member | [UserAccess](../useraccess/description.md) | To send the email of a notification | Exact when the email is sent |
 | That a member was erased | [UserAccess](../useraccess/account-deletion.md) | To delete their inbox | Exact: no notification exists for an erased member, even when an erasure and a creation happen at the same moment |
-| Whether a user holds a role that grants a permission | [UserAccess](../useraccess/description.md#permissions) | To allow or refuse each reading | Exact at every reading |
+| Whether a user holds a role that grants a permission | [UserAccess](../useraccess/description.md#permissions) | To allow or refuse each reading and each marking as read | Exact at every action |
 
 ## What the other contexts give to Notifications
 

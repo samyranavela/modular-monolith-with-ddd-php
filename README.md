@@ -12,6 +12,7 @@ topics, but its own choices.
 | Registrations | Registration and confirmation of new members |
 | Meetings | Meeting group proposals and groups, meetings, attendees, comments and fees |
 | Payments | Price list, subscriptions and meeting fee payments (event sourced) |
+| Notifications | Inbox of each member, delivery by email, catalogue of notification kinds |
 
 ## Architecture
 

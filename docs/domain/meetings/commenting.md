@@ -13,13 +13,15 @@ Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md).
 
 Being a member, the owner or an organizer is a role in the group, which the aggregates check. A member does not need to attend the meeting to comment on it. The permissions behind these actions are defined by Meetings and granted to the Member role by [UserAccess](../useraccess/description.md#permissions).
 
-Commenting does not depend on the life of the meeting: members can comment before it starts, after it ends, and even when it is cancelled, which is a place to explain why. The only thing that stops comments is the switch below.
+Commenting does not depend on the life of the meeting: members can comment before it starts, after it ends, and even when it is cancelled, which is a place to explain why. Two things stop comments: the switch below, and the [archiving](group-life.md#archived-groups) of the group.
 
 ## The commenting switch
 
 Each meeting has a **commenting switch**, created **enabled** with the meeting. The owner or an organizer of the group turns it off to forbid comments on that meeting, and back on to allow them again. Turning it to the state it is already in changes nothing.
 
 While commenting is disabled, nobody can write a comment or a reply, edit a comment, like or unlike. What is already there stays visible. The owner and the organizers can still **remove** comments: moderating is the reason to turn the switch off, so it must stay possible.
+
+When the group is **archived**, it is frozen like a switch turned off, with one difference: nothing can be removed either, moderation included, and the switch cannot be changed. The comments stay visible to the members.
 
 ## Writing a comment
 
@@ -51,7 +53,7 @@ The author removes their comment, and the owner or an organizer removes any comm
 
 A removed comment is not erased: it stays in the conversation as a **removed** comment, with no text, so that the replies under it remain readable. Members of the group see who removed it and the reason, if there is one. A removed comment can no longer be edited, replied to or liked, and its likes are no longer shown. Removal is final.
 
-Removing is possible whether or not commenting is enabled.
+Removing is possible whether or not commenting is enabled, but not once the group is archived.
 
 ## Likes
 

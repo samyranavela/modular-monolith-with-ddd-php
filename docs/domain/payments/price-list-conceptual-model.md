@@ -8,16 +8,9 @@ classDiagram
 
     class Administrator
     class PriceListItem {
-        country
         period
-        kind
         price
         active
-    }
-    class PriceKind {
-        <<enumeration>>
-        New
-        Renewal
     }
     class SubscriptionPeriod {
         <<enumeration>>
@@ -32,29 +25,27 @@ classDiagram
     class AutomaticRenewal
 
     Administrator "1" --> "*" PriceListItem : keeps
-    PriceListItem --> PriceKind : is of kind
     PriceListItem --> SubscriptionPeriod : for
     PriceListItem --> MoneyValue : at the price
-    SubscriptionPayment ..> PriceListItem : price equals the active one, of kind New
-    SubscriptionRenewalPayment ..> PriceListItem : price equals the active one, of kind Renewal
-    AutomaticRenewal ..> PriceListItem : depends on the one of kind Renewal
+    SubscriptionPayment ..> PriceListItem : price equals the active one
+    SubscriptionRenewalPayment ..> PriceListItem : price equals the active one
+    AutomaticRenewal ..> PriceListItem : depends on the active one
 ```
 
 ## Reading it
 
-- **Price List Item** is the only aggregate. Its country, period and kind identify it and never change; its price and whether it is active do. It is never deleted.
-- **Price Kind** has two values: *new* for a first purchase, *renewal* for any renewal, manual or automatic.
+- **Price List Item** is the only aggregate. Its period says what it is the price of and never changes; its price and whether it is active do. It is never deleted. Its price is the same for every payer, whatever their country, for a first purchase and for a renewal.
 - **Subscription Period** is the one of [subscriptions](subscriptions-conceptual-model.md): a month or a year. A year has its own item, so a longer period can be cheaper.
 - **Money Value** is an amount in euros, never negative. There is no other currency and no conversion.
-- **Payments and automatic renewals** do not own items. A payment is created only if its price equals the active price of the item with the same country, period and kind, and an automatic renewal depends on the renewal item of its country and period, which is what makes a change of price concern it.
+- **Payments and automatic renewals** do not own items. A payment is created only if its price equals the active price of the item of the same period, and an automatic renewal, a trial not yet paid included, depends on the active item of its period. That is what makes a change of price concern it.
 
 ## Rules that cross aggregates
 
-- **One active item per country, period and kind.** The rule involves every item, so a domain service checks it when an item is created or activated, reading what is stored. The rule is absolute: when two administrators act at the same moment, only one succeeds.
+- **One active item per period.** The rule involves every item, so a domain service checks it when an item is created or activated, reading what is stored. The rule is absolute: when two administrators act at the same moment, only one succeeds.
 
 ## What is not in the model
 
-- No currency per item, and no conversion.
+- No country, no currency per item, and no conversion.
 - No promotion, no discount code, no special rate.
 - No history of past prices beyond those kept by the payments that used them.
 - No deletion of an item.

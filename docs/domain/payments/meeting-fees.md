@@ -43,7 +43,9 @@ The application **never refunds**. A payment that is paid stays as it is when it
 
 ## A hand-over of the group
 
-A group enters a [hand-over](../meetings/group-life.md#handing-the-group-over) only when **no payment of its meetings waits**, which Meetings checks when the owner makes the request. From that moment until the hand-over is fully validated or ends, Meetings closes the sign-ups to the meetings of the group that have a fee, so that no payment can be created. When a meeting of the group that has a fee has yet to start, the candidate's acceptance counts only if their payout account is **validated**. A payment never changes receiver.
+A group enters a [hand-over](../meetings/group-life.md#handing-the-group-over) only when **no payment of its meetings waits**, which Meetings checks when the owner makes the request. From that moment until the hand-over is fully validated or ends, Meetings closes the sign-ups to the meetings of the group that have a fee, so that no payment can be created. When a meeting of the group that has a fee has yet to start, the candidate's acceptance counts only if their payout account is **validated**, and from the acceptance until the hand-over ends the candidate cannot [remove](#the-payout-account) that account, so the group never changes hands without one. A payment never changes receiver.
+
+Meetings closes the same sign-ups while the owner of the group is [locked](../useraccess/account-deletion.md#locked-account) by a pending deletion of their account, so no payment is created for an owner who may be gone.
 
 ## What others need to know
 
@@ -60,7 +62,7 @@ Payments decides nothing about a place: it only knows whether the payment is pai
 
 ## The payout account
 
-The owner of a group sets up where the fees of their meetings are paid, once, for all their groups. The payment system must **validate** the account before it counts, and replacing it starts a new one, which takes over once validated. They can **remove** it only when no meeting of their groups that has a fee has yet to start: as long as the date and time of such a meeting have not passed, it stays. Payments needs to know, at the moment of the removal, whether such a meeting exists. Meetings needs to know when an owner's account is validated, which is what lets that owner's groups give a meeting a fee.
+The owner of a group sets up where the fees of their meetings are paid, once, for all their groups. The payment system must **validate** the account before it counts, and replacing it starts a new one, which takes over once validated. They can **remove** it only when no meeting that has a fee has yet to start, in the groups they own and in a group whose [hand-over](#a-hand-over-of-the-group) they have accepted and that is not yet complete: as long as the date and time of such a meeting have not passed, it stays. Payments needs to know, at the moment of the removal, whether such a meeting exists, and the rule is absolute: when the removal of the account and the setting of a fee on a meeting, or the acceptance of a hand-over, happen at the same moment, only one succeeds and the other is refused. Likewise a payer has **at most one validated account and one pending**, whatever happens at the same moment. The refusal does **not** apply when the removal is part of an [account erasure](../useraccess/account-deletion.md): the meetings of the groups concerned are cancelled or the groups handed over, so no fee waits for the account. Meetings needs to know when an owner's account is validated, which is what lets that owner's groups give a meeting a fee.
 
 ## Notifications
 

@@ -20,13 +20,13 @@ The owner has every right of an organizer, plus the ones that commit the group: 
 
 Any member can join any meeting group, as a regular member. There is no request and no approval.
 
-A member cannot join a group they already belong to.
+A member cannot join a group they already belong to, nor an [archived group](#archived-groups). A [locked](../useraccess/account-deletion.md) member takes part in nothing, so they join nothing.
 
 ## Leaving
 
-A member or an organizer can leave a group, once they are not the last [host](organization.md#hosts) of a meeting that has not started: another host must be designated first. The group remembers when they joined and when they left, and they can join again later, as a regular member. Leaving takes the member out of the group's upcoming meetings, see [organizing meetings](organization.md#when-a-member-leaves-the-group).
+A member or an organizer can leave a group, once they are not the last [host](organization.md#hosts) of a meeting that has not started: another host must be designated first. The refusal is absolute: when the last two hosts of a meeting leave at the same moment, only one of them succeeds and the other is refused, as if it had come second. The group remembers when they joined and when they left, and they can join again later, as a regular member. Leaving takes the member out of the group's upcoming meetings, see [organizing meetings](organization.md#when-a-member-leaves-the-group).
 
-The **owner cannot leave**, cannot be demoted and cannot be removed. They must first [hand the group over](#handing-the-group-over).
+The **owner cannot leave**, cannot be demoted and cannot be removed. They must first [hand the group over](#handing-the-group-over). Leaving stays possible in an [archived group](#archived-groups), except for its owner.
 
 ## Appointing and demoting organizers
 
@@ -42,14 +42,14 @@ An organizer can neither appoint nor demote another organizer.
 
 The owner cannot leave, so the group changes hands in one way only: the owner **proposes a transfer** to one of the group's organizers, who becomes the new owner once they accept and have an active subscription. A candidate on the [free plan](#the-free-plan) can be chosen: they take a subscription out to complete the transfer.
 
-- **The request.** The owner designates an organizer of the group. A **transfer request** is created, which is pending. There is one pending request at most for a group, and it never expires. The request is refused while a [payment](../payments/meeting-fees.md#a-hand-over-of-the-group) of one of the group's meetings still waits. From the request until the transfer ends, whichever way, **sign-ups to the group's meetings that have a fee are closed**, so that no payment is created while the receiver of the fees may change.
-- **Accepting.** The candidate accepts. When a meeting of the group that has a fee has yet to start, the acceptance counts only if the candidate has a **validated payout account**: otherwise it is refused, and the candidate sets one up first. Accepting also means having an **active subscription**: a candidate who has none takes one out, or renews, in [Payments](../payments/subscriptions.md#a-hand-over-of-a-group), like any payer. The request stays pending until Meetings knows from Payments that the subscription is valid, and completes at once when it already is. Only then is the transfer complete.
+- **The request.** The owner designates an organizer of the group, who must not be [locked](../useraccess/account-deletion.md) by a pending deletion of their account: the designation is refused otherwise. A **transfer request** is created, which is pending. There is one pending request at most for a group, and it never expires. The request is refused while a [payment](../payments/meeting-fees.md#a-hand-over-of-the-group) of one of the group's meetings still waits. From the request until the transfer ends, whichever way, **sign-ups to the group's meetings that have a fee are closed**, so that no payment is created while the receiver of the fees may change. The two rules are absolute: when a sign-up to a meeting with a fee and the request happen at the same moment, not both succeed. Either the sign-up comes first and the request is refused because a payment waits, or the request comes first and the sign-up is refused as closed.
+- **Accepting.** The candidate accepts. When a meeting of the group that has a fee has yet to start, the acceptance counts only if the candidate has a **validated payout account**: otherwise it is refused, and the candidate sets one up first. From the acceptance until the transfer ends, the candidate cannot [remove that account](../payments/meeting-fees.md#the-payout-account), and the rule is absolute: when the acceptance and the removal happen at the same moment, only one succeeds. Accepting also means having an **active subscription**: a candidate who has none takes one out, or renews, in [Payments](../payments/subscriptions.md#a-hand-over-of-a-group), like any payer. The request stays pending until Meetings knows from Payments that the subscription is valid, and completes at once when it already is. Only then is the transfer complete.
 - **Declining.** The candidate can decline, and the request ends. The sign-ups to the meetings with a fee reopen.
 - **Cancelling.** The owner can cancel a pending request, and the request ends.
-- **Ending by itself.** If the candidate leaves the group, or is demoted, while the request is pending, the request is cancelled.
+- **Ending by itself.** If the candidate leaves the group, is demoted or steps down, or becomes locked by a pending deletion of their account, while the request is pending, the request is cancelled by itself, not declined. When the owner's request and the candidate's deletion request arrive at the same moment, the first to arrive wins: if the deletion request comes second it cancels the hand-over request, and if the hand-over request comes second it is refused.
 - **Completing.** The candidate becomes the owner and the former owner becomes an organizer. The group is then covered by the new owner's subscription, and the sign-ups to its meetings with a fee reopen. The fees of the sign-ups to come go to the new owner's payout account, and those already paid stay with the former owner's.
 
-Every one of these steps sends a **notification to the party concerned**: the candidate, of the request and of its cancellation by the owner; the owner, of the acceptance, of the refusal, of the confirmation of the candidate's subscription and of the cancellation by itself; both, of the completion. See [the catalogue](../notifications/catalogue.md#meetings-groups).
+Every one of these steps sends a **notification to the party concerned**: the candidate, of the request and of its cancellation by the owner; the owner, of the acceptance, of the refusal, of the confirmation of the candidate's subscription and of the cancellation by itself (the candidate left, was demoted or is locked); both, of the completion. See [the catalogue](../notifications/catalogue.md#meetings-groups).
 
 A completed transfer is **final**. Going back means the new owner makes a new request, like anyone else.
 
@@ -73,7 +73,7 @@ The free plan is left for good with the first subscription or trial. The group i
 
 ### When the subscription ends
 
-When an owner's subscription is **about to expire**, and when it **expires**, two notifications follow, to the owner: a reminder before the end, and a notice when the group is no longer covered.
+When an owner's subscription is **about to expire**, and when it **expires**, the owner is notified by [Payments](../payments/subscriptions.md#notifications), as the payer who holds it. Meetings sends nothing of its own: the expiration date is all it needs.
 
 An uncovered group is not closed down. Only one thing changes: it **cannot organize new meetings**.
 
@@ -83,16 +83,25 @@ An uncovered group is not closed down. Only one thing changes: it **cannot organ
 
 The group is covered again when the owner renews their subscription, which Meetings needs to know, or when the group is [handed over](#handing-the-group-over) to an organizer who activates their own. A hand-over stays possible while the group is uncovered.
 
+## Archived groups
+
+A group whose owner's account is deleted without the group having been handed over is **archived** (see [deleting an account](../useraccess/account-deletion.md)). Archiving is final, and it freezes the group, which becomes read-only:
+
+- nobody can change it, join it, create, change or cancel a meeting in it, designate a host, comment, reply, edit, like, remove a comment or moderate; nothing is added to it;
+- its upcoming meetings are cancelled, and its members are notified, see [the catalogue](../notifications/catalogue.md#meetings-groups);
+- its members still see it, with its past, its meetings and its comments, and can still **leave** it;
+- the owner **stays the owner**, shown as a [deleted member](../../../src/Meetings/GLOSSARY.md#language) since the person was erased, and the rule that the owner cannot leave stands.
+
 ## Editing the group
 
-The owner and the organizers can change the **name**, the **description** and the **place** of the group. A regular member cannot.
+The owner and the organizers can change the **name**, the **description** and the **place** of the group, unless it is [archived](#archived-groups). A regular member cannot.
 
 ## Reading
 
 Members find and follow groups through read-only views, kept up to date by the events of the groups.
 
-- **All the groups**: the name, the description, the place and the number of members of every group, so that a member can find one to join.
-- **A group**: its name, description, place, number of members, its owner and its organizers, and its meetings, see [organizing meetings](organization.md#reading).
+- **All the groups**: the name, the description, the place and the number of members of every group, and whether it is archived, so that a member can find one to join.
+- **A group**: its name, description, place, number of members, its owner and its organizers, whether it is archived, and its meetings, see [organizing meetings](organization.md#reading).
 - **The members of a group**: who belongs to it and with which role. The members of the group see it.
 - **My groups**: the groups a member belongs to, with their role in each.
 - **The upcoming meetings a member hosts**: for each group, the meetings that have not started and are not cancelled where the member is a host, with the number of hosts of each. It is not shown to anyone: it only lets the group refuse the departure of the last host of a meeting.
@@ -101,8 +110,8 @@ Members find and follow groups through read-only views, kept up to date by the e
 
 | Who | Can do |
 | :-- | :-- |
-| A member | Join a group. Leave a group they belong to. Find groups, view a group, list their own groups. View the members of a group they belong to. |
+| A member | Join a group (not an archived one). Leave a group they belong to. Find groups, view a group, list their own groups. View the members of a group they belong to. |
 | An organizer | Edit the group. Leave the group, or step down. |
 | The owner | What an organizer does, except leaving or stepping down. Appoint and demote organizers. Hand the group over. |
 
-An administrator is a user and not a member, so they take no part in the life of a group, but they see all the views of [reading](#reading), including the members of a group they do not belong to. The permissions behind this table are defined by Meetings and granted to the Member role by [UserAccess](../useraccess/description.md#permissions). Being an owner or an organizer is not a permission of a role: it is a role in one group, which the group itself checks.
+In an archived group, only reading and leaving remain. An administrator is a user and not a member, so they take no part in the life of a group, but they see all the views of [reading](#reading), including the members of a group they do not belong to. The permissions behind this table are defined by Meetings and granted to the Member role by [UserAccess](../useraccess/description.md#permissions). Being an owner or an organizer is not a permission of a role: it is a role in one group, which the group itself checks.
