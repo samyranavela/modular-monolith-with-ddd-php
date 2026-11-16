@@ -23,7 +23,7 @@ The state of a module changes **only** through a command. This holds as much for
 | :-- | :-- | :-- |
 | A person | A member proposes a meeting group | Ui |
 | A date | A registration expires, a payment waiting times out | Ui, as a driving adapter that starts the command on the date |
-| A fact of another context | A confirmed registration creates a member | Contract |
+| A fact of another context | A confirmed registration creates a member | Ui, which translates the fact into a command |
 | An answer of an outside system | The payment system answers that an amount was paid | Infrastructure, behind a port, and then the use case |
 
 A use case started by a fact or by a date is a command like the others, and has its own permission and its own rules. This makes the chain of an [event storming](../domain/meetings/group-creation-event-storming.md), a command, an event, a policy, then another command, readable in the code.
@@ -43,7 +43,7 @@ A command is handled in the same steps, each in its own part:
 3. **Loading.** The use case loads the aggregates it needs, through a port.
 4. **Deciding.** The aggregate applies its rules and changes itself, or refuses with the reason of the domain. The rules live there, and nowhere else.
 5. **Keeping.** The use case saves what changed, through a port.
-6. **Making known.** The facts that happened in the domain are made known, inside the module and to the modules that need them, and the notifications to hand to Notifications are given.
+6. **Making known.** The domain events are handled inside the module. The facts that other modules need are made known through the Contract, and the facts to hand to Notifications are given.
 
 Steps 5 and 6 belong together, since a change and the facts that tell of it must not be separated. This is the subject of the page on consistency.
 
@@ -79,7 +79,7 @@ The page [creating a meeting group](../domain/meetings/group-creation.md) holds 
 | Use case | Kind | Trigger | Permission | What it does |
 | :-- | :-- | :-- | :-- | :-- |
 | Accept a proposal | Command | An administrator, through Ui | Accept proposals, granted to the Administrator role | The proposal decides: it is accepted once, and the free-plan rule is checked. It keeps who decided and when |
-| Create the meeting group | Command | The fact that the proposal was accepted | None of a person: the module starts it itself | The group is created from the proposal, with the proposer as owner and member |
+| Create the meeting group | Command | The proposal being accepted, an event inside the module | None of a person: the module starts it itself | The group is created from the proposal, with the proposer as owner and member |
 | Notify the proposer | A fact handed to Notifications | The same acceptance | | Notifications gives the proposer one notification, see [D6](drivers.md#d6-one-fact-one-notification) |
 
 And, to read the result:

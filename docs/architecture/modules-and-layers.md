@@ -26,11 +26,11 @@ Each module is made of five parts. Four of them are layers, the fifth is the fac
 
 | Part | What it holds |
 | :-- | :-- |
-| **Domain** | The model: aggregates, value objects, the rules and the facts that happen in the domain. It knows nothing else. |
-| **Application** | The use cases, which orchestrate the domain, and the **ports**: what the module needs from the outside, written as interfaces in the language of the domain. |
+| **Domain** | The model: aggregates, value objects, the rules and the domain events. It knows nothing else. |
+| **Application** | The use cases, which orchestrate the domain, the **ports**: what the module needs from the outside, written as interfaces in the language of the domain, and the answers to the questions of its Contract. |
 | **Infrastructure** | The **adapters** of the ports that go out: storage, outside systems, the clock, the sending of messages. |
 | **Ui** | The **adapters** that come in: what turns a request from outside into a call of a use case. |
-| **Contract** | What the module offers to the other modules, and what it makes known to them. It is the only part another module may see. |
+| **Contract** | What the module offers to the other modules, in two parts: the **facts** it makes known, as data types, and the **questions** it answers, as interfaces that the module implements. It is the only part another module may see. |
 
 In the vocabulary of the [hexagonal architecture](concepts/hexagonal-architecture.md), Domain and Application are the inside of the hexagon. Ui holds the **driving adapters**, which start a use case. Infrastructure holds the **driven adapters**, which the use cases call through the ports.
 
@@ -41,6 +41,7 @@ flowchart LR
         T[Time]
         S[Another module]
         X[Storage, payment system, mail]
+        S2[Another module]
     end
     subgraph Module
         UI[Ui]
@@ -54,9 +55,11 @@ flowchart LR
 
     P --> UI
     T --> UI
-    S --> C
+    S -->|facts| UI
+    S -->|questions| C
+    I -->|questions| S2
     UI --> A
-    C --> A
+    C -->|answered by| A
     A --> D
     A -->|ports| I
     I --> X
@@ -65,7 +68,7 @@ flowchart LR
     class UI,A,D,I,C part;
 ```
 
-*Whatever starts a use case comes in through Ui or through Contract. Whatever a use case needs from the outside goes through a port, and Infrastructure plugs the outside system into it.*
+*Whatever starts a use case comes in through Ui: a person, a date or a fact of another module. A question of another module reaches the Contract, and the Application answers it. Whatever a use case needs from the outside goes through a port, and Infrastructure plugs the outside system into it, a question to another module included.*
 
 ## Who may depend on whom
 
@@ -74,9 +77,9 @@ The rule is a single one: **dependencies point inwards**. The domain depends on 
 | Part | May depend on |
 | :-- | :-- |
 | Domain | Itself and the domain part of the shared kernel |
-| Application | Its own Domain, the shared kernel and the Contract of other modules |
-| Infrastructure | Its own Application and Domain, and the shared kernel |
-| Ui | Its own Application only, never its Domain or its Infrastructure |
+| Application | Its own Domain, its own Contract (to make facts known and to answer questions) and the shared kernel |
+| Infrastructure | Its own Application and Domain, the shared kernel and the Questions of the Contract of other modules |
+| Ui | Its own Application, and the Facts of the Contract of other modules. Never its own Domain or its Infrastructure |
 | Contract | The shared kernel only |
 | Another module | The Contract of a module, nothing else of it |
 
@@ -89,9 +92,9 @@ Two consequences follow:
 
 ## The contract of a module
 
-A module reaches another only through its **Contract**. The Contract holds what a module makes available: what it lets others know, and what it lets others ask of it. It carries no rule, only data.
+A module reaches another only through its **Contract**. The Contract holds what a module makes available, in two separate parts: the **facts** it lets others know, and the **questions** it lets others ask of it. It carries no rule: the facts are data types, and the questions are interfaces that the owner of the Contract implements in its Application, from its own model. The module that asks reaches them through a port of its own, written in its own words, and an adapter of its Infrastructure, see [between modules](between-modules.md#the-contract-has-two-parts).
 
-What goes through the Contract is what the tables "What X needs from other contexts" of the [domain](drivers.md#d1-each-context-has-its-own-data-and-needs-information-from-the-others) list. How each item goes through, requested at the moment it is needed or kept up to date beforehand, is the subject of the page on how the modules work together.
+What goes through the Contract is what the tables "What X needs from other contexts" of the [domain](drivers.md#d1-each-context-has-its-own-data-and-needs-information-from-the-others) list. Which of the two parts each item belongs to is settled in [between modules](between-modules.md#what-each-module-sends-and-receives).
 
 ## What lives in each part, by demand
 

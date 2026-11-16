@@ -9,7 +9,7 @@ The project is a proof of concept. It sets out to show four styles working toget
 | **Hexagonal architecture** | The rules of the domain sit at the centre and know nothing of the outside. Everything that touches the outside, a screen, a database, a payment system, is replaceable. | [Hexagonal architecture](concepts/hexagonal-architecture.md) |
 | **Domain-Driven Design** | The five contexts of the domain become five modules, with their own words and their own data. | [Modular monolith](concepts/modular-monolith.md) |
 | **CQRS** | Changing something and reading something are two different paths, each with its own model. | [CQRS](concepts/cqrs.md) |
-| **Event-driven architecture** | Modules work together through facts that happened. The pages on it come after those below. | |
+| **Event-driven architecture** | Modules work together through facts that happened, and ask a question only when the domain needs an answer that is right at the moment. | [Event-driven architecture](concepts/event-driven-architecture.md) |
 
 ## Order of the pages
 
@@ -18,8 +18,9 @@ The pages go from what the domain demands to what the code does. A technical cho
 1. [What the domain demands](drivers.md): the requirements that shape the architecture, taken from the domain pages.
 2. [Modules and layers](modules-and-layers.md): how the code is cut and which part may depend on which.
 3. [Use cases](use-cases.md): how a request is handled, for a change and for a reading.
+4. [Between modules](between-modules.md): what goes from one module to another, in which form and with which guarantees.
 
-The pages on how the modules work together, on consistency, on time, on the outside systems and on reading come next, then the technical choices, each recorded as a decision and tied to the demand it answers.
+The pages on consistency, on time, on the outside systems and on reading come next, then the technical choices, each recorded as a decision and tied to the demand it answers.
 
 ## Concepts
 
