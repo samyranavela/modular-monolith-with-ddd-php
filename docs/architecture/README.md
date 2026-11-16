@@ -19,8 +19,9 @@ The pages go from what the domain demands to what the code does. A technical cho
 2. [Modules and layers](modules-and-layers.md): how the code is cut and which part may depend on which.
 3. [Use cases](use-cases.md): how a request is handled, for a change and for a reading.
 4. [Between modules](between-modules.md): what goes from one module to another, in which form and with which guarantees.
+5. [Consistency](consistency.md): how a change and its fact go together, how a fact has its effect once, and how a rule stays absolute when two operations meet.
 
-The pages on consistency, on time, on the outside systems and on reading come next, then the technical choices, each recorded as a decision and tied to the demand it answers.
+The pages on time, on the outside systems and on reading come next, then the technical choices, each recorded as a decision and tied to the demand it answers.
 
 ## Concepts
 

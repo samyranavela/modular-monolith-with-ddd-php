@@ -33,7 +33,7 @@ Every rule that spans several aggregates, or several contexts, is **absolute**: 
 | At least one administrator remains, and a deletion is checked and carried out as one decision | [deleting an account](../domain/useraccess/account-deletion.md) |
 | No notification exists for an erased member | [Notifications](../domain/notifications/description.md#what-notifications-needs-from-other-contexts) |
 
-Some of these rules cross aggregates, or even contexts, and still have to be decided in one go. The architecture must give each one a place that can say no.
+Some of these rules cross aggregates, or even contexts, and still have to be decided in one go. The architecture must give each one a place that can say no, see [consistency](consistency.md#rules-that-hold-at-the-same-moment).
 
 ## D3. Every action is guarded by a permission
 
