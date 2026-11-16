@@ -85,6 +85,8 @@ The tables "What X needs from other contexts" of the domain pages, one for [Meet
 | The lock of an account changed: locked, or unlocked when the request is cancelled | UserAccess to Meetings | Fact | State | The hand-over that ends, the sign-ups that close and reopen: never lost, and the last word wins, see [stale and out-of-order facts](#stale-and-out-of-order-facts) |
 | A user is erased | UserAccess to Registrations, Meetings, Payments, Notifications | Fact | Signal | Each context erases or anonymises its part: the confirmed registration is deleted, the member leaves the groups, the payer is anonymised, the inbox is deleted. Never lost, and nothing is sent back: the request is completed when the deletion is carried out |
 | The open items of a deletion | UserAccess to Meetings and Payments | Question | – | Exact at the request and again when it is carried out |
+| An address is held by a registration that waits | Registrations to UserAccess | Question | – | Exact at the request and at the confirmation of a change of address |
+| An address is held by a user | UserAccess to Registrations | Question | – | Exact when someone registers or is invited |
 | An owner's payout account is validated | Payments to Meetings | Question | – | Exact at the moment a fee is set |
 | A member ever held a subscription | Payments to Meetings | Question | – | Exact when a group is proposed or accepted |
 | The date until which a subscription is valid | Payments to Meetings | Fact | State | The date itself decides, so an old copy is enough. A renewal must count at once, so the fact must not wait |
@@ -137,9 +139,9 @@ A fact is delivered **at least once**, and a receiver may get it **late, twice, 
 - **Not lose a fact when it fails**: it is handled again until it succeeds, and a fact that cannot be handled is made visible, never dropped.
 - **React through a command**, with the checks, the rules and the permissions of any other command.
 
-The sender, for its part, must make the fact known **if and only if** the change it tells of is kept: a change without its fact, or a fact without its change, is a lie. This is the subject of the [page on consistency](README.md#order-of-the-pages).
+The sender, for its part, must make the fact known **if and only if** the change it tells of is kept: a change without its fact, or a fact without its change, is a lie. This is the subject of the [page on consistency](consistency.md#a-change-and-its-fact).
 
-A question has none of these concerns, but one: its answer is **true at the moment it is given**. When a rule must hold even if the situation changes right after the answer, such as a sign-up that must be refused when the owner becomes locked at the same moment, the answer alone is not enough. That is the subject of the page on consistency too.
+A question has none of these concerns, but one: its answer is **true at the moment it is given**. When a rule must hold even if the situation changes right after the answer, such as a sign-up that must be refused when the owner becomes locked at the same moment, the answer alone is not enough. That is the subject of the [page on consistency](consistency.md#between-two-modules) too.
 
 ## Stale and out-of-order facts
 
@@ -307,7 +309,5 @@ flowchart LR
 
 ## What stays for later pages
 
-- **How the sender makes a fact known with its change, and how it is made once-only on the receiving side**: the [page on consistency](README.md#order-of-the-pages), and the technical decisions.
-- **The rules that cross modules and must stay absolute** when a question's answer changes right after it was given: the same page.
 - **The dates that start a command**, and the outside systems whose answers are late: the pages on time and on outside systems.
-- **Which technique carries a message** (a bus, a table, a call behind a port): the decisions at the end. The domain does not say it, and this page does not decide it.
+- **Which technique carries a message**, relays the facts and keeps the identity of those handled (a bus, a table, a call behind a port): the decisions at the end. The domain does not say it, and this page does not decide it. How a change and its fact go together, and how a rule stays absolute across modules, is in [consistency](consistency.md).

@@ -18,6 +18,8 @@ The application is a single deployable whole, a **modular monolith**, cut into f
 
 A module is the code of one context and of nothing else: its words are those of its glossary, its data is its own and nobody else reads it. There is no module for the administrators, since what an administrator decides belongs to the context that guards the action.
 
+**No constraint crosses two modules.** There is no foreign key, no shared table, no join and no uniqueness constraint over the data of two modules. A reference to something that belongs to another module is its **identity**, such as a member or a payer, and nothing guarantees that it still exists: the module that holds it asks the other, or receives a fact, see [between modules](between-modules.md). A rule that would need such a constraint is held in another way, one of those listed in [consistency](consistency.md#ways-to-hold-the-rule). This is what keeps each module's data movable on its own, see [ready to be extracted](concepts/modular-monolith.md#ready-to-be-extracted).
+
 A **shared kernel** holds the few things every module needs and that carry no rule of the domain, such as the identity of a person, a date, or the way a refusal is expressed. It stays small: each addition must be wanted by at least two modules.
 
 ## The layers of a module
@@ -101,7 +103,7 @@ What goes through the Contract is what the tables "What X needs from other conte
 | Demand | Where its answer lives |
 | :-- | :-- |
 | D1 information from other contexts | The Contract of the context that owns it, and a port of the one that needs it |
-| D2 absolute rules | The Domain, for a rule inside an aggregate; a domain service for a rule across aggregates. See the page on consistency |
+| D2 absolute rules | The Domain, for a rule inside an aggregate; a domain service for a rule across aggregates. See [consistency](consistency.md#rules-that-hold-at-the-same-moment) |
 | D3 permissions | The Application, before a use case: the module declares its permissions and UserAccess answers |
 | D4 time | A driving adapter in Ui that starts a use case on a date |
 | D5 outside systems | A port in the Application, an adapter in Infrastructure |
