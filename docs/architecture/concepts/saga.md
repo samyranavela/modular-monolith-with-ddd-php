@@ -24,7 +24,7 @@ A saga is a way to hold a rule across two modules, one among others, see [ways t
 
 ## Example: mark, then ask
 
-Take two modules with a rule across them, as in [the four cases](../consistency.md#the-four-cases): the sign-up to a meeting with a fee, refused when the owner is locked, and the deletion request of that owner, refused when a payment waits. If each asks the other first and then acts, both can find the other absent, and both succeed.
+Take two modules with a rule across them, as in [the three cases](../consistency.md#the-three-cases): the sign-up to a meeting with a fee, refused when the owner is locked, and the deletion request of that owner, refused when a payment waits. If each asks the other first and then acts, both can find the other absent, and both succeed.
 
 In a saga **by marks**, each module **marks** what it is doing, in its own data and in its own transaction, and **only then asks** the other. The answer is yes or no, and the module confirms or undoes its mark.
 
@@ -58,16 +58,15 @@ flowchart LR
 - **A mark left by a failure.** If the module fails between the mark and its verdict, the mark stays, and counts. It expires on a date and is undone, see [D4](../drivers.md#d4-things-happen-because-time-passes). The safe side is to refuse.
 - **The fact is made known at the verdict**, never at the mark, see [a change and its fact](../consistency.md#a-change-and-its-fact), so that no other module acts on a mark that is then undone.
 
-Applied to the four cases, with the question each side asks:
+Applied to the three cases, with the question each side asks:
 
 | Rule | Module A, its mark, its question | Module B, its mark, its question |
 | :-- | :-- | :-- |
-| A sign-up to a meeting with a fee, and the deletion request of the owner | **Meetings:** the place is being checked. It asks UserAccess whether the owner is locked. Undone: the place is released | **UserAccess:** the account is locked. It asks Meetings and Payments for the open items. Undone: the account is unlocked |
+| A sign-up to a meeting with a fee, and the deletion request of the owner | **Meetings:** the place is being checked. It asks Accounts whether the owner is locked. Undone: the place is released | **Accounts:** the account is locked. It asks Meetings and Payments for the open items. Undone: the account is unlocked |
 | A payout account removed, and a fee or an acceptance of a hand-over | **Payments:** the account is being removed. It asks Meetings whether a meeting with a fee is yet to start. Undone: the account stays | **Meetings:** the fee, or the acceptance, is being checked. It asks Payments whether the owner holds a validated payout account. Undone: the fee is not set, the acceptance does not count |
-| An address changed, and a registration with the same address | **UserAccess:** the address is held by the user. It asks Registrations whether a registration that waits holds it. Undone: the old address stays | **Registrations:** the registration is kept. It asks UserAccess whether a user holds the address. Undone: the registration is deleted, and the person gets the same neutral answer |
-| The final check of a deletion, and a host who leaves | **UserAccess:** the account is *being carried out*. It asks Meetings for the open items again. Undone: the account stays locked | **Meetings:** the member leaves. It asks UserAccess whether a host who remains is being carried out. Undone: the member is back |
+| The final check of a deletion, and a host who leaves | **Accounts:** the account is *being carried out*. It asks Meetings for the open items again. Undone: the account stays locked | **Meetings:** the member leaves. It asks Accounts whether a host who remains is being carried out. Undone: the member is back |
 
-In the fourth case, the mark *being carried out* lives only during the final check, so it refuses a departure for a moment, never for the whole grace period. It would add a status to the deletion request and a question to the Contract of UserAccess, which is the kind of consequence an implementation choice has on the model and on [between modules](../between-modules.md#what-each-module-sends-and-receives).
+In the third case, the mark *being carried out* lives only during the final check, so it refuses a departure for a moment, never for the whole grace period. It would add a state to the account and a question to the Contract of Accounts, which is the kind of consequence an implementation choice has on the model and on [between modules](../between-modules.md#what-each-module-sends-and-receives).
 
 ## In this project
 

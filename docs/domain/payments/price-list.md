@@ -56,4 +56,4 @@ Nothing else is sent: nothing for the creation, the activation or the deactivati
 
 ## Permissions
 
-Payments defines two permissions for the actions of this page: **managing the price list**, which covers creating, changing the price of, activating and deactivating an item, and **reading the whole price list**. [UserAccess](../useraccess/description.md#permissions) grants them to the Administrator role. A payer reads the price they would pay under the permission to [take out a subscription](subscriptions.md#permissions), which UserAccess grants to the Member role.
+Payments defines two permissions for the actions of this page: **managing the price list**, which covers creating, changing the price of, activating and deactivating an item, and **reading the whole price list**. [Accounts](../accounts/description.md#permissions) grants them to the Administrator role. A payer reads the price they would pay under the permission to [take out a subscription](subscriptions.md#permissions), which Accounts grants to the Member role.

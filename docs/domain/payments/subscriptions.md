@@ -87,7 +87,7 @@ The payer is notified whether or not they own a group: the subscription is their
 
 An expired subscription stays, and can be renewed, at the active price like any payment.
 
-One thing ends a subscription before its date: the [deletion of its holder's account](../useraccess/account-deletion.md#what-happens-in-payments). The automatic renewal is stopped, no new period is bought, and there is no refund.
+One thing ends a subscription before its date: the [deletion of its holder's account](../accounts/account-deletion.md#what-happens-in-payments). The automatic renewal is stopped, no new period is bought, and there is no refund.
 
 ## What others need to know
 
@@ -131,4 +131,4 @@ A payer reads nothing of someone else's. An administrator reads no subscription.
 
 ## Permissions
 
-Payments defines two permissions for the actions of this page: taking out a subscription, which covers starting a trial, buying, renewing, turning automatic renewal on and off and changing its period, and reading one's own subscription and payments. [UserAccess](../useraccess/description.md#permissions) grants them to the Member role.
+Payments defines two permissions for the actions of this page: taking out a subscription, which covers starting a trial, buying, renewing, turning automatic renewal on and off and changing its period, and reading one's own subscription and payments. [Accounts](../accounts/description.md#permissions) grants them to the Member role.

@@ -6,7 +6,7 @@ Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md).
 
 ## Who takes part
 
-- A **member** is the person seen from Meetings. They exist here once their [registration](../registrations/description.md) is confirmed with the Member role, and they are the same person as the [user](../useraccess/description.md). An administrator is not a member: they cannot take part in a group or a meeting, but they read everything in Meetings, and they decide on proposals. They change nothing else.
+- A **member** is the person seen from Meetings. They exist here once their [account](../accounts/description.md) is confirmed with the Member role, and they are the same person as the [user](../accounts/description.md#accounts). An administrator is not a member: they cannot take part in a group or a meeting, but they read everything in Meetings, and they decide on proposals. They change nothing else.
 - The **owner** of a meeting group is the member answerable for it and for its subscription. The member who proposed the group is its first owner.
 - An **organizer** is a member who looks after a group below its owner, and stands in when the owner is not available.
 - A **host** is a member responsible for holding one meeting, who takes no place in it. A host may change it, cancel it and look after its attendees. The owner and the organizers of the group may do the same on every meeting of the group.
@@ -29,13 +29,13 @@ This page and the following ones describe the information a context needs from a
 
 | Information | From | Why | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
-| That a registration was confirmed with the Member role | [Registrations](../registrations/description.md) | To have a member | Each confirmation gives one member, never lost and never twice. A member must exist without noticeable delay, since they may join a group at once |
+| That an account was confirmed with the Member role | [Accounts](../accounts/registration.md#confirming) | To have a member | Each confirmation gives one member, never lost and never twice. A member must exist without noticeable delay, since they may join a group at once |
 | Until when a member's subscription is valid, and whether they ever held one | [Payments](../payments/subscriptions.md) | To know whether a group is covered, whether a transfer completes, and whether the member is on the [free plan](group-life.md#the-free-plan) | The date itself decides coverage, so an expiry needs no delay. A renewal must count without noticeable delay, since the owner expects to organize at once. Whether a member ever held a subscription must be exact when a group is proposed or accepted |
 | That the payment of a place is paid, or has expired | [Payments](../payments/meeting-fees.md) | To confirm or release the places | Without noticeable delay, and never lost. It may come after the start of the meeting |
 | Whether an owner's payout account is validated | [Payments](../payments/meeting-fees.md#the-payout-account) | To allow a fee on a meeting | Exact at the moment a fee is set. A validated account cannot be removed while a meeting with a fee has yet to start, in a group its holder owns or has accepted the hand-over of, so it never disappears under a fee |
-| That a member's account is locked (a deletion is pending), and that it is deleted | [UserAccess](../useraccess/account-deletion.md) | To refuse a locked member as the candidate of a hand-over, to end a hand-over whose candidate is locked, to close the sign-ups to the meetings with a fee of a group whose owner is locked, and to take a deleted member out of the groups | Exact at a designation of a candidate and at a sign-up to a meeting with a fee. Prompt otherwise: without noticeable delay, never lost |
-| Whether a user holds a role that grants a permission | [UserAccess](../useraccess/description.md#permissions) | To allow or refuse each action. A locked member is refused every action that changes something, which UserAccess decides | Exact at every action |
+| That a member's account is locked (a deletion is pending), and that it is deleted | [Accounts](../accounts/account-deletion.md) | To refuse a locked member as the candidate of a hand-over, to end a hand-over whose candidate is locked, to close the sign-ups to the meetings with a fee of a group whose owner is locked, and to take a deleted member out of the groups | Exact at a designation of a candidate and at a sign-up to a meeting with a fee. Prompt otherwise: without noticeable delay, never lost |
+| Whether the role of an account grants a permission | [Accounts](../accounts/description.md#permissions) | To allow or refuse each action. A locked member is refused every action that changes something, which Accounts decides | Exact at every action |
 
 ## Permissions
 
-Every action of Meetings is protected by a permission that Meetings defines. [UserAccess](../useraccess/description.md#permissions) holds the roles and which permissions each one grants, and Meetings never names a role.
+Every action of Meetings is protected by a permission that Meetings defines. [Accounts](../accounts/description.md#permissions) holds the roles and which permissions each one grants, and Meetings never names a role.

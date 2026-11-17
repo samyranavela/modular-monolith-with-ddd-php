@@ -11,7 +11,7 @@ Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md).
 | A member of the group | Comment on a meeting of the group, reply, edit and remove their own comments, like and unlike. |
 | The owner or an organizer of the group | The same, and remove any comment, and allow or forbid comments on a meeting. |
 
-Being a member, the owner or an organizer is a role in the group, which the aggregates check. A member does not need to attend the meeting to comment on it. The permissions behind these actions are defined by Meetings and granted to the Member role by [UserAccess](../useraccess/description.md#permissions).
+Being a member, the owner or an organizer is a role in the group, which the aggregates check. A member does not need to attend the meeting to comment on it. The permissions behind these actions are defined by Meetings and granted to the Member role by [Accounts](../accounts/description.md#permissions).
 
 Commenting does not depend on the life of the meeting: members can comment before it starts, after it ends, and even when it is cancelled, which is a place to explain why. Two things stop comments: the switch below, and the [archiving](group-life.md#archived-groups) of the group.
 
@@ -65,7 +65,7 @@ Every member of the group sees how many likes a comment has and who liked it.
 
 The comments and the likes of a member who leaves the group **stay**. The former member can no longer write, reply, edit, remove or like, since they are no longer a member, but the owner and the organizers can still remove their comments.
 
-What happens to a member's content when their account is deleted concerns every context, and is described on its own page, [deleting an account](../useraccess/account-deletion.md). A comment whose author is gone stays readable.
+What happens to a member's content when their account is deleted concerns every context, and is described on its own page, [deleting an account](../accounts/account-deletion.md). A comment whose author is gone stays readable.
 
 ## Notifications
 

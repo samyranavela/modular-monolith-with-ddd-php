@@ -19,7 +19,7 @@ The way to extract is the same each time: expose the module on the network, repl
 
 ## In this project
 
-- A module for each of the five contexts of the [domain](../../domain/README.md#the-five-contexts), see [modules and layers](../modules-and-layers.md#one-module-for-each-context).
+- A module for each of the four contexts of the [domain](../../domain/README.md#the-four-contexts), see [modules and layers](../modules-and-layers.md#one-module-for-each-context).
 - Each module owns its data, and reaches another only through its Contract, see [the contract of a module](../modules-and-layers.md#the-contract-of-a-module).
 - The port of the caller and the adapter that answers it are the ones of [between modules](../between-modules.md#the-contract-has-two-parts): a question is asked through a port of the asker.
 - No constraint crosses two modules, see [one module for each context](../modules-and-layers.md#one-module-for-each-context).

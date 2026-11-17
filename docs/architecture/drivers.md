@@ -4,15 +4,15 @@ An architecture answers demands. These are the ones the domain makes, each taken
 
 ## D1. Each context has its own data, and needs information from the others
 
-The five contexts each hold their own data: a person is a user, a member and a payer, under three names, in three places. When a context needs something from another, its description says how **exact** and how **fresh** it must be, in a table "What X needs from other contexts". The same few expectations come back:
+The four contexts each hold their own data: a person is an account, a member and a payer, under three names, in three places. When a context needs something from another, its description says how **exact** and how **fresh** it must be, in a table "What X needs from other contexts". The same few expectations come back:
 
 | Expectation | Meaning | Example |
 | :-- | :-- | :-- |
 | **Exact at the moment of an action** | The answer is right when the action is decided, not a moment before | A hand-over to a locked candidate is refused, see [group life](../domain/meetings/group-life.md#handing-the-group-over) |
-| **Exact at an action, and again later** | The same check twice, at the request and when it is carried out | The open items of a deletion, see [deleting an account](../domain/useraccess/account-deletion.md#carrying-out-the-deletion) |
+| **Exact at an action, and again later** | The same check twice, at the request and when it is carried out | The open items of a deletion, see [deleting an account](../domain/accounts/account-deletion.md#carrying-out-the-deletion) |
 | **Without noticeable delay** | A short wait is fine, a long one is not | A renewed subscription must let the owner organize at once, see [Meetings](../domain/meetings/description.md#what-meetings-needs-from-other-contexts) |
-| **Never lost, never twice** | Every fact reaches the context that needs it, exactly once in its effect | A confirmed registration gives one user, one member and one payer, see [Registrations](../domain/registrations/description.md#confirming) |
-| **As of a given day** | A snapshot is enough | The export of a person's data, see [exporting the data](../domain/useraccess/account-deletion.md#exporting-the-data) |
+| **Never lost, never twice** | Every fact reaches the context that needs it, exactly once in its effect | A confirmed account gives one member and one payer, see [confirming](../domain/accounts/registration.md#confirming) |
+| **As of a given day** | A snapshot is enough | The export of a person's data, see [exporting the data](../domain/accounts/account-deletion.md#exporting-the-data) |
 
 The domain never says how information travels. The architecture must offer a way for each of these expectations.
 
@@ -29,15 +29,15 @@ Every rule that spans several aggregates, or several contexts, is **absolute**: 
 | A payer has one payment waiting and one subscription at most | [subscriptions](../domain/payments/subscriptions.md#buying) |
 | One active price for each period | [the price list](../domain/payments/price-list.md#one-active-price-per-period) |
 | A payout account cannot be removed while a meeting with a fee is to come | [the payout account](../domain/payments/meeting-fees.md#the-payout-account) |
-| An address belongs to one user or one waiting registration | [profile management](../domain/useraccess/profile-management.md#changing-the-email-address) |
-| At least one administrator remains, and a deletion is checked and carried out as one decision | [deleting an account](../domain/useraccess/account-deletion.md) |
-| No notification exists for an erased member | [Notifications](../domain/notifications/description.md#what-notifications-needs-from-other-contexts) |
+| An email address belongs to one account, pending or confirmed | [registering](../domain/accounts/registration.md#registering) |
+| At least one administrator remains, and a deletion is checked and carried out as one decision | [deleting an account](../domain/accounts/account-deletion.md) |
+| No notification exists for a deleted member | [Notifications](../domain/notifications/description.md#what-notifications-needs-from-other-contexts) |
 
 Some of these rules cross aggregates, or even contexts, and still have to be decided in one go. The architecture must give each one a place that can say no, see [consistency](consistency.md#rules-that-hold-at-the-same-moment).
 
 ## D3. Every action is guarded by a permission
 
-Each context defines the permissions of its own actions and says whether each **reads** or **changes**. UserAccess holds the roles, which permissions they grant, and the **lock** of an account whose deletion is pending: a locked user is refused every permission that changes something, with four exceptions. The check is **exact at every action**, and no context names a role. See [roles and permissions](../domain/useraccess/description.md#permissions).
+Each context defines the permissions of its own actions and says whether each **reads** or **changes**. Accounts holds the roles, which permissions they grant, and the **lock** of an account whose deletion is pending: a locked account is refused every permission that changes something, with four exceptions. The check is **exact at every action**, and no context names a role. See [roles and permissions](../domain/accounts/description.md#permissions).
 
 The architecture must put one check in front of every use case, decided with data that another context owns.
 
@@ -47,14 +47,14 @@ Several rules start with no request at all:
 
 | What | When | Stated in |
 | :-- | :-- | :-- |
-| A registration or an invitation expires | 48 hours | [Registrations](../domain/registrations/description.md#expiring) |
-| A link to confirm a new address expires, and a password reset link | 48 hours, and 1 hour | [profile management](../domain/useraccess/profile-management.md#delays-and-limits) |
+| A pending account, from a registration or an invitation, expires | 48 hours | [registration](../domain/accounts/registration.md#expiring) |
+| A link to confirm a new email address expires, and a password reset link | 48 hours, and 1 hour | [profile management](../domain/accounts/profile-management.md#delays-and-limits) |
 | A payment waiting for the payment system expires | 30 minutes | [meeting fees](../domain/payments/meeting-fees.md#paying) |
 | A free trial ends, and its reminder | 7 days, and 2 days before its end | [subscriptions](../domain/payments/subscriptions.md#trying) |
 | A subscription is about to end or to renew, then ends | 30 days for a year, 7 days for a month, before the end | [subscriptions](../domain/payments/subscriptions.md#when-a-subscription-ends) |
-| A deletion is carried out | After a grace period, 14 days | [deleting an account](../domain/useraccess/account-deletion.md#locked-account) |
-| An export of data expires | 7 days | [exporting the data](../domain/useraccess/account-deletion.md#exporting-the-data) |
-| Anonymised payments are deleted | After 10 years | [deleting an account](../domain/useraccess/account-deletion.md#carrying-out-the-deletion) |
+| A deletion is carried out | After a grace period, 14 days | [deleting an account](../domain/accounts/account-deletion.md#locked-account) |
+| An export of data expires | 7 days | [exporting the data](../domain/accounts/account-deletion.md#exporting-the-data) |
+| Anonymised payments are deleted | After 10 years | [deleting an account](../domain/accounts/account-deletion.md#carrying-out-the-deletion) |
 
 Every delay is configurable. The date is the rule: from the moment an expiry date has passed, the answer is no, even when nothing has yet cleaned up. The architecture must make things happen on a date, and must never depend on the cleaning to be right.
 
@@ -66,7 +66,7 @@ The architecture must keep these systems behind a boundary that the domain does 
 
 ## D6. One fact, one notification
 
-A context hands Notifications a fact with its kind, its member and its data, and each member concerned receives **one notification, never lost and never twice**, even when the same fact is handed twice. Required messages follow the same rule, to an address. Delivery is retried within limits. See [Notifications](../domain/notifications/description.md#one-fact-one-notification).
+A context hands Notifications a fact with its kind, its member and its data, and each member concerned receives **one notification, never lost and never twice**, even when the same fact is handed twice. Required messages follow the same rule, to an email address. Delivery is retried within limits. See [Notifications](../domain/notifications/description.md#one-fact-one-notification).
 
 ## D7. Reading has its own demands
 
@@ -80,7 +80,7 @@ The architecture must let a reading take the shape of its screen, without going 
 
 ## D8. A person can be forgotten
 
-The deletion of an account is carried out in every context, **never lost**: the user is erased, the member leaves every group, the payer is anonymised, the inbox is deleted. Some things stay on purpose: comments and decisions become those of a "deleted member", and payments are kept anonymised. Each context can also **export** what it holds about a person. See [deleting an account](../domain/useraccess/account-deletion.md).
+The deletion of an account is carried out in every context, **never lost**: the account is deleted, the member leaves every group, the payer is anonymised, the inbox is deleted. Some things stay on purpose: comments and decisions become those of a "deleted member", and payments are kept anonymised. Each context can also **export** what it holds about a person. See [deleting an account](../domain/accounts/account-deletion.md).
 
 The architecture must let every context erase, anonymise and export its own data, and be told of a deletion whatever happens.
 

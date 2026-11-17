@@ -4,47 +4,34 @@ The catalogue lists every **kind** of notification the application sends, groupe
 
 The names are descriptive: the identifier of each kind is a matter for the implementation. The text of the templates is not written here, only the data it needs.
 
-Unless a table says otherwise, every kind goes to the **inbox and by email**. A [required message](description.md#required-messages) is by email only, to an address. An administrator is never notified: the only emails that reach one are required messages, which go to an address.
+Unless a table says otherwise, every kind goes to the **inbox and by email**. A [required message](description.md#required-messages) is by email only, to an email address. An administrator is never notified: the only emails that reach one are required messages, which go to an email address.
 
 When something is cancelled or removed for a **reason**, the reason is part of the data and shown to the member.
 
-## Registrations
-
-Required messages, to an address.
+## Accounts
 
 | Kind | For | Data |
 | :-- | :-- | :-- |
-| **Address confirmation** | The address being registered, or the address of an invited administrator | The confirmation link, when it expires, and the role it leads to. Sent at the registration, at the invitation, and again with a new link when someone registers once more with an address that waits for its confirmation |
-| **Account already exists** | The address of someone who registers with an address already used by a user | Nothing but the fact |
-
-See [registering again with the same email](../registrations/description.md#registering-again-with-the-same-email).
-
-## UserAccess
-
-| Kind | For | Data |
-| :-- | :-- | :-- |
+| **Email address confirmation** | *Required message.* The email address being registered, or the email address of an invited administrator | The confirmation link, when it expires, and the role it leads to. Sent at the registration, at the invitation, and again with a new link when someone registers once more with an email address that waits for its confirmation |
 | **Deletion requested** | The member | The date the deletion will be carried out, what will happen, the groups to be archived |
 | **Deletion cancelled** | The member | Nothing but the fact |
 | **Deletion ended by open items** | The member | The open items that stood in the way |
 | **Export ready** | The member | Until when the export can be downloaded |
-| **Deletion carried out** | *Required message.* The address erased by the deletion | The date of the deletion |
+| **Deletion carried out** | *Required message.* The email address erased by the deletion | The date of the deletion |
 
-See [account deletion](../useraccess/account-deletion.md#notifications). An administrator who is deleted is not told.
+Nothing is sent to an email address held by a confirmed account when someone registers with it, nor to an email address that has no account when a password reset is asked for: the answer shown is the same whatever the situation. See [registering](../accounts/registration.md#registering) and [account deletion](../accounts/account-deletion.md#notifications). An administrator who is deleted is not told.
 
-## UserAccess: profile
+## Accounts: profile
 
-Required messages, to an address, see [profile management](../useraccess/profile-management.md#messages).
+Required messages, to an email address, see [profile management](../accounts/profile-management.md#messages).
 
 | Kind | For | Data |
 | :-- | :-- | :-- |
-| **Address change requested** | The current address of the user | The new address and the date. No link and no secret. Sent whatever the situation of the new address |
-| **Address change confirmation** | The new address | The confirmation link and when it expires |
-| **Address changed** | The old address | The new address and the date |
-| **Password reset link** | The address of the user | The link and when it expires |
-| **No account for this address** | The address that asked for a reset and has no user | Nothing but the fact |
-| **Password changed** | The current address | The date, and whether the password was changed or reset |
-
-A change of address to the address of a user sends the existing kind **Account already exists**, listed under Registrations.
+| **Email address change requested** | The current email address of the account | The new email address and the date. No link and no secret. Sent whatever the situation of the new email address |
+| **Email address change confirmation** | The new email address | The confirmation link and when it expires |
+| **Email address changed** | The old email address | The new email address and the date |
+| **Password reset link** | The email address of a confirmed account | The link and when it expires |
+| **Password changed** | The current email address | The date, and whether the password was changed or reset |
 
 ## Meetings: groups
 

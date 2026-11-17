@@ -6,12 +6,11 @@ Concepts used: [modular monolith](concepts/modular-monolith.md) and [hexagonal a
 
 ## One module for each context
 
-The application is a single deployable whole, a **modular monolith**, cut into five modules that carry the names of the five contexts of the [domain](../domain/README.md#the-five-contexts):
+The application is a single deployable whole, a **modular monolith**, cut into four modules that carry the names of the four contexts of the [domain](../domain/README.md#the-four-contexts):
 
 | Module | Context |
 | :-- | :-- |
-| Registrations | [Registrations](../domain/registrations/description.md) |
-| UserAccess | [UserAccess](../domain/useraccess/description.md) |
+| Accounts | [Accounts](../domain/accounts/description.md) |
 | Meetings | [Meetings](../domain/meetings/description.md) |
 | Payments | [Payments](../domain/payments/description.md) |
 | Notifications | [Notifications](../domain/notifications/description.md) |
@@ -104,7 +103,7 @@ What goes through the Contract is what the tables "What X needs from other conte
 | :-- | :-- |
 | D1 information from other contexts | The Contract of the context that owns it, and a port of the one that needs it |
 | D2 absolute rules | The Domain, for a rule inside an aggregate; a domain service for a rule across aggregates. See [consistency](consistency.md#rules-that-hold-at-the-same-moment) |
-| D3 permissions | The Application, before a use case: the module declares its permissions and UserAccess answers |
+| D3 permissions | The Application, before a use case: the module declares its permissions and Accounts answers |
 | D4 time | A driving adapter in Ui that starts a use case on a date |
 | D5 outside systems | A port in the Application, an adapter in Infrastructure |
 | D6 notifications | A port in the Application of the context that has a fact to report |

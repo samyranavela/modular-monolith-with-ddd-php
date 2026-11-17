@@ -38,7 +38,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 3. **Appointing.** Only the owner appoints, and only a member of the group who is not an organizer yet.
 4. **Demoting and stepping down.** Only the owner demotes an organizer, and an organizer demotes only themselves. The owner can do neither to themselves.
 5. **Editing.** The owner or an organizer edits the name, the description or the place, unless the group is archived.
-6. **Archiving.** An archived group is frozen: every command of this page and of the other pages of Meetings that would change it is refused, except leaving. The group is archived in reaction to the deletion of its owner's account, see [deleting an account](../useraccess/account-deletion.md).
+6. **Archiving.** An archived group is frozen: every command of this page and of the other pages of Meetings that would change it is refused, except leaving. The group is archived in reaction to the deletion of its owner's account, see [deleting an account](../accounts/account-deletion.md).
 
 ## Handing the group over
 
@@ -66,7 +66,7 @@ flowchart LR
         X1[Member left the group]:::event --> P1{{Cancel the pending transfer if it concerns the candidate}}:::policy
         X2[Organizer demoted]:::event --> P1
         X3[Organizer stepped down]:::event --> P1
-        X4[Candidate's account locked, in UserAccess]:::event --> P1
+        X4[Candidate's account locked, in Accounts]:::event --> P1
         P1 --> C5[Cancel the transfer by itself]:::command --> A5((Transfer Request)):::aggregate --> E5[Transfer cancelled by itself]:::event
 
         E1 --> P5{{Close the sign-ups to the meetings with a fee}}:::policy
@@ -90,7 +90,7 @@ flowchart LR
     end
 
     PAY[Payments]:::external --> V1
-    UA[UserAccess]:::external --> X4
+    UA[Accounts]:::external --> X4
     P4 --> EM[Notifications]:::external
 ```
 
