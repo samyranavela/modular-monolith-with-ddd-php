@@ -22,8 +22,8 @@ The state of a module changes **only** through a command. This holds as much for
 | Trigger | Example | Through |
 | :-- | :-- | :-- |
 | A person | A member proposes a meeting group | Ui |
-| A date | A registration expires, a payment waiting times out | Ui, as a driving adapter that starts the command on the date |
-| A fact of another context | A confirmed registration creates a member | Ui, which translates the fact into a command |
+| A date | A pending account expires, a payment waiting times out | Ui, as a driving adapter that starts the command on the date |
+| A fact of another context | A confirmed account creates a member | Ui, which translates the fact into a command |
 | An answer of an outside system | The payment system answers that an amount was paid | Infrastructure, behind a port, and then the use case |
 
 A use case started by a fact or by a date is a command like the others, and has its own permission and its own rules. This makes the chain of an [event storming](../domain/meetings/group-creation-event-storming.md), a command, an event, a policy, then another command, readable in the code.
@@ -38,7 +38,7 @@ The entrance is the **driving port** of the module. It keeps the adapters of Ui 
 
 A command is handled in the same steps, each in its own part:
 
-1. **Permission.** The module checks that the person's role grants the permission of the use case, before anything else. UserAccess answers, and a locked account is refused any command that changes something, except the four it keeps. The permission, declared by the module, says whether it reads or changes. See [roles and permissions](../domain/useraccess/description.md#permissions).
+1. **Permission.** The module checks that the person's role grants the permission of the use case, before anything else. Accounts answers, and a locked account is refused any command that changes something, except the four it keeps. The permission, declared by the module, says whether it reads or changes. See [roles and permissions](../domain/accounts/description.md#permissions).
 2. **Validation of the input.** What is missing or malformed is refused at once, before the domain is reached. This is the form of the input, not a rule of the domain.
 3. **Loading.** The use case loads the aggregates it needs, through a port.
 4. **Deciding.** The aggregate applies its rules and changes itself, or refuses with the reason of the domain. The rules live there, and nowhere else.

@@ -7,7 +7,7 @@ The project is a proof of concept. It sets out to show four styles working toget
 | Style | What it brings here | Concept |
 | :-- | :-- | :-- |
 | **Hexagonal architecture** | The rules of the domain sit at the centre and know nothing of the outside. Everything that touches the outside, a screen, a database, a payment system, is replaceable. | [Hexagonal architecture](concepts/hexagonal-architecture.md) |
-| **Domain-Driven Design** | The five contexts of the domain become five modules, with their own words and their own data. | [Modular monolith](concepts/modular-monolith.md) |
+| **Domain-Driven Design** | The four contexts of the domain become four modules, with their own words and their own data. | [Modular monolith](concepts/modular-monolith.md) |
 | **CQRS** | Changing something and reading something are two different paths, each with its own model. | [CQRS](concepts/cqrs.md) |
 | **Event-driven architecture** | Modules work together through facts that happened, and ask a question only when the domain needs an answer that is right at the moment. | [Event-driven architecture](concepts/event-driven-architecture.md) |
 

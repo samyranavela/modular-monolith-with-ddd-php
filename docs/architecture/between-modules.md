@@ -1,6 +1,6 @@
 # Between modules
 
-The five modules of [modules and layers](modules-and-layers.md) hold their own data and own rules. They still have to work together: a confirmed registration creates a member, a paid fee confirms a place, a deletion reaches every context. This page says **what goes from one module to another, in which form, and with which guarantees**. It answers D1, D6 and D8 of [what the domain demands](drivers.md).
+The four modules of [modules and layers](modules-and-layers.md) hold their own data and own rules. They still have to work together: a confirmed account creates a member, a paid fee confirms a place, a deletion reaches every context. This page says **what goes from one module to another, in which form, and with which guarantees**. It answers D1, D6 and D8 of [what the domain demands](drivers.md).
 
 Concepts used: [event-driven architecture](concepts/event-driven-architecture.md) and [modular monolith](concepts/modular-monolith.md). The tools come from the [DDD Starter Modelling Process](https://ddd-crew.github.io/ddd-starter-modelling-process/): a [context map](https://github.com/ddd-crew/context-mapping) for the relations, [domain message flow modelling](https://github.com/ddd-crew/domain-message-flow-modelling) for the scenarios, and the inbound and outbound sections of the [bounded context canvas](https://github.com/ddd-crew/bounded-context-canvas) for the lists of messages.
 
@@ -32,44 +32,37 @@ Everything a module says to the others is in its **Contract**, in the words of i
 
 The Contract carries no rule and depends on nothing but the shared kernel: the implementation of a question stays in the module that owns it. It is the published language of the context: stable, because others rely on it, and changed with care.
 
-A module that receives a message **translates it into its own model** before using it. A member in Meetings, a payer in Payments and a user in UserAccess are born from the same confirmed registration, and each keeps what it needs under its own name.
+A module that receives a message **translates it into its own model** before using it. A member in Meetings and a payer in Payments are born from the same confirmed account, and each keeps what it needs under its own name.
 
 ## Who relates to whom
 
-The relations of the five contexts, as patterns of a context map. An arrow goes from the **upstream** context, which others rely on, to the **downstream** one.
+The relations of the four contexts, as patterns of a context map. An arrow goes from the **upstream** context, which others rely on, to the **downstream** one.
 
 ```mermaid
 flowchart LR
-    R[Registrations]
-    U[UserAccess]
+    A[Accounts]
     M[Meetings]
     P[Payments]
     N[Notifications]
 
-    R -->|Published language| U
-    R -->|Published language| M
-    R -->|Published language| P
-    U -->|Open-host service| M
-    U -->|Open-host service| P
-    U -->|Open-host service| N
-    U -->|Open-host service| R
+    A -->|Open-host service| M
+    A -->|Open-host service| P
+    A -->|Open-host service| N
     M <-->|Partnership| P
-    R -->|Open-host service| N
     M -->|Open-host service| N
     P -->|Open-host service| N
 
     classDef ctx fill:#DFE6E9,stroke:#636E72,color:#000;
-    class R,U,M,P,N ctx;
+    class A,M,P,N ctx;
 ```
 
 *Each box is a context. The label is the pattern of the relation. For Notifications, the contexts hand it facts in the language it publishes: it knows none of them.*
 
 | Relation | Pattern | Why |
 | :-- | :-- | :-- |
-| Registrations to UserAccess, Meetings, Payments | Published language | One fact, a confirmed registration, that each context translates into its own model |
-| UserAccess to every other context | Open-host service | Permissions, the lock, and the deletion of an account are served the same way to all, whatever the context. UserAccess also tells Registrations of the deletion |
+| Accounts to Meetings, Payments and Notifications | Open-host service | A confirmed account, permissions, the lock, and the deletion of an account are served the same way to all, whatever the context, in one published language that each context translates into its own model |
 | Meetings and Payments | Partnership | A place to pay, a payment that is paid, a payout account and a fee yet to come: each needs the other, and the two evolve together |
-| Registrations, UserAccess, Meetings and Payments to Notifications | Open-host service | Notifications publishes one language to receive what to notify, and knows no context. It is a context like the others, with its own rules ([Notifications](../domain/notifications/description.md)) |
+| Accounts, Meetings and Payments to Notifications | Open-host service | Notifications publishes one language to receive what to notify, and knows no context. It is a context like the others, with its own rules ([Notifications](../domain/notifications/description.md)) |
 
 No context is a **conformist**: each one translates what it receives into its own model, in the handler of the fact or in the adapter of the question, and nobody adopts the model of another.
 
@@ -79,14 +72,12 @@ The tables "What X needs from other contexts" of the domain pages, one for [Meet
 
 | Need | From, to | Kind | Carries | Why this kind |
 | :-- | :-- | :-- | :-- | :-- |
-| A registration was confirmed, with its role | Registrations to UserAccess, Meetings, Payments | Fact | State | Never lost, never twice. A short delay is fine, and the person is not served before it ends |
-| A member may do this action | UserAccess to every module | Question | – | Exact at every action. The role and the lock are decided in UserAccess alone |
-| An account is locked, at a designation or a sign-up | UserAccess to Meetings | Question | – | Exact at the moment of the action |
-| The lock of an account changed: locked, or unlocked when the request is cancelled | UserAccess to Meetings | Fact | State | The hand-over that ends, the sign-ups that close and reopen: never lost, and the last word wins, see [stale and out-of-order facts](#stale-and-out-of-order-facts) |
-| A user is erased | UserAccess to Registrations, Meetings, Payments, Notifications | Fact | Signal | Each context erases or anonymises its part: the confirmed registration is deleted, the member leaves the groups, the payer is anonymised, the inbox is deleted. Never lost, and nothing is sent back: the request is completed when the deletion is carried out |
-| The open items of a deletion | UserAccess to Meetings and Payments | Question | – | Exact at the request and again when it is carried out |
-| An address is held by a registration that waits | Registrations to UserAccess | Question | – | Exact at the request and at the confirmation of a change of address |
-| An address is held by a user | UserAccess to Registrations | Question | – | Exact when someone registers or is invited |
+| An account was confirmed, with its role | Accounts to Meetings, Payments | Fact | State | Never lost, never twice. A short delay is fine, and the person is not served before it ends |
+| A member may do this action | Accounts to every module | Question | – | Exact at every action. The role and the lock are decided in Accounts alone |
+| An account is locked, at a designation or a sign-up | Accounts to Meetings | Question | – | Exact at the moment of the action |
+| The lock of an account changed: locked, or unlocked when the request is cancelled | Accounts to Meetings | Fact | State | The hand-over that ends, the sign-ups that close and reopen: never lost, and the last word wins, see [stale and out-of-order facts](#stale-and-out-of-order-facts) |
+| An account is deleted | Accounts to Meetings, Payments, Notifications | Fact | Signal | Each context erases or anonymises its part: the member leaves the groups, the payer is anonymised, the inbox is deleted. Never lost, and nothing is sent back: the request is completed when the deletion is carried out |
+| The open items of a deletion | Accounts to Meetings and Payments | Question | – | Exact at the request and again when it is carried out |
 | An owner's payout account is validated | Payments to Meetings | Question | – | Exact at the moment a fee is set |
 | A member ever held a subscription | Payments to Meetings | Question | – | Exact when a group is proposed or accepted |
 | The date until which a subscription is valid | Payments to Meetings | Fact | State | The date itself decides, so an old copy is enough. A renewal must count at once, so the fact must not wait |
@@ -95,7 +86,7 @@ The tables "What X needs from other contexts" of the domain pages, one for [Meet
 | A payment is paid, or has expired | Payments to Meetings | Fact | Signal | Never lost, and it may come after the start of the meeting |
 | Whether a fee meeting is yet to start | Meetings to Payments | Question | – | Exact at the moment a payout account is removed |
 | A fact to notify, with its kind and data | Every module to Notifications | Fact | State | One notification for each fact, even when it is handed twice |
-| The email address of a member | UserAccess to Notifications | Question | – | Exact when the email is sent |
+| The email address of a member | Accounts to Notifications | Question | – | Exact when the email is sent |
 
 The column **Carries** says what a fact brings: a **signal** says that something happened and names who or what it is about, and the receiver reacts. A **state** carries what the receiver keeps and uses later, so that it never has to ask, see [what a fact carries](#what-a-fact-carries). A state creates a **local view** in the receiver (the date of a subscription in Meetings, a member, a payer), which has the freshness its domain page asks for and follows the rules of [the guarantees](#what-the-guarantees-ask-of-a-module).
 
@@ -116,7 +107,7 @@ The two share a name in the domain pages, since the event storming shows both. T
 
 ## What a fact carries
 
-A fact is named in the past tense, in the words of the glossary of the module that publishes it, for instance "Registration confirmed" or "Payment paid". It carries:
+A fact is named in the past tense, in the words of the glossary of the module that publishes it, for instance "Account confirmed" or "Payment paid". It carries:
 
 - **an identity of its own**, so that a receiver can tell that it already saw it;
 - **when it happened**;
@@ -159,7 +150,7 @@ A fifth measure stands behind these four: the receiver **asks the owner for the 
 - **Catching up.** It corrects what a fact that never came, or a fault, left wrong. A receiver does it on a date, as a command of its own (see [D4](drivers.md#d4-things-happen-because-time-passes)), and counts the corrections: a view that is often corrected means the facts are not arriving, and this must not stay hidden.
 - **Starting.** A receiver that is new, or whose view is rebuilt, has not seen the earlier facts and needs the state to start from.
 
-It costs one question in the Contract of the owner, "what is the state of this, and its version?". It applies only to the views whose staleness would hurt: the validity of a subscription, answered by Payments, and the lock of an account, answered by UserAccess. It does not replace the four measures above.
+It costs one question in the Contract of the owner, "what is the state of this, and its version?". It applies only to the views whose staleness would hurt: the validity of a subscription, answered by Payments, and the lock of an account, answered by Accounts. It does not replace the four measures above.
 
 ### Example: the validity of a subscription
 
@@ -185,28 +176,26 @@ A module depends on the Contracts of the others, never on their inside, and a Co
 
 Each scenario is a diagram of the messages sent and answered, numbered in their order. A message is a **fact**, a **question**, a **command** that a person or a date gives, or an answer of an **outside system**.
 
-### A registration is confirmed
+### An account is confirmed
 
 ```mermaid
 flowchart LR
     Per([Person])
-    R[Registrations]
-    U[UserAccess]
+    U[Accounts]
     M[Meetings]
     P[Payments]
 
-    Per -->|"1. command: confirm the registration"| R
-    R -->|"2. fact: Registration confirmed"| U
-    R -->|"2. fact: Registration confirmed"| M
-    R -->|"2. fact: Registration confirmed"| P
+    Per -->|"1. command: confirm the account"| U
+    U -->|"2. fact: Account confirmed"| M
+    U -->|"2. fact: Account confirmed"| P
 
     classDef ctx fill:#DFE6E9,stroke:#636E72,color:#000;
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000;
-    class R,U,M,P ctx;
+    class U,M,P ctx;
     class Per actor;
 ```
 
-*The fact carries the identity of the person, the role and what each context needs to name them. UserAccess creates a user, Meetings a member and Payments a payer, each by a command of its own, once, whatever the number of times the fact arrives. With the Administrator role, only UserAccess has something to create. See [Registrations](../domain/registrations/description.md#confirming).*
+*The fact carries the identity of the account, the role and what each context needs to name the person. Meetings creates a member and Payments a payer, each by a command of its own, once, whatever the number of times the fact arrives. With the Administrator role, nobody has anything to create. See [confirming](../domain/accounts/registration.md#confirming).*
 
 ### A member signs up to a meeting with a fee
 
@@ -214,7 +203,7 @@ flowchart LR
 flowchart LR
     Per([Member])
     M[Meetings]
-    U[UserAccess]
+    U[Accounts]
     P[Payments]
     PS{{Payment system}}
     N[Notifications]
@@ -244,7 +233,7 @@ flowchart LR
 flowchart LR
     Per([Person])
     M[Meetings]
-    U[UserAccess]
+    U[Accounts]
 
     Per -->|"1. command: cancel a meeting"| M
     M -->|"2. question: does this user hold the permission?"| U
@@ -256,14 +245,14 @@ flowchart LR
     class Per actor;
 ```
 
-*Every command and every query of every module starts this way, before anything else (see [commands](use-cases.md#commands)). The module names the permission and says whether it reads or changes. UserAccess answers from the role and from the lock, so that no module knows either. See [roles and permissions](../domain/useraccess/description.md#permissions).*
+*Every command and every query of every module starts this way, before anything else (see [commands](use-cases.md#commands)). The module names the permission and says whether it reads or changes. Accounts answers from the role and from the lock, so that no module knows either. See [roles and permissions](../domain/accounts/description.md#permissions).*
 
 ### A deletion is requested and locks the account
 
 ```mermaid
 flowchart LR
     Per([Member])
-    U[UserAccess]
+    U[Accounts]
     M[Meetings]
     P[Payments]
 
@@ -280,32 +269,30 @@ flowchart LR
     class Per actor;
 ```
 
-*The request is refused when an open item is listed. Otherwise the account is locked, and Meetings ends a hand-over that names the member as candidate and closes the sign-ups to the meetings with a fee of their groups, see [deleting an account](../domain/useraccess/account-deletion.md#locked-account). The questions are asked again at the end of the grace period.*
+*The request is refused when an open item is listed. Otherwise the account is locked, and Meetings ends a hand-over that names the member as candidate and closes the sign-ups to the meetings with a fee of their groups, see [deleting an account](../domain/accounts/account-deletion.md#locked-account). The questions are asked again at the end of the grace period.*
 
 ### A deletion is carried out
 
 ```mermaid
 flowchart LR
     T([Date])
-    U[UserAccess]
-    R[Registrations]
+    U[Accounts]
     M[Meetings]
     P[Payments]
     N[Notifications]
 
     T -->|"1. command: carry out the deletion"| U
-    U -->|"2. fact: User erased"| R
-    U -->|"2. fact: User erased"| M
-    U -->|"2. fact: User erased"| P
-    U -->|"2. fact: User erased"| N
+    U -->|"2. fact: Account deleted"| M
+    U -->|"2. fact: Account deleted"| P
+    U -->|"2. fact: Account deleted"| N
 
     classDef ctx fill:#DFE6E9,stroke:#636E72,color:#000;
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000;
-    class U,R,M,P,N ctx;
+    class U,M,P,N ctx;
     class T actor;
 ```
 
-*The final check of the open items is made when the grace period is over, with the same questions as at the request, and is one decision with the carrying out. UserAccess erases the user and makes the fact known. Each context then does its part by a command of its own, and nothing is sent back: the request is already completed. This is [carrying out the deletion](../domain/useraccess/account-deletion.md#carrying-out-the-deletion).*
+*The final check of the open items is made when the grace period is over, with the same questions as at the request, and is one decision with the carrying out. Accounts deletes the account and makes the fact known. Each context then does its part by a command of its own, and nothing is sent back: the request is already completed. This is [carrying out the deletion](../domain/accounts/account-deletion.md#carrying-out-the-deletion).*
 
 ## What stays for later pages
 
