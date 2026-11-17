@@ -1,6 +1,6 @@
 # Accounts
 
-Accounts knows who the people of the application are and what each may do. It holds the **account** of every person who can sign in, from the moment they ask to open it until the day it is deleted, with the **role** it has and the **permissions** that role grants.
+Accounts knows who the people of the application are and what each may do. It holds the **account** of every person who can sign in, from the moment they ask to open it until the day it is deleted, with the **role** it has. Every other context reads from it the **access** of an account, to decide what the person may do.
 
 Terms are defined in the [Accounts glossary](../../../src/Accounts/GLOSSARY.md).
 
@@ -33,20 +33,34 @@ The person then follows the link and gives their login, names and password: conf
 
 ## Roles
 
-An account has **exactly one role**. A role is a named set of permissions. The application has two:
+An account has **exactly one role**. A role says what kind of account it is, and each context decides what a role may do. The application has two:
 
 - **Member**: the ordinary role. Someone who registers themselves always receives it.
 - **Administrator**: the role of whoever handles what ordinary users cannot, such as deciding on meeting group proposals.
 
 An administrator is never the result of someone registering themselves: they come from an [invitation](registration.md#inviting-an-administrator). An administrator is not a member of the meeting groups and not a payer. There is no way to turn a member into an administrator.
 
-## Permissions
+## Access
 
-A **Permission** authorizes one action, such as accepting a meeting group proposal. A role holds one or more permissions. The permissions belong to the contexts whose actions they guard, so Meetings defines what an administrator may do with meeting group proposals, and Accounts only stores the link between roles and permissions.
+Accounts is the **referent of who a person is and what they may be**. The **access** of an account is made of three things:
 
-The rule is the same for every action: it is allowed when the role of the account grants its permission, and refused otherwise.
+- its **role**, Member or Administrator;
+- its **state**, confirmed or [locked](account-deletion.md#locked-account);
+- its **subscription**: until when it is valid, and whether the account ever held one.
 
-The context that defines a permission also says whether its action **reads** or **changes** something. That is what a [locked account](account-deletion.md#locked-account) rests on: Accounts refuses a locked account every permission that changes something, with four exceptions, cancelling the deletion request, exporting the data, marking the notifications as read and changing the password, see [profile management](profile-management.md). The lock is thus applied in one place, and no context has to know it to refuse an action.
+At every action, the context that guards it **reads the access of the account from Accounts, as it stands at that moment**, and keeps no copy. An identity or a right that is out of date is a risk, whereas a short delay is not: a role that is withdrawn, a lock or a deletion must count at once.
+
+Each context decides, for each of its own actions, **which role may do it**, and whether it **changes** something. Accounts knows none of these actions, and a new action of another context changes nothing here. A [locked account](account-deletion.md#locked-account) is refused by each context every action that changes something, apart from four exceptions: cancelling the deletion request and exporting the data, which belong to Accounts, changing the password, see [profile management](profile-management.md), and marking the notifications as read, which belongs to Notifications.
+
+### The subscription
+
+The subscription is not a thing of Accounts: it belongs to [Payments](../payments/subscriptions.md). Accounts keeps only what the access needs, **until when** the subscription is valid and **whether the account ever held one**, from the fact that Payments gives each time a subscription is started, bought or renewed. It is a value, replaced by the next one. This is enough for Meetings to know whether a group is covered by its owner's subscription, and whether the owner is on the free plan.
+
+Whatever is late can only remove a right, never grant one more:
+
+- **A renewal not yet known**: the date read is the earlier one, so the owner is covered for a shorter time until the fact arrives.
+- **A subscription cancelled before its end**: nothing changes, since the rights run until the date, and that date has not moved.
+- **A locked account**: only the state counts, the date no longer matters.
 
 ## Profile
 
@@ -60,6 +74,7 @@ A user can ask to leave the application: a member requests the deletion of their
 
 | Information | From | Why | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
+| That a subscription was started, bought or renewed, and until when it is valid | [Payments](../payments/subscriptions.md) | To give the access of the account its subscription | Without noticeable delay and never lost. When it is late, only a right is missing for a while, see [the subscription](#the-subscription) |
 | The open items of a member: the groups they own that are under hand-over, the meetings where they are the last host, the proposals pending. And the groups they own, which would be archived | [Meetings](../meetings/description.md) | To allow a deletion request, and to carry it out | Exact at the request, and again when the deletion is carried out |
 | Whether a payment waits for the member, as an attendee or as the owner of a group | [Payments](../payments/description.md) | To allow a deletion request, and to carry it out | Exact at the request, and again when the deletion is carried out |
 
@@ -68,9 +83,9 @@ A user can ask to leave the application: a member requests the deletion of their
 | Who needs it | Information | Why | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
 | Meetings, Payments | That an account was confirmed with the Member role | To have a member, to have a payer | Each confirmation gives one member and one payer, never lost and never twice |
-| Meetings | That an account is locked, and that it is deleted | To refuse a locked member as the candidate of a hand-over, to close the sign-ups to meetings with a fee of a group whose owner is locked, and to deal with an erased member | Exact at those moments. Prompt otherwise, and never lost for the erasure |
+| Meetings | That an account becomes locked, and that it is deleted | To end a hand-over whose candidate is locked, and to deal with an erased member | Prompt, and never lost |
 | Payments | That an account is deleted | To end the subscription, remove the payout account and make the payer anonymous | Never lost |
 | Notifications | The email address of an account, and that an account is deleted | To write to the person, and to send nothing more to a deleted member | Exact when a message is sent. The deletion is never lost |
-| Each context | Whether the role of an account grants a permission | To allow or refuse each action | Exact at each action |
+| Each context | The access of an account: its role, its state and its subscription | To allow or refuse each action: the role may do it, a locked account changes nothing, and for Meetings, a group is covered by the subscription of its owner and its sign-ups to meetings with a fee are closed while its owner is locked | Exact at each action, read from Accounts at that moment and never kept by the other context |
 
 See the [conceptual model](conceptual-model.md). The creation and the confirmation of an account, with the member and the payer that follow, are shown in the [event storming of the registration](registration-event-storming.md).

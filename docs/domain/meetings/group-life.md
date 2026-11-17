@@ -57,13 +57,13 @@ What happens to the former owner's own subscription belongs to [Payments](../pay
 
 ## Covering the group
 
-A group is covered by the subscription of **its owner**, and only a covered group can organize meetings. Meetings needs to know, for each member, **until when** their subscription is valid and whether they ever held one, see [what Meetings needs from other contexts](description.md#what-meetings-needs-from-other-contexts). The group is covered when its owner's subscription is still valid, from the moment the group is created, and the group follows the new owner's subscription after a hand-over.
+A group is covered by the subscription of **its owner**, and only a covered group can organize meetings. Meetings reads, for each member, **until when** their subscription is valid and whether they ever held one, from [Accounts](../accounts/description.md#the-subscription), see [what Meetings needs from other contexts](description.md#what-meetings-needs-from-other-contexts). The group is covered when its owner's subscription is still valid, from the moment the group is created, and the group follows the new owner's subscription after a hand-over.
 
 There is no limit on the number of groups an owner's subscription covers.
 
 ### The free plan
 
-An owner who has **never held a subscription**, a trial included, is on the [free plan](../payments/subscriptions.md#without-a-subscription-the-free-plan), and Meetings knows it because it holds no expiration date for them. Such an owner has **one group**, which is covered. The limit is configurable.
+An owner who has **never held a subscription**, a trial included, is on the [free plan](../payments/subscriptions.md#without-a-subscription-the-free-plan), and Accounts knows it because it holds no expiration date for them. Such an owner has **one group**, which is covered. The limit is configurable.
 
 A member on the free plan **cannot own a second group**: they cannot [propose](group-creation.md#proposing) one while they own one, and a proposal of theirs cannot be accepted if they have become owner of a group in the meantime. They take a subscription or a trial first. Hence a group on the free plan is always covered, and an owner holding a subscription may own as many groups as they like.
 
@@ -114,4 +114,4 @@ Members find and follow groups through read-only views, kept up to date by the e
 | An organizer | Edit the group. Leave the group, or step down. |
 | The owner | What an organizer does, except leaving or stepping down. Appoint and demote organizers. Hand the group over. |
 
-In an archived group, only reading and leaving remain. An administrator is a user and not a member, so they take no part in the life of a group, but they see all the views of [reading](#reading), including the members of a group they do not belong to. The permissions behind this table are defined by Meetings and granted to the Member role by [Accounts](../accounts/description.md#permissions). Being an owner or an organizer is not a permission of a role: it is a role in one group, which the group itself checks.
+In an archived group, only reading and leaving remain. An administrator is a user and not a member, so they take no part in the life of a group, but they see all the views of [reading](#reading), including the members of a group they do not belong to. Meetings decides which role may do each action of this table, and reads the role of the person from [Accounts](../accounts/description.md#access). Being an owner or an organizer is not a role of the account: it is a role in one group, which the group itself checks.

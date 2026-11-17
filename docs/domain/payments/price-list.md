@@ -54,6 +54,6 @@ Nothing else is sent: nothing for the creation, the activation or the deactivati
 - **An administrator** reads the whole list, active and inactive items alike, with their period and price.
 - **A payer** reads the **price they would pay**, for a period, when they are about to buy or renew. They never read the list itself, nor an inactive item.
 
-## Permissions
+## Who may do what
 
-Payments defines two permissions for the actions of this page: **managing the price list**, which covers creating, changing the price of, activating and deactivating an item, and **reading the whole price list**. [Accounts](../accounts/description.md#permissions) grants them to the Administrator role. A payer reads the price they would pay under the permission to [take out a subscription](subscriptions.md#permissions), which Accounts grants to the Member role.
+Payments allows two kinds of action on this page to the Administrator role: **managing the price list**, which covers creating, changing the price of, activating and deactivating an item, and **reading the whole price list**. A payer reads the price they would pay under the same rule as [taking out a subscription](subscriptions.md#who-may-do-what), which Payments allows to the Member role.

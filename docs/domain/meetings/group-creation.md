@@ -37,4 +37,4 @@ A proposal is decided **once**. The decision is final: it is neither changed nor
 | A member | Propose a group. List their own proposals, with their status and, for a rejected one, the reason. |
 | An administrator | List all the proposals and filter them by status. View a proposal. Accept or reject it. |
 
-An administrator is a user, not a member: they cannot propose a group, and they are not in any group. The permissions behind this table are defined by Meetings, and granted to the Member and Administrator roles by [Accounts](../accounts/description.md#permissions).
+An administrator is a user, not a member: they cannot propose a group, and they are not in any group. Meetings decides which role may do each of these actions, and reads the role of the person from [Accounts](../accounts/description.md#access).

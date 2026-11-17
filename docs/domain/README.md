@@ -14,12 +14,12 @@ A reader who wants the whole picture reads this page, then the description of ea
 
 | Context | What it is for | Main notions | Start here | Glossary |
 | :-- | :-- | :-- | :-- | :-- |
-| **Accounts** | Know who the people are and what each may do, from the registration to the deletion of the account | Account, registration, invitation, confirmation link, role, permission, locked account, deletion of an account, profile | [Description](accounts/description.md) | [Glossary](../../src/Accounts/GLOSSARY.md) |
+| **Accounts** | Know who the people are and what each may do, from the registration to the deletion of the account | Account, registration, invitation, confirmation link, role, access, locked account, deletion of an account, profile | [Description](accounts/description.md) | [Glossary](../../src/Accounts/GLOSSARY.md) |
 | **Meetings** | Form communities and meet | Meeting group, proposal, meeting, attendee, waitlist, host, comment, hand-over | [Description](meetings/description.md) | [Glossary](../../src/Meetings/GLOSSARY.md) |
 | **Payments** | Handle the money | Subscription, free trial, free plan, meeting fee, payout account, price list | [Description](payments/description.md) | [Glossary](../../src/Payments/GLOSSARY.md) |
 | **Notifications** | Reach a person about something that happened | Notification, inbox, delivery, catalogue, required message | [Description](notifications/description.md) | [Glossary](../../src/Notifications/GLOSSARY.md) |
 
-There is no context for administration: what an administrator decides belongs to the context that guards the action, such as the proposals of meeting groups in Meetings or the price list in Payments. See [roles and permissions](accounts/description.md#permissions).
+There is no context for administration: what an administrator decides belongs to the context that guards the action, such as the proposals of meeting groups in Meetings or the price list in Payments. See [access](accounts/description.md#access).
 
 ## How the contexts depend on one another
 
@@ -48,7 +48,7 @@ flowchart TB
 
 *A solid arrow reads "needs to know from". A dotted arrow reads "hands a fact to": the context decides that someone must be notified and gives Notifications the kind, the member and the data. The double arrow between Meetings and Payments stands for what each needs from the other: Meetings needs the validity of a subscription, a fee paid and a payout account; Payments needs a place awaiting payment, a lost place and whether a meeting with a fee has yet to start.*
 
-Two dependencies are not drawn, because they concern every context: each one needs Accounts to know whether the role of an account grants a permission, and every action is checked this way.
+Two dependencies are not drawn, because they concern every context: each one reads the access of an account from Accounts, its role, its state and its subscription, at every action.
 
 ## One person, several names
 
@@ -87,8 +87,9 @@ The pages below follow a member from the first registration to the deletion of t
 ## Rules that cross the contexts
 
 - **Every rule is absolute.** A rule that spans several aggregates or contexts holds even when two operations happen at the same moment: one succeeds and the other is refused. No rule is left to chance, such as the last host of a meeting, the free plan, or the hand-over of a group.
-- **Permissions are declared where the action is guarded.** Each context defines the permissions of its own actions and says whether each one reads or changes something. Accounts holds the roles and the link between roles and permissions, and no other context names a role. See [permissions](accounts/description.md#permissions).
-- **A locked account reads and changes nothing, with four exceptions.** While the deletion of an account is pending, Accounts refuses the account every permission that changes something, except cancelling the request, exporting their data, marking their notifications as read and changing their password. See [locked account](accounts/account-deletion.md#locked-account).
+- **Who may do what is decided where the action is guarded.** Each context decides which role may do each of its own actions, and says whether it reads or changes something. Accounts holds the roles and the state of the accounts, and every context reads the [access](accounts/description.md#access) of an account from Accounts at each action, never keeping it: an identity or a right out of date is a risk.
+- **A locked account reads and changes nothing, with four exceptions.** While the deletion of an account is pending, each context refuses the account every action that changes something, except cancelling the request, exporting their data, marking their notifications as read and changing their password. See [locked account](accounts/account-deletion.md#locked-account).
+- **One rule gives way to the instant of the commit.** A sign-up to a meeting with a fee is refused while the owner of the group is locked, from the moment the lock is committed. Two operations at the same moment may both go through, and what the rule protects is held by the final check of the deletion. See [locked account](accounts/account-deletion.md#locked-account).
 - **One fact, one notification.** A fact that must be notified gives each member concerned one notification, never lost and never twice. See [one fact, one notification](notifications/description.md#one-fact-one-notification).
 - **Money is never refunded by the application.** A refund is the owner's decision, in their own payment system. See [refunds](payments/meeting-fees.md#refunds).
 - **What a context needs from another is stated, not how it is obtained.** Whether information is requested when needed or kept up to date beforehand is an implementation choice.

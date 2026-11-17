@@ -60,7 +60,7 @@ flowchart LR
 
 | Relation | Pattern | Why |
 | :-- | :-- | :-- |
-| Accounts to Meetings, Payments and Notifications | Open-host service | A confirmed account, permissions, the lock, and the deletion of an account are served the same way to all, whatever the context, in one published language that each context translates into its own model |
+| Accounts to Meetings, Payments and Notifications | Open-host service | A confirmed account, the access of an account (role, state, subscription), the lock, and the deletion of an account are served the same way to all, whatever the context, in one published language that each context translates into its own model |
 | Meetings and Payments | Partnership | A place to pay, a payment that is paid, a payout account and a fee yet to come: each needs the other, and the two evolve together |
 | Accounts, Meetings and Payments to Notifications | Open-host service | Notifications publishes one language to receive what to notify, and knows no context. It is a context like the others, with its own rules ([Notifications](../domain/notifications/description.md)) |
 
@@ -73,14 +73,12 @@ The tables "What X needs from other contexts" of the domain pages, one for [Meet
 | Need | From, to | Kind | Carries | Why this kind |
 | :-- | :-- | :-- | :-- | :-- |
 | An account was confirmed, with its role | Accounts to Meetings, Payments | Fact | State | Never lost, never twice. A short delay is fine, and the person is not served before it ends |
-| A member may do this action | Accounts to every module | Question | – | Exact at every action. The role and the lock are decided in Accounts alone |
-| An account is locked, at a designation or a sign-up | Accounts to Meetings | Question | – | Exact at the moment of the action |
-| The lock of an account changed: locked, or unlocked when the request is cancelled | Accounts to Meetings | Fact | State | The hand-over that ends, the sign-ups that close and reopen: never lost, and the last word wins, see [stale and out-of-order facts](#stale-and-out-of-order-facts) |
+| The access of an account: its role, its state and its subscription | Accounts to every module | Question | – | Exact at every action, and never kept by the asker: an identity or a right that is out of date is a risk. Accounts alone decides |
+| An account becomes locked | Accounts to Meetings | Fact | Signal | The hand-over that ends: never lost. The sign-ups that close need no fact, since Meetings reads the state of the owner at each sign-up |
 | An account is deleted | Accounts to Meetings, Payments, Notifications | Fact | Signal | Each context erases or anonymises its part: the member leaves the groups, the payer is anonymised, the inbox is deleted. Never lost, and nothing is sent back: the request is completed when the deletion is carried out |
 | The open items of a deletion | Accounts to Meetings and Payments | Question | – | Exact at the request and again when it is carried out |
 | An owner's payout account is validated | Payments to Meetings | Question | – | Exact at the moment a fee is set |
-| A member ever held a subscription | Payments to Meetings | Question | – | Exact when a group is proposed or accepted |
-| The date until which a subscription is valid | Payments to Meetings | Fact | State | The date itself decides, so an old copy is enough. A renewal must count at once, so the fact must not wait |
+| A subscription was started, bought or renewed, with the date until which it is valid | Payments to Accounts and Meetings | Fact | State | Accounts keeps the date and whether one was ever held, as part of the access. Meetings uses it to complete a hand-over that waits. The date itself decides, so an old value only removes a right for a while. A renewal must count soon, so the fact must not wait |
 | A place awaiting payment, with the amount and the owner | Meetings to Payments | Fact | State | Exact and once for each place: without it there is no payment |
 | A place is lost, or a meeting is cancelled | Meetings to Payments | Fact | Signal | Prompt: when late, a payment paid after its end is recorded, not refunded |
 | A payment is paid, or has expired | Payments to Meetings | Fact | Signal | Never lost, and it may come after the start of the meeting |
@@ -88,9 +86,9 @@ The tables "What X needs from other contexts" of the domain pages, one for [Meet
 | A fact to notify, with its kind and data | Every module to Notifications | Fact | State | One notification for each fact, even when it is handed twice |
 | The email address of a member | Accounts to Notifications | Question | – | Exact when the email is sent |
 
-The column **Carries** says what a fact brings: a **signal** says that something happened and names who or what it is about, and the receiver reacts. A **state** carries what the receiver keeps and uses later, so that it never has to ask, see [what a fact carries](#what-a-fact-carries). A state creates a **local view** in the receiver (the date of a subscription in Meetings, a member, a payer), which has the freshness its domain page asks for and follows the rules of [the guarantees](#what-the-guarantees-ask-of-a-module).
+The column **Carries** says what a fact brings: a **signal** says that something happened and names who or what it is about, and the receiver reacts. A **state** carries what the receiver keeps and uses later, so that it never has to ask, see [what a fact carries](#what-a-fact-carries). A state creates a **local view** in the receiver (the subscription in Accounts, a member, a payer), which has the freshness its domain page asks for and follows the rules of [the guarantees](#what-the-guarantees-ask-of-a-module).
 
-One need uses both kinds, for two different reasons: whether an account is locked is a **question** when an action is decided, and a **fact** when the other contexts must react to it afterwards.
+One need uses both kinds, for two different reasons: whether an account is locked is read through the **question** about its access when an action is decided, and is a **fact** when another context must react to it afterwards.
 
 ## A fact and a domain event
 
@@ -119,7 +117,7 @@ It carries **no instruction**: what the receiver does with it is for the receive
 
 ## What a question returns
 
-A question has a **precise answer, not a copy of the data of the other module**, and its asker keeps a **port of its own** for it, so that the answer is read in the words of the asker, even when the owner's words differ (a payer in Payments is a member in Meetings): "does this user hold this permission?", "is this payout account validated?". It reads, and changes nothing. A module that asks this way never learns more than it needs, and cannot use the answer later: the answer was true when it was given.
+A question has a **precise answer, not a copy of the data of the other module**, and its asker keeps a **port of its own** for it, so that the answer is read in the words of the asker, even when the owner's words differ (a payer in Payments is a member in Meetings): "what is the access of this user?", "is this payout account validated?". It reads, and changes nothing. A module that asks this way never learns more than it needs, and cannot use the answer later: the answer was true when it was given.
 
 ## What the guarantees ask of a module
 
@@ -128,11 +126,11 @@ A fact is delivered **at least once**, and a receiver may get it **late, twice, 
 - **Ignore a fact it already handled**, by its identity. A repeated fact changes nothing.
 - **Not depend on the order** of facts. A receiver that needs an order relies on what the fact says, not on when it arrives, see [stale and out-of-order facts](#stale-and-out-of-order-facts).
 - **Not lose a fact when it fails**: it is handled again until it succeeds, and a fact that cannot be handled is made visible, never dropped.
-- **React through a command**, with the checks, the rules and the permissions of any other command.
+- **React through a command**, with the checks, the rules and the authorization of any other command.
 
 The sender, for its part, must make the fact known **if and only if** the change it tells of is kept: a change without its fact, or a fact without its change, is a lie. This is the subject of the [page on consistency](consistency.md#a-change-and-its-fact).
 
-A question has none of these concerns, but one: its answer is **true at the moment it is given**. When a rule must hold even if the situation changes right after the answer, such as a sign-up that must be refused when the owner becomes locked at the same moment, the answer alone is not enough. That is the subject of the [page on consistency](consistency.md#between-two-modules) too.
+A question has none of these concerns, but one: its answer is **true at the moment it is given**. When a rule must hold even if the situation changes right after the answer, such as a payout account that must not be removed when a fee is set at the same moment, the answer alone is not enough. That is the subject of the [page on consistency](consistency.md#between-two-modules) too.
 
 ## Stale and out-of-order facts
 
@@ -150,23 +148,23 @@ A fifth measure stands behind these four: the receiver **asks the owner for the 
 - **Catching up.** It corrects what a fact that never came, or a fault, left wrong. A receiver does it on a date, as a command of its own (see [D4](drivers.md#d4-things-happen-because-time-passes)), and counts the corrections: a view that is often corrected means the facts are not arriving, and this must not stay hidden.
 - **Starting.** A receiver that is new, or whose view is rebuilt, has not seen the earlier facts and needs the state to start from.
 
-It costs one question in the Contract of the owner, "what is the state of this, and its version?". It applies only to the views whose staleness would hurt: the validity of a subscription, answered by Payments, and the lock of an account, answered by Accounts. It does not replace the four measures above.
+It costs one question in the Contract of the owner, "what is the state of this, and its version?". It applies only to the views whose staleness would hurt: the subscription kept by Accounts, answered by Payments. It does not replace the four measures above.
 
 ### Example: the validity of a subscription
 
-Payments makes known the date until which a member's subscription is valid, and Meetings keeps it to tell whether a group is covered.
+Payments makes known the date until which a member's subscription is valid, and Accounts keeps it, with whether one was ever held, as part of the access that Meetings reads to tell whether a group is covered.
 
 | Part | What |
 | :-- | :-- |
 | Fact | "Subscription validity changed": the member, the date until which it is valid or none, and the version of the subscription in Payments |
-| View in Meetings | The member, the date, the version |
+| View in Accounts | The member, the date, whether one was ever held, the version |
 | Rule | A fact whose version is not higher than the one held is ignored. Otherwise the view is replaced |
 
-Keeping the **latest date** would not do: a subscription can become shorter, when it ends with the deletion of its payer's account and is not refunded, so only the version tells which fact is the latest. A copy that lags behind a renewal refuses the owner for a moment. The domain accepts this ("without noticeable delay"), and that is why a copy is enough here.
+Keeping the **latest date** would not do: a subscription can become shorter, when it ends with the deletion of its payer's account and is not refunded, so only the version tells which fact is the latest. A copy that lags behind a renewal shows the earlier date, so it refuses the owner for a moment and never grants more than the truth: a subscription cancelled before its end keeps its date, and a locked account no longer depends on it. The domain accepts this ("without noticeable delay"), and that is why a copy is enough here.
 
-### Example: the lock of an account
+### Example: the lock of an account, read and not copied
 
-The lock of an account is set, then lifted when the request is cancelled. Meetings closes the sign-ups to the meetings with a fee on the first, and reopens them on the second. If the two facts were swapped on the way, the sign-ups would stay closed for an owner who is no longer locked. The fact therefore carries the **state of the lock and its version**, and Meetings applies the last one. At the moment of a sign-up, the domain asks for an exact answer, so Meetings asks the question and does not rely on the copy.
+The lock of an account is set, then lifted when the request is cancelled. Meetings closes the sign-ups to the meetings with a fee while the owner is locked, and reopens them after. It keeps **no copy** of the lock: at each sign-up it reads the state of the owner from Accounts, so there is no fact to be late, swapped or lost, and nothing to reconcile. This is the rule for what withdraws a right (a lock, a role, a deletion): the access is read at the moment of the action, never kept. The fact of the lock only tells Meetings to react, by ending a hand-over whose candidate is locked.
 
 ## No cycles
 
@@ -225,9 +223,9 @@ flowchart LR
     class PS ext;
 ```
 
-*The legend of colours is the one of the other diagrams of this page, with the outside system in pink. Meetings keeps the place awaiting payment (message 4) and does not guarantee it. When the payment system does not answer in time, message 7 is the fact "Payment expired" instead, and Meetings releases the places. The sign-up is refused at message 3 when the owner is locked. See [meeting fees](../domain/payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee).*
+*The legend of colours is the one of the other diagrams of this page, with the outside system in pink. Meetings keeps the place awaiting payment (message 4) and does not guarantee it. When the payment system does not answer in time, message 7 is the fact "Payment expired" instead, and Meetings releases the places. The sign-up is refused at message 3 when the owner is locked. A sign-up read just before the lock can still go through: its payment ends by itself long before the deletion, whose final check would refuse it otherwise. See [meeting fees](../domain/payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee).*
 
-### An action is guarded by a permission
+### An action is guarded by the access of the person
 
 ```mermaid
 flowchart LR
@@ -236,8 +234,8 @@ flowchart LR
     U[Accounts]
 
     Per -->|"1. command: cancel a meeting"| M
-    M -->|"2. question: does this user hold the permission?"| U
-    U -->|"3. answer: yes, or no with the reason"| M
+    M -->|"2. question: the access of this user"| U
+    U -->|"3. answer: role, state, subscription"| M
 
     classDef ctx fill:#DFE6E9,stroke:#636E72,color:#000;
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000;
@@ -245,7 +243,7 @@ flowchart LR
     class Per actor;
 ```
 
-*Every command and every query of every module starts this way, before anything else (see [commands](use-cases.md#commands)). The module names the permission and says whether it reads or changes. Accounts answers from the role and from the lock, so that no module knows either. See [roles and permissions](../domain/accounts/description.md#permissions).*
+*Every command and every query of every module starts this way, before anything else (see [commands](use-cases.md#commands)). The module knows which role may do the action and whether it reads or changes. It reads the access from Accounts, then decides, refusing a locked account every action that changes something. See [access](../domain/accounts/description.md#access).*
 
 ### A deletion is requested and locks the account
 
@@ -261,7 +259,7 @@ flowchart LR
     U -->|"3. question: open items?"| P
     M -->|"4. answer: none, or the list"| U
     P -->|"5. answer: none, or the list"| U
-    U -->|"6. fact: Lock of the account changed"| M
+    U -->|"6. fact: Account locked"| M
 
     classDef ctx fill:#DFE6E9,stroke:#636E72,color:#000;
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000;
@@ -269,7 +267,7 @@ flowchart LR
     class Per actor;
 ```
 
-*The request is refused when an open item is listed. Otherwise the account is locked, and Meetings ends a hand-over that names the member as candidate and closes the sign-ups to the meetings with a fee of their groups, see [deleting an account](../domain/accounts/account-deletion.md#locked-account). The questions are asked again at the end of the grace period.*
+*The request is refused when an open item is listed. Otherwise the account is locked, and Meetings ends a hand-over that names the member as candidate. The sign-ups to the meetings with a fee of their groups close by themselves, since Meetings reads the state of the owner at each one, see [deleting an account](../domain/accounts/account-deletion.md#locked-account). The questions are asked again at the end of the grace period.*
 
 ### A deletion is carried out
 

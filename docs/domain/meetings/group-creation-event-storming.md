@@ -54,4 +54,4 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, d
 6. **Telling the proposer of the rejection.** In reaction to the rejection, a notification gives the proposer the reason. The proposal stays visible to them, with that reason.
 7. **Reading.** Two read models are kept up to date by the three events of the proposal: the member's own proposals, with their status and the reason of a rejection, and the list of all the proposals, which the administrator filters by status.
 
-Everything here belongs to Meetings. The administrator and the member come from [Accounts](../accounts/description.md): they are known by their identity, and the permissions that allow each command are those of the table in [creating a meeting group](group-creation.md#what-each-role-sees).
+Everything here belongs to Meetings. The administrator and the member come from [Accounts](../accounts/description.md): they are known by their identity, and the roles that may do each command are those of the table in [creating a meeting group](group-creation.md#what-each-role-sees).

@@ -9,7 +9,7 @@ The other contexts decide *that* someone must be notified and *who*. Notificatio
 ## Who takes part
 
 - A **member** is the person who is notified, and the only one who reads their own notifications. Nobody reads the notifications of someone else.
-- An **administrator** is not an ordinary user: they read everything the permissions allow, but they are never notified and have no inbox. The only emails they receive are [required messages](#required-messages): the confirmation of their email address when they are invited, before their account is confirmed, and the security messages of [profile management](../accounts/profile-management.md#messages), such as a password reset link.
+- An **administrator** is not an ordinary user: they read everything their role allows, but they are never notified and have no inbox. The only emails they receive are [required messages](#required-messages): the confirmation of their email address when they are invited, before their account is confirmed, and the security messages of [profile management](../accounts/profile-management.md#messages), such as a password reset link.
 - An **email address** is where a [required message](#required-messages) goes when there is no member: a person whose account is not confirmed yet, or a member whose account has just been erased.
 - The **other contexts** are the ones that have something to report. Each hands Notifications who to notify, what happened and the data that goes with it.
 
@@ -83,7 +83,7 @@ This page and the following ones describe the information a context needs from a
 | :-- | :-- | :-- | :-- |
 | The email address of a member | [Accounts](../accounts/description.md) | To send the email of a notification | Exact when the email is sent |
 | That a member's account was deleted | [Accounts](../accounts/account-deletion.md) | To delete their inbox | Exact: no notification exists for a deleted member, even when a deletion and a creation happen at the same moment |
-| Whether the role of an account grants a permission | [Accounts](../accounts/description.md#permissions) | To allow or refuse each reading and each marking as read | Exact at every action |
+| The access of an account: its role and its state | [Accounts](../accounts/description.md#access) | To allow or refuse each reading and each marking as read | Exact at every action, read at that moment and never kept |
 
 ## What the other contexts give to Notifications
 
@@ -97,9 +97,9 @@ A context that wants someone notified gives Notifications:
 
 A context that has several members to notify, such as every attendee of a cancelled meeting, hands one fact for each of them.
 
-## Permissions
+## Who may do what
 
-Notifications defines two permissions: **reading one's own notifications**, which covers the list and the count, and **marking one's own notifications as read**. [Accounts](../accounts/description.md#permissions) grants them to the Member role, and Notifications never names a role.
+Notifications allows two kinds of action to the Member role: **reading one's own notifications**, which covers the list and the count, and **marking one's own notifications as read**. Marking as read is the one change a locked member may still make here.
 
 ## What is out of scope for now
 

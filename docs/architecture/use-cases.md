@@ -12,7 +12,7 @@ A use case is **either** a command **or** a query, never both:
 | :-- | :-- | :-- |
 | Does | Changes the state of the module | Shows the state, changes nothing |
 | Goes through | The aggregates, which hold the rules | A read model, shaped for what is shown |
-| May be refused for | A permission, an invalid input, a rule of the domain | A permission, or an item that is not visible to the person |
+| May be refused for | The access of the person, an invalid input, a rule of the domain | The access of the person, or an item that is not visible to the person |
 | Answers | Done, or refused with a reason. It may give back the identity of what it created | The data asked for |
 
 The state of a module changes **only** through a command. This holds as much for what a person does as for what time or another module sets off.
@@ -26,7 +26,7 @@ The state of a module changes **only** through a command. This holds as much for
 | A fact of another context | A confirmed account creates a member | Ui, which translates the fact into a command |
 | An answer of an outside system | The payment system answers that an amount was paid | Infrastructure, behind a port, and then the use case |
 
-A use case started by a fact or by a date is a command like the others, and has its own permission and its own rules. This makes the chain of an [event storming](../domain/meetings/group-creation-event-storming.md), a command, an event, a policy, then another command, readable in the code.
+A use case started by a fact or by a date is a command like the others, and has its own authorization and its own rules. This makes the chain of an [event storming](../domain/meetings/group-creation-event-storming.md), a command, an event, a policy, then another command, readable in the code.
 
 ## The entrance of a module
 
@@ -38,7 +38,7 @@ The entrance is the **driving port** of the module. It keeps the adapters of Ui 
 
 A command is handled in the same steps, each in its own part:
 
-1. **Permission.** The module checks that the person's role grants the permission of the use case, before anything else. Accounts answers, and a locked account is refused any command that changes something, except the four it keeps. The permission, declared by the module, says whether it reads or changes. See [roles and permissions](../domain/accounts/description.md#permissions).
+1. **Access.** Before anything else, the module reads the access of the person from Accounts and checks that their role may do the use case. A locked account is refused any command that changes something, except the four that are kept. The use case, declared by the module, says whether it reads or changes. See [access](../domain/accounts/description.md#access).
 2. **Validation of the input.** What is missing or malformed is refused at once, before the domain is reached. This is the form of the input, not a rule of the domain.
 3. **Loading.** The use case loads the aggregates it needs, through a port.
 4. **Deciding.** The aggregate applies its rules and changes itself, or refuses with the reason of the domain. The rules live there, and nowhere else.
@@ -57,7 +57,7 @@ Three kinds of refusal exist, and each has its own answer:
 
 | Refusal | Because | Example |
 | :-- | :-- | :-- |
-| **Not allowed** | The role has not the permission, or the account is locked | A locked member who tries to sign up |
+| **Not allowed** | The role may not do it, or the account is locked | A locked member who tries to sign up |
 | **Not valid** | The input is incomplete or malformed | A proposal without a name |
 | **Against a rule** | The domain says no | Accepting a second proposal of a free-plan member |
 
@@ -69,24 +69,24 @@ A query does not go through the aggregates. It reads a **read model**, a view sh
 
 Two things apply to every query:
 
-- **Permission and visibility.** The query checks the permission, then shows only what the person may see: the group members' list only to group members, the waitlist only to hosts, owner and organizers. An item that is not visible is treated as if it did not exist.
+- **Access and visibility.** The query checks the access, then shows only what the person may see: the group members' list only to group members, the waitlist only to hosts, owner and organizers. An item that is not visible is treated as if it did not exist.
 - **Freshness.** A read model has the freshness its domain page asks for. How a read model is kept up to date is the subject of a later page.
 
 ## A worked example: accepting a proposal
 
 The page [creating a meeting group](../domain/meetings/group-creation.md) holds three use cases that follow one another.
 
-| Use case | Kind | Trigger | Permission | What it does |
+| Use case | Kind | Trigger | Who may | What it does |
 | :-- | :-- | :-- | :-- | :-- |
-| Accept a proposal | Command | An administrator, through Ui | Accept proposals, granted to the Administrator role | The proposal decides: it is accepted once, and the free-plan rule is checked. It keeps who decided and when |
+| Accept a proposal | Command | An administrator, through Ui | Accept proposals, allowed to the Administrator role | The proposal decides: it is accepted once, and the free-plan rule is checked. It keeps who decided and when |
 | Create the meeting group | Command | The proposal being accepted, an event inside the module | None of a person: the module starts it itself | The group is created from the proposal, with the proposer as owner and member |
 | Notify the proposer | A fact handed to Notifications | The same acceptance | | Notifications gives the proposer one notification, see [D6](drivers.md#d6-one-fact-one-notification) |
 
 And, to read the result:
 
-| Use case | Kind | Permission | Shown |
+| Use case | Kind | Who may | Shown |
 | :-- | :-- | :-- | :-- |
-| List my proposals | Query | List my proposals, granted to the Member role | The member's own proposals with their status and, for a rejected one, the reason |
-| List all proposals | Query | List all proposals, granted to the Administrator role | Every proposal, filtered by status |
+| List my proposals | Query | List my proposals, allowed to the Member role | The member's own proposals with their status and, for a rejected one, the reason |
+| List all proposals | Query | List all proposals, allowed to the Administrator role | Every proposal, filtered by status |
 
 Each use case is named in the words of the domain, and can be traced back to the page that specifies it.
