@@ -21,7 +21,10 @@ classDiagram
     class AccountRole {
         name
     }
-    class Permission
+    class Subscription {
+        valid until
+        ever held
+    }
     class EmailAddressChangeRequest {
         new email address
         deadline
@@ -32,7 +35,7 @@ classDiagram
 
     Account --> AccountState : is in
     Account "*" --> "1" AccountRole : has
-    AccountRole "1" --> "1..*" Permission : grants
+    Account "1" --> "0..1" Subscription : knows
     Account "1" --> "0..1" EmailAddressChangeRequest : has
     Account "1" --> "0..1" PasswordResetRequest : has
 
@@ -61,13 +64,13 @@ stateDiagram-v2
     Confirmed --> [*] : administrator deleted by another
 ```
 
-An account is always in **one state**, and the state says what can be done with it: a pending account can do nothing, a confirmed account does what its role grants, a locked account reads and changes almost nothing, and a deleted account no longer exists: the deletion is final, and nothing of the account remains. See [the states](description.md#accounts).
+An account is always in **one state**, and the state says what can be done with it: a pending account can do nothing, a confirmed account does what its role allows, a locked account reads and changes almost nothing, and a deleted account no longer exists: the deletion is final, and nothing of the account remains. See [the states](description.md#accounts).
 
 ## Reading it
 
 - **Account** carries what the person gave when registering. Its identity never changes, and no two accounts share a login or an email address, whatever their state.
-- **Account Role** is a named group of permissions. There are two, Member and Administrator, and an account has exactly one, fixed when the account is created.
-- **Permission** is the smallest unit: one action that can be allowed.
+- **Account Role** tells what kind of account it is. There are two, Member and Administrator, and an account has exactly one, fixed when the account is created. Each context decides what a role may do in its own actions.
+- **Subscription** is a value: until when the subscription of the account is valid, and whether it ever held one. Payments owns the subscription and gives a new value each time it is started, bought or renewed. It is part of the [access](description.md#access) that the other contexts read.
 - **Email Address Change Request** and **Password Reset Request** are requests in progress. An account has at most one of each. They have a deadline and no status: once done, or after the deadline, they are gone.
 - A **deletion request** is not a thing of its own: it is the account going from confirmed to locked, for the grace period.
 - The dotted arrows are the same person seen from other contexts. Accounts does not know them: they know the account.

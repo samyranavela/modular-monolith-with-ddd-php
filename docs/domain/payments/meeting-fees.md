@@ -45,7 +45,7 @@ The application **never refunds**. A payment that is paid stays as it is when it
 
 A group enters a [hand-over](../meetings/group-life.md#handing-the-group-over) only when **no payment of its meetings waits**, which Meetings checks when the owner makes the request. From that moment until the hand-over is fully validated or ends, Meetings closes the sign-ups to the meetings of the group that have a fee, so that no payment can be created. When a meeting of the group that has a fee has yet to start, the candidate's acceptance counts only if their payout account is **validated**, and from the acceptance until the hand-over ends the candidate cannot [remove](#the-payout-account) that account, so the group never changes hands without one. A payment never changes receiver.
 
-Meetings closes the same sign-ups while the owner of the group is [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account, so no payment is created for an owner who may be gone.
+Meetings closes the same sign-ups while the owner of the group is [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account, so that no payment is created for an owner who may be gone.
 
 ## What others need to know
 
@@ -75,9 +75,9 @@ Payments sends **no notification** for a fee: the receipt is the payment system'
 
 An administrator reads no payment.
 
-## Permissions
+## Who may do what
 
-Payments defines two permissions for the actions of this page: reading one's own meeting fee payments and managing a payout account, which covers setting it up, replacing it and removing it. [Accounts](../accounts/description.md#permissions) grants them to the Member role.
+Payments allows two kinds of action on this page to the Member role: reading one's own meeting fee payments and managing a payout account, which covers setting it up, replacing it and removing it. A locked payer only reads, see [who may do what](description.md#who-may-do-what).
 
 ## Delays
 

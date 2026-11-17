@@ -75,11 +75,11 @@ Anyone gives an email address. The answer is the same sentence whatever the situ
 
 An administrator has no inbox and is never notified, but these messages go to the email address of any account, an administrator's included: they are security messages, and nobody can turn them off.
 
-## Permissions
+## Who may do what
 
-Accounts defines two permissions, both of which **change** something: **changing one's own email address** and **changing one's own password**. Accounts grants them to the Member and Administrator roles. Asking for a reset and following a link need no permission, since the person is not signed in, as for [registering](registration.md#registering).
+Accounts allows two actions to the Member and Administrator roles, both of which **change** something: **changing one's own email address** and **changing one's own password**. Asking for a reset and following a link need no right, since the person is not signed in, as for [registering](registration.md#registering).
 
-Applying the lock, Accounts refuses a locked account every permission that changes something, except those listed in [the description](description.md#permissions), which include changing the password.
+A locked account is refused every action that changes something, except those listed in [the description](description.md#access), which include changing the password.
 
 ## What Accounts needs from other contexts
 

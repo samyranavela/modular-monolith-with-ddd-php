@@ -25,7 +25,7 @@ Every rule that spans several aggregates, or several contexts, is **absolute**: 
 | A meeting always has at least one host: the last host cannot leave or be removed | [organizing meetings](../domain/meetings/organization.md#hosts) |
 | A free-plan group has at most two meetings a month | [creating a meeting](../domain/meetings/organization.md#creating-a-meeting) |
 | A free-plan member owns one group, checked at the acceptance of a proposal | [creating a meeting group](../domain/meetings/group-creation.md#deciding) |
-| No sign-up to a meeting with a fee during a hand-over, or while the owner is locked | [the fee](../domain/meetings/organization.md#the-fee) |
+| No sign-up to a meeting with a fee during a hand-over, or from the moment the owner is locked | [the fee](../domain/meetings/organization.md#the-fee) |
 | A payer has one payment waiting and one subscription at most | [subscriptions](../domain/payments/subscriptions.md#buying) |
 | One active price for each period | [the price list](../domain/payments/price-list.md#one-active-price-per-period) |
 | A payout account cannot be removed while a meeting with a fee is to come | [the payout account](../domain/payments/meeting-fees.md#the-payout-account) |
@@ -35,9 +35,9 @@ Every rule that spans several aggregates, or several contexts, is **absolute**: 
 
 Some of these rules cross aggregates, or even contexts, and still have to be decided in one go. The architecture must give each one a place that can say no, see [consistency](consistency.md#rules-that-hold-at-the-same-moment).
 
-## D3. Every action is guarded by a permission
+## D3. Every action is guarded by the access of the person
 
-Each context defines the permissions of its own actions and says whether each **reads** or **changes**. Accounts holds the roles, which permissions they grant, and the **lock** of an account whose deletion is pending: a locked account is refused every permission that changes something, with four exceptions. The check is **exact at every action**, and no context names a role. See [roles and permissions](../domain/accounts/description.md#permissions).
+Each context decides which role may do each of its own actions, and says whether it **reads** or **changes**. Accounts holds the roles, the **lock** of an account whose deletion is pending and the subscription as part of the **access**, and the context **reads the access from Accounts at every action**, never keeping it. A locked account is refused every action that changes something, with four exceptions. See [access](../domain/accounts/description.md#access).
 
 The architecture must put one check in front of every use case, decided with data that another context owns.
 

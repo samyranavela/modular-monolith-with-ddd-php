@@ -28,7 +28,7 @@ The state of an account whose holder followed the link and validated the form, i
 _Avoid_: Active account, verified account
 
 **Locked Account**:
-The state of an account whose holder asked to leave, for as long as the grace period runs. Its holder can sign in and read everything a member with a confirmed account reads, cancel the request, export their data, mark their notifications as read and change their password, and change nothing else. Accounts applies it by refusing the account every permission that changes something.
+The state of an account whose holder asked to leave, for as long as the grace period runs. Its holder can sign in and read everything a member with a confirmed account reads, cancel the request, export their data, mark their notifications as read and change their password, and change nothing else. Each context applies it to its own actions, by refusing the account every action that changes something.
 _Avoid_: Suspended account, blocked account
 
 **Confirmation Link**:
@@ -48,12 +48,15 @@ An account holding the Administrator role. Comes from an invitation, never from 
 _Avoid_: Admin, superuser
 
 **Account Role**:
-A named set of permissions that an account holds. There are two, Member and Administrator, and an account holds exactly one.
+The kind of account, which each context uses to decide who may do what. There are two, Member and Administrator, and an account holds exactly one.
 _Avoid_: Profile, group
 
-**Permission**:
-The authorization to perform one action. An action is allowed when the role of the account grants its permission. Each permission reads or changes something, and one that changes something is refused to a locked account.
-_Avoid_: Right, privilege
+**Access**:
+What Accounts says of an account to the other contexts: its role, its state (confirmed or locked), and its subscription as Accounts knows it. A context reads it at every action and never keeps it.
+_Avoid_: Permission, right, privilege
+
+**Subscription (in Accounts)**:
+Until when the subscription of an account is valid, and whether the account ever held one. A value that Accounts keeps from the fact given by Payments, which owns the subscription.
 
 **Account Deletion Request**:
 A member's request to leave the application for good. It can be made only when nothing stands in the way: no group owned under hand-over, no last host of an upcoming meeting, no payment waiting, no group proposal pending. It locks the account for a grace period. The request has no status of its own: the account goes back to confirmed when the member cancels, or when the application cancels because something stands in the way at the end, and it is erased when the deletion is carried out. An administrator makes none: another administrator deletes them.

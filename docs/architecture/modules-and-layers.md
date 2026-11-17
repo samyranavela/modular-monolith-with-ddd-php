@@ -103,7 +103,7 @@ What goes through the Contract is what the tables "What X needs from other conte
 | :-- | :-- |
 | D1 information from other contexts | The Contract of the context that owns it, and a port of the one that needs it |
 | D2 absolute rules | The Domain, for a rule inside an aggregate; a domain service for a rule across aggregates. See [consistency](consistency.md#rules-that-hold-at-the-same-moment) |
-| D3 permissions | The Application, before a use case: the module declares its permissions and Accounts answers |
+| D3 access | The Application, before a use case: the module reads the access from Accounts, then decides |
 | D4 time | A driving adapter in Ui that starts a use case on a date |
 | D5 outside systems | A port in the Application, an adapter in Infrastructure |
 | D6 notifications | A port in the Application of the context that has a fact to report |

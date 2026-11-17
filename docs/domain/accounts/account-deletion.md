@@ -47,13 +47,13 @@ Nothing is refused to an administrator for these reasons: an administrator is ne
 
 From the request until it ends, the account is **locked**. The member can still sign in and **reads everything a member with a confirmed account reads**: their groups, their meetings, the comments, their subscription, their payments and their inbox. They **change nothing**, with four exceptions: cancelling the request, [exporting their data](#exporting-the-data), marking their notifications as read, and [changing their password](profile-management.md#changing-the-password).
 
-Accounts applies the lock through the [permissions](description.md#permissions): it refuses a locked account every permission whose action changes something, apart from these four. The other contexts ask, as for any action, whether it is allowed, and need not know the lock for that.
+Each context applies the lock to its own actions: it reads the [access](description.md#access) of the account from Accounts at every action, and refuses a locked account every action that changes something, apart from these four, which belong to Accounts and Notifications.
 
 A locked member takes part in nothing: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate.
 
 What was set up before the request goes on by itself: an automatic renewal that falls during the grace period is charged as usual.
 
-While the owner of a group is locked, **sign-ups to its meetings that have a fee are closed**, as during a [hand-over](../meetings/group-life.md#handing-the-group-over), so that no payment is created for an owner who may be gone. They reopen if the request is cancelled. The rule is absolute: when a sign-up to such a meeting and the owner's deletion request happen at the same moment, not both succeed. Either the sign-up comes first and the request is refused because a payment waits, or the request comes first and the sign-up is refused as closed. Hence no payment can wait when the deletion is carried out.
+While the owner of a group is locked, **sign-ups to its meetings that have a fee are closed**, as during a [hand-over](../meetings/group-life.md#handing-the-group-over), so that no payment is created for an owner who may be gone. They reopen if the request is cancelled. Meetings reads the state of the owner at each sign-up, so the sign-ups are closed **from the moment the lock is committed**. A sign-up that is read just before can still go through, even if the request is committed right after: the payment then waits 30 minutes at most and ends by itself, paid or expired, long before the end of the grace period. The [final check](#carrying-out-the-deletion) finds no payment that waits, and refuses the deletion otherwise. Hence no payment can wait when the deletion is carried out.
 
 What others do can still change the picture. A host who was not the last may find themselves the last when the other host leaves. That is checked when the deletion is carried out, see below.
 
@@ -146,7 +146,8 @@ A locked member reads these three, like everything else a member with a confirme
 | :-- | :-- | :-- | :-- |
 | Accounts | The open items of a member: the groups they own that are under hand-over, the meetings where they are the last host, the proposals pending. And the groups they own, which would be archived | [Meetings](../meetings/description.md) | Exact at the request, and again when the deletion is carried out |
 | Accounts | Whether a payment waits for the member, as an attendee or as the owner of a group | [Payments](../payments/description.md) | Exact at the request, and again when the deletion is carried out |
-| Meetings | That a member's account is locked, and that it is deleted | Accounts | Exact when a candidate is designated, since a hand-over to a locked member must be refused, and at a sign-up to a meeting with a fee, which is closed while the owner of the group is locked. Prompt otherwise, and never lost for the deletion |
+| Meetings | The state of a member's account: whether it is locked | Accounts | Exact at every action, read at that moment: a hand-over to a locked member must be refused, and a sign-up to a meeting with a fee is closed while the owner of the group is locked, see [access](description.md#access) |
+| Meetings | That a member's account becomes locked, and that it is deleted | Accounts | Prompt, to end a hand-over whose candidate is locked, and never lost for the deletion |
 | Payments | That a payer's account is deleted | Accounts | Never lost |
 | Each context | What it holds about a person, for the export | Itself | As of the day of the export |
 

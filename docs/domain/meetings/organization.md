@@ -12,7 +12,7 @@ Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md).
 | A host of the meeting | Change the meeting, remove an attendee, designate and remove hosts, cancel it. A host does not sign up. |
 | The owner or an organizer of the group | The same as a host, on every meeting of the group, and create meetings. |
 
-Being a host, an organizer or the owner is a role in one meeting or one group, which the aggregate checks. The permissions behind these actions are defined by Meetings and granted to the Member role by [Accounts](../accounts/description.md#permissions).
+Being a host, an organizer or the owner is a role in one meeting or one group, which the aggregate checks. Meetings decides which role may do these actions, and reads the role of the person from [Accounts](../accounts/description.md#access).
 
 A meeting only changes **before it starts**, and only while it is **not cancelled**, and never when its group is [archived](group-life.md#archived-groups): nobody signs up, changes, cancels or designates a host in a meeting of an archived group. Everything below holds under that condition, and the rest of the page does not repeat it. The one exception is the answer of Payments about a place awaiting payment, confirmed or released, which can arrive after the start, see [the fee](#the-fee).
 
@@ -67,7 +67,7 @@ A member of the group signs up, with a number of guests. They need:
 - enough places for themselves and their guests;
 - no payment already awaited from them for this meeting;
 - for a meeting with a fee, the group not to be in a [hand-over](group-life.md#handing-the-group-over): sign-ups to its meetings with a fee are closed from the request until the hand-over ends;
-- for a meeting with a fee, the owner of the group not to be [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups are closed from the request until it ends.
+- for a meeting with a fee, the owner of the group not to be [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups are closed from the moment the lock is committed until the request ends.
 
 A member who had said they would not come simply changes their mind.
 
@@ -120,7 +120,7 @@ Payments needs to know when a place awaiting payment is lost before it is paid, 
 
 During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change. The rule is absolute: when a sign-up to such a meeting and the hand-over request happen at the same moment, not both succeed. Either the sign-up is taken first and the request is refused because a payment waits, or the request is taken first and the sign-up is refused as closed.
 
-The same holds while the owner of the group is [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups to the meetings with a fee are closed until the request ends, and a sign-up and the deletion request at the same moment do not both succeed.
+The same holds while the owner of the group is [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups to the meetings with a fee are closed from the moment the lock is committed until the request ends. Meetings reads the state of the owner at each sign-up. A sign-up read just before the lock may still go through: its payment ends by itself in 30 minutes at most, and the final check of the deletion would refuse it otherwise, see [locked account](../accounts/account-deletion.md#locked-account).
 
 ## Notifications
 

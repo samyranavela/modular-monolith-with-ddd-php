@@ -62,11 +62,11 @@ This page and the following ones describe the information a context needs from a
 | That a place awaiting payment is lost, or that a meeting is cancelled | [Meetings](../meetings/organization.md#the-fee) | To cancel the payment that still waits | Prompt. When it is late, the payment may be paid after its end: it is recorded and not refunded |
 | Whether a meeting with a fee has yet to start in a group the payer owns, or in a group whose hand-over they have accepted and that is not yet complete | [Meetings](../meetings/organization.md#the-fee) | To refuse the removal of their payout account | Exact at the moment of the removal |
 | That a payer's account is deleted | [Accounts](../accounts/account-deletion.md#what-happens-in-payments) | To end the subscription, remove the payout account and anonymise the payer | Never lost |
-| Whether the role of an account grants a permission | [Accounts](../accounts/description.md#permissions) | To allow or refuse each action. A locked payer is refused every action that changes something, which Accounts decides | Exact at every action |
+| The access of an account: its role and its state | [Accounts](../accounts/description.md#access) | To allow or refuse each action. A locked payer is refused every action that changes something | Exact at every action, read at that moment and never kept |
 
-## Permissions
+## Who may do what
 
-Every action of Payments is protected by a permission that Payments defines, such as changing a price or setting up a payout account. [Accounts](../accounts/description.md#permissions) holds the roles and which permissions each one grants, and Payments never names a role.
+Payments decides, for each of its actions, **which role may do it**, such as changing a price or setting up a payout account, and whether it changes something. It reads the role and the state of the person from [Accounts](../accounts/description.md#access) at each action. A locked payer is refused every action that changes something. What was set up before goes on by itself, such as an automatic renewal.
 
 ## Delays and limits
 

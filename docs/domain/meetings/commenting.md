@@ -11,7 +11,7 @@ Terms are defined in the [Meetings glossary](../../../src/Meetings/GLOSSARY.md).
 | A member of the group | Comment on a meeting of the group, reply, edit and remove their own comments, like and unlike. |
 | The owner or an organizer of the group | The same, and remove any comment, and allow or forbid comments on a meeting. |
 
-Being a member, the owner or an organizer is a role in the group, which the aggregates check. A member does not need to attend the meeting to comment on it. The permissions behind these actions are defined by Meetings and granted to the Member role by [Accounts](../accounts/description.md#permissions).
+Being a member, the owner or an organizer is a role in the group, which the aggregates check. A member does not need to attend the meeting to comment on it. Meetings decides which role may do these actions, and reads the role of the person from [Accounts](../accounts/description.md#access).
 
 Commenting does not depend on the life of the meeting: members can comment before it starts, after it ends, and even when it is cancelled, which is a place to explain why. Two things stop comments: the switch below, and the [archiving](group-life.md#archived-groups) of the group.
 

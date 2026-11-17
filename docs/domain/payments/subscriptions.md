@@ -129,6 +129,6 @@ Each of these is a notification handed to [Notifications](../notifications/descr
 
 A payer reads nothing of someone else's. An administrator reads no subscription.
 
-## Permissions
+## Who may do what
 
-Payments defines two permissions for the actions of this page: taking out a subscription, which covers starting a trial, buying, renewing, turning automatic renewal on and off and changing its period, and reading one's own subscription and payments. [Accounts](../accounts/description.md#permissions) grants them to the Member role.
+Payments allows two kinds of action on this page to the Member role: taking out a subscription, which covers starting a trial, buying, renewing, turning automatic renewal on and off and changing its period, and reading one's own subscription and payments. A locked payer only reads, see [who may do what](description.md#who-may-do-what).
