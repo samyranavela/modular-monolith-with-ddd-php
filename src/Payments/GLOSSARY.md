@@ -5,7 +5,7 @@ Handles the money of the application: the subscriptions of the owners of meeting
 ## Language
 
 **Payer**:
-A member seen from Payments. Created when a registration with the Member role is confirmed, and known only by their identity. Administrators are not payers.
+A member seen from Payments. Created when an account with the Member role is confirmed, and known only by their identity. Administrators are not payers.
 _Avoid_: Customer, buyer
 
 **Payment System**:

@@ -6,7 +6,7 @@ Terms are defined in the [Payments glossary](../../../src/Payments/GLOSSARY.md).
 
 ## Who takes part
 
-- A **payer** is the person seen from Payments. They exist here once their [registration](../registrations/description.md) is confirmed with the Member role, and they are the same person as the [user](../useraccess/description.md) and the [member](../meetings/description.md#who-takes-part). Payments knows nothing of the person but their identity: neither their name nor their email address.
+- A **payer** is the person seen from Payments. They exist here once their [account](../accounts/description.md) is confirmed with the Member role, and they are the same person as the [user](../accounts/description.md#accounts) and the [member](../meetings/description.md#who-takes-part). Payments knows nothing of the person but their identity: neither their name nor their email address.
 - An **administrator** is not a payer: they pay nothing and owe nothing. They manage the price list of the subscriptions.
 - The **owner** of a meeting group is a payer who holds a subscription, or who is on the [free plan](subscriptions.md#without-a-subscription-the-free-plan) with their one group, and who may receive the fees of the meetings of their groups.
 
@@ -57,16 +57,16 @@ This page and the following ones describe the information a context needs from a
 
 | Information | From | Why | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
-| That a registration was confirmed with the Member role | [Registrations](../registrations/description.md) | To have a payer | Each confirmation gives one payer, never lost and never twice. A payer must exist without noticeable delay, since they may buy at once |
+| That an account was confirmed with the Member role | [Accounts](../accounts/registration.md#confirming) | To have a payer | Each confirmation gives one payer, never lost and never twice. A payer must exist without noticeable delay, since they may buy at once |
 | The attendee, the meeting, the amount owed and the owner who receives it, when a place is awaiting payment | [Meetings](../meetings/organization.md#the-fee) | To create the payment | Exact, once for each place. Without it there is no payment |
 | That a place awaiting payment is lost, or that a meeting is cancelled | [Meetings](../meetings/organization.md#the-fee) | To cancel the payment that still waits | Prompt. When it is late, the payment may be paid after its end: it is recorded and not refunded |
 | Whether a meeting with a fee has yet to start in a group the payer owns, or in a group whose hand-over they have accepted and that is not yet complete | [Meetings](../meetings/organization.md#the-fee) | To refuse the removal of their payout account | Exact at the moment of the removal |
-| That a payer's account is deleted | [UserAccess](../useraccess/account-deletion.md#what-happens-in-payments) | To end the subscription, remove the payout account and anonymise the payer | Never lost |
-| Whether a user holds a role that grants a permission | [UserAccess](../useraccess/description.md#permissions) | To allow or refuse each action. A locked payer is refused every action that changes something, which UserAccess decides | Exact at every action |
+| That a payer's account is deleted | [Accounts](../accounts/account-deletion.md#what-happens-in-payments) | To end the subscription, remove the payout account and anonymise the payer | Never lost |
+| Whether the role of an account grants a permission | [Accounts](../accounts/description.md#permissions) | To allow or refuse each action. A locked payer is refused every action that changes something, which Accounts decides | Exact at every action |
 
 ## Permissions
 
-Every action of Payments is protected by a permission that Payments defines, such as changing a price or setting up a payout account. [UserAccess](../useraccess/description.md#permissions) holds the roles and which permissions each one grants, and Payments never names a role.
+Every action of Payments is protected by a permission that Payments defines, such as changing a price or setting up a payout account. [Accounts](../accounts/description.md#permissions) holds the roles and which permissions each one grants, and Payments never names a role.
 
 ## Delays and limits
 

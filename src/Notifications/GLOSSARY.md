@@ -37,13 +37,13 @@ The sending of a notification through one channel other than the inbox: when it 
 _Avoid_: Dispatch, send
 
 **Required Message**:
-An email that goes to an address and not to a member, and that cannot be left to the member's choice: the confirmation of an address, the notice that an account already exists, the notice that an account was erased, and the security messages of a change of address or password. It has no inbox and nothing to read.
+An email that goes to an email address and not to a member, and that cannot be left to the member's choice: the confirmation of an email address, the notice that an account was deleted, and the security messages of a change of email address or password. It has no inbox and nothing to read.
 _Avoid_: System email, transactional email
 
-**Address**:
-The email address an email is sent to. For a notification it is the current address of the member, known to UserAccess; for a required message it comes with the fact.
-_Avoid_: Recipient address
+**Email Address**:
+The email address an email is sent to. For a notification it is the current email address of the member, known to Accounts; for a required message it comes with the fact.
+_Avoid_: Recipient
 
 **Fact**:
-What a context hands to Notifications to have someone notified: the kind, the member or the address, the data, and an identity that makes handing it twice harmless.
+What a context hands to Notifications to have someone notified: the kind, the member or the email address, the data, and an identity that makes handing it twice harmless.
 _Avoid_: Request, trigger, event

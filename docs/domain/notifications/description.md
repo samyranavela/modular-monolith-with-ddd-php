@@ -9,8 +9,8 @@ The other contexts decide *that* someone must be notified and *who*. Notificatio
 ## Who takes part
 
 - A **member** is the person who is notified, and the only one who reads their own notifications. Nobody reads the notifications of someone else.
-- An **administrator** is not an ordinary user: they read everything the permissions allow, but they are never notified and have no inbox. The only emails they receive are [required messages](#required-messages): the confirmation of their address when they are invited, before they are one, and the security messages of [profile management](../useraccess/profile-management.md#messages), such as a password reset link.
-- An **address** is where a [required message](#required-messages) goes when there is no member: a person who has not confirmed their registration yet, or a member whose account has just been erased.
+- An **administrator** is not an ordinary user: they read everything the permissions allow, but they are never notified and have no inbox. The only emails they receive are [required messages](#required-messages): the confirmation of their email address when they are invited, before their account is confirmed, and the security messages of [profile management](../accounts/profile-management.md#messages), such as a password reset link.
+- An **email address** is where a [required message](#required-messages) goes when there is no member: a person whose account is not confirmed yet, or a member whose account has just been erased.
 - The **other contexts** are the ones that have something to report. Each hands Notifications who to notify, what happened and the data that goes with it.
 
 ## Notification and delivery
@@ -22,7 +22,7 @@ A **delivery** is the sending of a notification through one **channel** other th
 | Channel | State |
 | :-- | :-- |
 | **Inbox** | Every notification is in the inbox of its member, always. |
-| **Email** | The notification is also sent to the address of the member, according to its kind. |
+| **Email** | The notification is also sent to the email address of the member, according to its kind. |
 | **Push** | Planned for a mobile application, not part of the current scope. |
 
 Because the inbox is always there, a member who receives a single email can find every notification they were sent in one list, whichever channels carried it. A failed delivery never removes a notification: it stays in the inbox.
@@ -43,9 +43,9 @@ The text is written from the data and the current template when the member reads
 
 ## Required messages
 
-Some emails have no member to belong to, or cannot be left to a member's choice: the confirmation link that proves an email address, for a registration as for the invitation of an administrator, the notice that an account already exists, the notice that an account was erased, and the messages of [profile management](../useraccess/profile-management.md#messages): the confirmation of a new address, the notice to the old address, the password reset link and the notice of a password change. They are **required messages**.
+Some emails have no member to belong to, or cannot be left to a member's choice: the confirmation link that proves an email address, for a registration as for the invitation of an administrator, the notice that an account was deleted, and the messages of [profile management](../accounts/profile-management.md#messages): the confirmation of a new email address, the notice to the old email address, the password reset link and the notice of a password change. They are **required messages**.
 
-A required message goes to an address, by email only. It has no inbox, nothing to read and no preference that could turn it off. It is in the catalogue like any other kind, listed apart.
+A required message goes to an email address, by email only. It has no inbox, nothing to read and no preference that could turn it off. It is in the catalogue like any other kind, listed apart.
 
 ## The inbox
 
@@ -55,13 +55,13 @@ A member, for themselves:
 - **marks** one notification as read, or all of them,
 - **counts** the notifications they have not read.
 
-A member whose [account is locked](../useraccess/account-deletion.md#locked-account) still reads their inbox and marks notifications as read.
+A member whose [account is locked](../accounts/account-deletion.md#locked-account) still reads their inbox and marks notifications as read.
 
 A notification stays in the inbox once read. The member cannot delete one, and how long they are kept is left for later.
 
 ## One fact, one notification
 
-When a context hands Notifications a fact, each member concerned must get **one notification, never lost and never twice**, even when the same fact is handed twice. A required message is identified in the same way, by its fact and the address: a confirmation link sent again, with a new link, is a new fact.
+When a context hands Notifications a fact, each member concerned must get **one notification, never lost and never twice**, even when the same fact is handed twice. A required message is identified in the same way, by its fact and the email address: a confirmation link sent again, with a new link, is a new fact.
 
 A delivery is attempted promptly, and a failure of a channel is repeated, within limits left to the implementation.
 
@@ -69,11 +69,11 @@ Notifications refuses a fact whose kind is not in the catalogue, or that lacks t
 
 ## Export of the data
 
-The notifications of a member are part of the [export of their data](../useraccess/account-deletion.md#exporting-the-data): for each one, its kind, its date and whether it is read.
+The notifications of a member are part of the [export of their data](../accounts/account-deletion.md#exporting-the-data): for each one, its kind, its date and whether it is read.
 
-## When an account is erased
+## When an account is deleted
 
-The notifications of an erased member go with the account: their inbox is deleted. The required message that confirms the erasure goes to the address that the erasure takes away: the address comes with the fact, so the message needs no member. See [account deletion](../useraccess/account-deletion.md).
+The notifications of a deleted member go with the account: their inbox is deleted. The required message that confirms the deletion goes to the email address that the deletion takes away: the email address comes with the fact, so the message needs no member. See [account deletion](../accounts/account-deletion.md).
 
 ## What Notifications needs from other contexts
 
@@ -81,9 +81,9 @@ This page and the following ones describe the information a context needs from a
 
 | Information | From | Why | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
-| The email address of a member | [UserAccess](../useraccess/description.md) | To send the email of a notification | Exact when the email is sent |
-| That a member was erased | [UserAccess](../useraccess/account-deletion.md) | To delete their inbox | Exact: no notification exists for an erased member, even when an erasure and a creation happen at the same moment |
-| Whether a user holds a role that grants a permission | [UserAccess](../useraccess/description.md#permissions) | To allow or refuse each reading and each marking as read | Exact at every action |
+| The email address of a member | [Accounts](../accounts/description.md) | To send the email of a notification | Exact when the email is sent |
+| That a member's account was deleted | [Accounts](../accounts/account-deletion.md) | To delete their inbox | Exact: no notification exists for a deleted member, even when a deletion and a creation happen at the same moment |
+| Whether the role of an account grants a permission | [Accounts](../accounts/description.md#permissions) | To allow or refuse each reading and each marking as read | Exact at every action |
 
 ## What the other contexts give to Notifications
 
@@ -91,7 +91,7 @@ A context that wants someone notified gives Notifications:
 
 | Information | Why | Exactness |
 | :-- | :-- | :-- |
-| The **member** to notify, or the **address** for a required message | To know whom it is for | Exact. One member for each notification |
+| The **member** to notify, or the **email address** for a required message | To know whom it is for | Exact. One member for each notification |
 | The **kind** | To find the templates and the channels | A kind of the catalogue |
 | The **data** of the fact, and when it happened | To fill the templates | As the kind lists it, complete from the start |
 
@@ -99,7 +99,7 @@ A context that has several members to notify, such as every attendee of a cancel
 
 ## Permissions
 
-Notifications defines two permissions: **reading one's own notifications**, which covers the list and the count, and **marking one's own notifications as read**. [UserAccess](../useraccess/description.md#permissions) grants them to the Member role, and Notifications never names a role.
+Notifications defines two permissions: **reading one's own notifications**, which covers the list and the count, and **marking one's own notifications as read**. [Accounts](../accounts/description.md#permissions) grants them to the Member role, and Notifications never names a role.
 
 ## What is out of scope for now
 

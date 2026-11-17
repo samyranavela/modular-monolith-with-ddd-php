@@ -5,7 +5,7 @@ The core context: members propose and join meeting groups, groups organize meeti
 ## Language
 
 **Member**:
-A user who takes part in meeting groups and meetings. Known to this context from the registration of a user.
+A user who takes part in meeting groups and meetings. Known to this context once their account is confirmed with the Member role.
 _Avoid_: User, participant
 
 **Deleted Member**:

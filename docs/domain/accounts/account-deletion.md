@@ -1,14 +1,14 @@
 # Deleting an account
 
-A person can ask to leave the application for good. What that means touches every context: [UserAccess](description.md) holds who they are, [Meetings](../meetings/description.md) what they did with others, [Payments](../payments/description.md) what they paid. This page describes the whole, from the request to the day nothing identifies the person any more.
+A person can ask to leave the application for good. What that means touches every context: [Accounts](description.md) holds who they are, [Meetings](../meetings/description.md) what they did with others, [Payments](../payments/description.md) what they paid. This page describes the whole, from the request to the day nothing identifies the person any more.
 
-Terms are defined in the glossaries of [UserAccess](../../../src/UserAccess/GLOSSARY.md), [Meetings](../../../src/Meetings/GLOSSARY.md) and [Payments](../../../src/Payments/GLOSSARY.md).
+Terms are defined in the glossaries of [Accounts](../../../src/Accounts/GLOSSARY.md), [Meetings](../../../src/Meetings/GLOSSARY.md) and [Payments](../../../src/Payments/GLOSSARY.md).
 
 ## The principle
 
 The application keeps **no personal data** of someone who left, and keeps **what others rely on**.
 
-- What identifies the person is **erased**: login, email address, names, password.
+- What identifies the person is **erased** and the account is **deleted for good**: login, email address, names, password.
 - What the person did among others is **kept and made anonymous**: their comments, their likes, the groups and meetings they looked after, the payments they made. It is shown as coming from a **deleted member**.
 - What others cannot do without is **settled first**: a group under hand-over, a meeting that would be left without host, a payment that is still waiting. The member decides, before anything is lost.
 
@@ -17,11 +17,11 @@ Only the person asks for the deletion of their own account, and only for their o
 ## The steps
 
 1. **Seeing what stands in the way.** The member asks what deleting their account would change. The answer lists the [open items](#what-stands-in-the-way), each with what to do about it. Nothing changes yet, and it can be asked again at any time.
-2. **Requesting.** Once nothing stands in the way, the member requests the deletion and confirms that they have read what will happen. The request is **refused** when something stands in the way at that moment, and a request is created otherwise.
-3. **Waiting.** A request waits for a **grace period**, 14 days by default and configurable. The account is **locked** meanwhile.
-4. **Ending, one of two ways.** The member **cancels** the request during the grace period, and the account is as it was. Or the grace period ends and the deletion is **carried out**.
+2. **Requesting.** Once nothing stands in the way, the member requests the deletion and confirms that they have read what will happen. The request is **refused** when something stands in the way at that moment. Otherwise the account is **locked**.
+3. **Waiting.** The account stays locked for a **grace period**, 14 days by default and configurable. It keeps the day on which the deletion will be carried out.
+4. **Ending, one of two ways.** The member **cancels** the request during the grace period, and the account goes back to confirmed, as it was. Or the grace period ends and the deletion is **carried out**: the account is deleted for good.
 
-There is one request at most for a user at a time. A cancelled request is not reopened: the member makes a new one.
+An account is locked or it is not: there is one request at a time. A cancelled request is not reopened: the member makes a new one.
 
 ## What stands in the way
 
@@ -45,9 +45,9 @@ Nothing is refused to an administrator for these reasons: an administrator is ne
 
 ## Locked account
 
-From the request until it ends, the account is **locked**. The member can still sign in and **reads everything an active member reads**: their groups, their meetings, the comments, their subscription, their payments and their inbox. They **change nothing**, with four exceptions: cancelling the request, [exporting their data](#exporting-the-data), marking their notifications as read, and [changing their password](profile-management.md#changing-the-password).
+From the request until it ends, the account is **locked**. The member can still sign in and **reads everything a member with a confirmed account reads**: their groups, their meetings, the comments, their subscription, their payments and their inbox. They **change nothing**, with four exceptions: cancelling the request, [exporting their data](#exporting-the-data), marking their notifications as read, and [changing their password](profile-management.md#changing-the-password).
 
-UserAccess applies the lock through the [permissions](description.md#permissions): it refuses a locked user every permission whose action changes something, apart from these four. The other contexts ask, as for any action, whether it is allowed, and need not know the lock for that.
+Accounts applies the lock through the [permissions](description.md#permissions): it refuses a locked account every permission whose action changes something, apart from these four. The other contexts ask, as for any action, whether it is allowed, and need not know the lock for that.
 
 A locked member takes part in nothing: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate.
 
@@ -59,19 +59,15 @@ What others do can still change the picture. A host who was not the last may fin
 
 ## Carrying out the deletion
 
-When the grace period is over, the application checks the open items again. The check and the carrying out are **one decision**: nothing can stand in the way between the two, whatever other members do at the same moment, and only one of the two outcomes happens. The deletion is **carried out only if nothing stands in the way**, as at the request. If something does at that moment, the request ends as cancelled, with the reason, the account is unlocked, and the member is notified: they settle it and make a new request if they still want to.
+When the grace period is over, the application checks the open items again. The check and the carrying out are **one decision**: nothing can stand in the way between the two, whatever other members do at the same moment, and only one of the two outcomes happens. The deletion is **carried out only if nothing stands in the way**, as at the request. If something does at that moment, the deletion is cancelled with the reason, the account goes back to confirmed, and the member is notified: they settle it and make a new request if they still want to.
 
-Otherwise, each context does its part, and the account is gone when all have. The member is not asked anything, and cannot cancel any more.
+Otherwise the account is **deleted for good** at once, and each of the other contexts does its part on its own. The member is not asked anything, and cannot cancel any more.
 
-### What happens in UserAccess
+### What happens in Accounts
 
-The user's **login, email address, names and password are erased**, and the user can no longer sign in. The login and the email address are **free again**, like those of a [registration that expired](../registrations/description.md): somebody else can use them at once.
+The account is deleted for good: its **login, email address, names and password are erased**, nothing of it remains, and nobody can sign in with it any more. The login and the email address are **free again**, like those of a pending account that was removed at its deadline: somebody else can use them at once.
 
-What remains is the user's identifier, which names nobody: it is how the other contexts know that a comment or a payment came from someone who is gone. The role of the user ends with the account.
-
-### What happens in Registrations
-
-The confirmed registration of the user is **deleted**, since it holds the same login, email address, names and password.
+The other contexts keep the identifier of the account, which names nobody: it is how they know that a comment or a payment came from someone who is gone. The role of the account ends with it.
 
 ### What happens in Meetings
 
@@ -93,18 +89,18 @@ The members of an archived group are notified.
 
 ### What happens in Notifications
 
-The member's **inbox is deleted**, with its deliveries, and no notification is created for them afterwards. The message that confirms the erasure is a [required message](../notifications/description.md#required-messages) sent to the address, since there is no member any more to notify.
+The member's **inbox is deleted**, with its deliveries, and no notification is created for them afterwards. The message that confirms the deletion is a [required message](../notifications/description.md#required-messages) sent to the email address, since there is no member any more to notify.
 
 ## Exporting the data
 
-A member can **export their data** at any time, with or without a request pending, whether the account is locked or not. The export gathers, in one readable document, **what each context holds about the person**:
+A member can **export their data** at any time, with or without a request made, whether the account is locked or not. The export gathers, in one readable document, **what each context holds about the person**:
 
-- **UserAccess**: the login, the email address, the names, the role.
+- **Accounts**: the login, the email address, the names, the role.
 - **Meetings**: the groups the member belongs to or belonged to, with their role and the dates; the meetings they hosted or attended, with their guests; their comments and likes; the group proposals they made, and the decision on each.
 - **Payments**: their subscriptions and the dates of their periods, their payments with their amounts and dates, and whether they have a payout account.
 - **Notifications**: their notifications, with their date and whether they are read.
 
-An administrator has no export: they are neither a member nor a payer, and hold nothing but what UserAccess knows of them.
+An administrator has no export: they are neither a member nor a payer, and hold nothing but what Accounts knows of them.
 
 The export is prepared, not instantaneous, and is available to the member for **7 days**, configurable, then it expires. The member is notified when it is ready. A member exports as many times as they want, and each export is the state of the data at that moment.
 
@@ -113,19 +109,19 @@ The export is prepared, not instantaneous, and is available to the member for **
 An **administrator is a particular account**: nobody deletes their own. An administrator is deleted **by another administrator** only.
 
 - There is no open item, no grace period and no lock: the administrator is neither a member nor a payer, and the other administrator decides, not the person. The deletion is **carried out at once**.
-- The administrator's login, email address, names and password are erased, and the login and the email address are free again. What they decided stays, attributed to a **deleted administrator**: the group proposals they accepted or rejected keep who, when and why, without the person.
+- The account is deleted for good: its login, email address, names and password are erased, and the login and the email address are free again. What the administrator decided stays, attributed to a **deleted administrator**: the group proposals they accepted or rejected keep who, when and why, without the person.
 - There is always **at least one administrator**. The one who deletes is an administrator at that moment, so the last one is never deleted, since nobody can delete themselves. The rule matters when two administrators delete **each other at the same moment**: only one deletion succeeds, the other is refused.
 
 ## Notifications
 
-Each of these is a notification handed to [Notifications](../notifications/description.md): the member finds it in their inbox and receives it by email, as [the catalogue](../notifications/catalogue.md#useraccess) lists. The last one, the deletion carried out, is a [required message](../notifications/description.md#required-messages): an email only, to the address the erasure frees, since there is no member any more.
+Each of these is a notification handed to [Notifications](../notifications/description.md): the member finds it in their inbox and receives it by email, as [the catalogue](../notifications/catalogue.md#accounts) lists. The last one, the deletion carried out, is a [required message](../notifications/description.md#required-messages): an email only, to the email address that the deletion frees, since there is no member any more.
 
 | When | Who is told |
 | :-- | :-- |
 | The deletion is requested | The member, with the date it will be carried out and what will happen, among them the groups to be archived |
 | The request is cancelled by the member | The member |
-| The request ends because something stands in the way when the grace period is over | The member, with the open items |
-| The deletion is carried out | The member, at the address that is erased by it |
+| The deletion is cancelled because something stands in the way when the grace period is over | The member, with the open items |
+| The deletion is carried out | The member, at the email address that is erased by it |
 | A group is archived | Its members |
 | The meetings of an archived group are cancelled | Their attendees, waitlist and hosts, as for any [cancelled meeting](../meetings/organization.md#cancelling-a-meeting) |
 | An export is ready | The member |
@@ -133,26 +129,25 @@ Each of these is a notification handed to [Notifications](../notifications/descr
 ## Reading
 
 - **What deleting my account would change.** The open items of the member and the groups that would be archived. Only the member reads it.
-- **My deletion request.** Whether one is pending, since when, and when it will be carried out. Only the member reads it.
+- **My deletion request.** Whether the account is locked, since when, and when the deletion will be carried out. Only the member reads it.
 - **My exports.** The exports that are ready and until when. Only the member reads them.
 
-A locked member reads these three, like everything else an active member reads. An administrator who is deleted cannot read anything afterwards.
+A locked member reads these three, like everything else a member with a confirmed account reads. An administrator who is deleted cannot read anything afterwards.
 
 ## What stands outside this page
 
 - **A person deleting themselves for someone else**, or an administrator deleting a member's account on their behalf, is not in scope.
-- **A reversal after the deletion is carried out** does not exist: erasure is final, and the member who comes back registers again as a new person.
+- **A reversal after the deletion is carried out** does not exist: the deletion is final, and the member who comes back registers again as a new person.
 - **Technical copies**, such as backups and logs, are not described here: they follow the same rule, erased within the retention of the infrastructure, when the implementation is written.
 
 ## What each context needs from the others
 
 | Who needs it | Information | From | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
-| UserAccess | The open items of a member: the groups they own that are under hand-over, the meetings where they are the last host, the proposals pending. And the groups they own, which would be archived | [Meetings](../meetings/description.md) | Exact at the request, and again when the deletion is carried out |
-| UserAccess | Whether a payment waits for the member, as an attendee or as the owner of a group | [Payments](../payments/description.md) | Exact at the request, and again when the deletion is carried out |
-| Meetings | That a member's account is locked, and that it is gone | UserAccess | Exact when a candidate is designated, since a hand-over to a locked member must be refused, and at a sign-up to a meeting with a fee, which is closed while the owner of the group is locked. Prompt otherwise, and never lost for the deletion |
-| Payments | That a payer's account is gone | UserAccess | Never lost |
-| Registrations | That a user's account is gone | UserAccess | Never lost |
+| Accounts | The open items of a member: the groups they own that are under hand-over, the meetings where they are the last host, the proposals pending. And the groups they own, which would be archived | [Meetings](../meetings/description.md) | Exact at the request, and again when the deletion is carried out |
+| Accounts | Whether a payment waits for the member, as an attendee or as the owner of a group | [Payments](../payments/description.md) | Exact at the request, and again when the deletion is carried out |
+| Meetings | That a member's account is locked, and that it is deleted | Accounts | Exact when a candidate is designated, since a hand-over to a locked member must be refused, and at a sign-up to a meeting with a fee, which is closed while the owner of the group is locked. Prompt otherwise, and never lost for the deletion |
+| Payments | That a payer's account is deleted | Accounts | Never lost |
 | Each context | What it holds about a person, for the export | Itself | As of the day of the export |
 
 See the [conceptual model](account-deletion-conceptual-model.md) and the [event storming](account-deletion-event-storming.md).
