@@ -2,7 +2,7 @@
 
 This page cuts the code in two ways: into **modules**, one for each context of the domain, and into **layers** inside each module. It answers D1 and D3 of [what the domain demands](drivers.md) in part, and gives a place to every other demand.
 
-Concepts used: [modular monolith](concepts/modular-monolith.md) and [hexagonal architecture](concepts/hexagonal-architecture.md).
+Concepts used: [modular monolith](concepts/modular-monolith.md), [model tension](concepts/model-tension.md) and [hexagonal architecture](concepts/hexagonal-architecture.md).
 
 ## One module for each context
 
