@@ -45,12 +45,10 @@ The hand-over of a group sends one notification to the party concerned at each s
 
 | Kind | For | Data |
 | :-- | :-- | :-- |
-| **Transfer requested** | The candidate | The group, the owner, and what accepting means (a subscription, a payout account) |
-| **Transfer accepted** | The owner | The group and the candidate. The transfer completes once the candidate's subscription is valid |
+| **Transfer requested** | The candidate | The group, the owner, what confirming needs (an active subscription, a payout account when the group has a meeting with a fee to come) and the link to the confirmation page |
 | **Transfer declined** | The owner | The group and the candidate |
 | **Transfer cancelled by the owner** | The candidate | The group |
 | **Transfer cancelled by itself** | The owner | The group, and that the candidate left, was demoted or was locked |
-| **Subscription of the candidate confirmed** | The owner | The group and the candidate |
 | **Transfer completed** | The former owner and the new owner | The group, and the new role of each |
 
 See [handing the group over](../meetings/group-life.md#handing-the-group-over) and [group creation](../meetings/group-creation.md).

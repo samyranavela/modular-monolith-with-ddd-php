@@ -40,7 +40,7 @@ A member who looks after a meeting group below its owner, and stands in when the
 _Avoid_: Admin, co-owner
 
 **Ownership Transfer Request**:
-The owner's proposal to hand the group over to one of its organizers, the candidate. It can be made only while no payment of the group's meetings waits, and it closes the sign-ups to the meetings with a fee until it ends. It is pending until the candidate accepts, with a validated payout account when a meeting with a fee has yet to start, and Meetings knows from Payments that their subscription is valid; it can be declined by the candidate, cancelled by the owner, or cancelled by itself if the candidate leaves, is demoted or is locked by a pending deletion of their account (a locked member cannot be designated as a candidate). A completed transfer is final.
+The owner's proposal to hand the group over to one of its organizers, the candidate. It can be made only while no payment of the group's meetings waits, and it closes the sign-ups to the meetings with a fee until it ends. It is pending until the candidate confirms it, which completes it at once: the candidate needs an active subscription and, when a meeting with a fee has yet to start, a validated payout account chosen for the group. Before that, it can be declined by the candidate, cancelled by the owner, or cancelled by itself, with its reason, if the candidate leaves, is demoted or their user account is locked by a pending deletion (a locked member cannot be designated as a candidate). A completed transfer is final, and nobody can cancel a confirmed one.
 _Avoid_: Ownership change
 
 **Member Subscription**:
@@ -48,8 +48,12 @@ What Meetings needs to know of a member's subscription: until when it is valid, 
 _Avoid_: Group payment date
 
 **Member Payout Account**:
-What Meetings needs to know of the payout account of a member: whether it is validated. A fee can be set on a meeting only when the owner of its group has a validated one.
-_Avoid_: Bank account
+What Meetings needs to know of a payout account of a member: whether it is validated.
+_Avoid_: Bank account, account (alone: it may mean the user account)
+
+**Group Payout Account**:
+The payout account that the owner of a group chose to receive the fees of its meetings: one at most for a group, active or deactivated. Only the owner of the group chooses it, which replaces the earlier one, and removes it, which needs that no meeting of the group with a fee has yet to start. It is deactivated when the holder deactivates its payout account in Payments, and reactivated when they reactivate it there, never by the owner of the group. A fee can be set, and a member can sign up to a meeting with a fee, only when it is active. A transfer of the group deletes the former owner's, whose payout account stays in Payments, and puts the candidate's in its place.
+_Avoid_: Payout link, assignment
 
 **Covered Group**:
 A meeting group whose owner's subscription is still valid, or the one group of an owner on the free plan, who never held a subscription and cannot own another. Only a covered group can organize new meetings, and a group on the free plan has at most two a month; an uncovered group is not closed, and its planned meetings stay.
@@ -105,7 +109,7 @@ A member of the group responsible for holding one meeting, typically the person 
 The period during which members can sign up to a meeting.
 
 **Meeting Fee**:
-The amount each attendee owes for a meeting, guests included. The place is confirmed once the payment is paid in Payments. A fee can be set only when the owner of the group has a validated payout account.
+The amount each attendee owes for a meeting, guests included. The place is confirmed once the payment is paid in Payments. A fee can be set only when the group has an active group payout account whose payout account is validated.
 _Avoid_: Event fee, ticket price
 
 ## Commenting

@@ -100,7 +100,7 @@ flowchart LR
 
     subgraph Payments
         direction LR
-        E2 --> P8{{End the subscription, stop the renewal, remove the payout account}}:::policy
+        E2 --> P8{{End the subscription, stop the renewal, deactivate the payout accounts}}:::policy
         E2 --> P9{{Anonymise the payer}}:::policy
     end
 
@@ -118,7 +118,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, p
 1. **The check, again.** The same rules as at the request, on the open items at that moment. The check and the carrying out are **one decision**: nothing can stand in the way between them, whatever happens at the same moment. If the rules do not hold, nothing is deleted, the deletion is cancelled with the reason, and the account goes back to confirmed.
 2. **Deleting.** The account is deleted for good: the login, the email address, the names and the password are erased, and nothing remains. The member is told first: the fact hands the email address to Notifications for the required message, since the deletion then takes it away.
 3. **Meetings.** The member leaves every group they belong to except those they own, as if they left it themselves. A group they own, and did not hand over, is archived, with its upcoming meetings cancelled, and its owner stays its owner, shown as a deleted member. The comments, likes and decisions of the member stay, with the deleted member in place of the person.
-4. **Payments.** The subscription ends with no refund and no further renewal, the payout account is removed, and the payer is anonymised. The removal of the payout account is not refused by the rule that refuses it while a meeting with a fee has yet to start: the meetings of the groups concerned are cancelled or the groups handed over. The payments are kept without an identity.
+4. **Payments.** The subscription ends with no refund and no further renewal, the payout accounts are deactivated, and the payer is anonymised. No fee waits for a deactivated one: the groups are handed over, with the group payout account of their new owner, or archived, with their meetings cancelled. The payments are kept without an identity.
 5. **Notifications.** The inbox of the member and its deliveries are deleted.
 6. **Independent parts.** Once the account is deleted, the contexts act on their own, each when it knows. None waits for the others, and none can undo what it did.
 

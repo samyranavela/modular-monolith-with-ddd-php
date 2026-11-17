@@ -61,7 +61,7 @@ flowchart LR
 | Relation | Pattern | Why |
 | :-- | :-- | :-- |
 | Accounts to Meetings, Payments and Notifications | Open-host service | A confirmed account, the access of an account (role, state, subscription), the lock, and the deletion of an account are served the same way to all, whatever the context, in one published language that each context translates into its own model |
-| Meetings and Payments | Partnership | A place to pay, a payment that is paid, a payout account and a fee yet to come: each needs the other, and the two evolve together |
+| Meetings and Payments | Partnership | A place to pay, a payment that is paid, a payout account chosen for a group: each needs the other, and the two evolve together |
 | Accounts, Meetings and Payments to Notifications | Open-host service | Notifications publishes one language to receive what to notify, and knows no context. It is a context like the others, with its own rules ([Notifications](../domain/notifications/description.md)) |
 
 No context is a **conformist**: each one translates what it receives into its own model, in the handler of the fact or in the adapter of the question, and nobody adopts the model of another.
@@ -77,12 +77,12 @@ The tables "What X needs from other contexts" of the domain pages, one for [Meet
 | An account becomes locked | Accounts to Meetings | Fact | Signal | The hand-over that ends: never lost. The sign-ups that close need no fact, since Meetings reads the state of the owner at each sign-up |
 | An account is deleted | Accounts to Meetings, Payments, Notifications | Fact | Signal | Each context erases or anonymises its part: the member leaves the groups, the payer is anonymised, the inbox is deleted. Never lost, and nothing is sent back: the request is completed when the deletion is carried out |
 | The open items of a deletion | Accounts to Meetings and Payments | Question | – | Exact at the request and again when it is carried out |
-| An owner's payout account is validated | Payments to Meetings | Question | – | Exact at the moment a fee is set |
-| A subscription was started, bought or renewed, with the date until which it is valid | Payments to Accounts and Meetings | Fact | State | Accounts keeps the date and whether one was ever held, as part of the access. Meetings uses it to complete a hand-over that waits. The date itself decides, so an old value only removes a right for a while. A renewal must count soon, so the fact must not wait |
-| A place awaiting payment, with the amount and the owner | Meetings to Payments | Fact | State | Exact and once for each place: without it there is no payment |
+| A payout account is validated, deactivated or reactivated | Payments to Meetings | Fact | State | Whole state and version, replaced if newer. A late value is harmless: a payout account deactivated in Payments lets nobody pay, whatever Meetings knows |
+| A payout account is chosen for a group, or removed or replaced | Meetings to Payments | Fact | State | Whole state and version, replaced if newer. Payments refuses any payment for a deactivated one |
+| A subscription was started, bought or renewed, with the date until which it is valid | Payments to Accounts and Meetings | Fact | State | Accounts keeps the date and whether one was ever held, as part of the access. The date itself decides, so an old value only removes a right for a while. A renewal must count soon, so the fact must not wait |
+| A place awaiting payment, with the amount and the group payout account | Meetings to Payments | Fact | State | Exact and once for each place: without it there is no payment |
 | A place is lost, or a meeting is cancelled | Meetings to Payments | Fact | Signal | Prompt: when late, a payment paid after its end is recorded, not refunded |
 | A payment is paid, or has expired | Payments to Meetings | Fact | Signal | Never lost, and it may come after the start of the meeting |
-| Whether a fee meeting is yet to start | Meetings to Payments | Question | – | Exact at the moment a payout account is removed |
 | A fact to notify, with its kind and data | Every module to Notifications | Fact | State | One notification for each fact, even when it is handed twice |
 | The email address of a member | Accounts to Notifications | Question | – | Exact when the email is sent |
 
@@ -117,7 +117,7 @@ It carries **no instruction**: what the receiver does with it is for the receive
 
 ## What a question returns
 
-A question has a **precise answer, not a copy of the data of the other module**, and its asker keeps a **port of its own** for it, so that the answer is read in the words of the asker, even when the owner's words differ (a payer in Payments is a member in Meetings): "what is the access of this user?", "is this payout account validated?". It reads, and changes nothing. A module that asks this way never learns more than it needs, and cannot use the answer later: the answer was true when it was given.
+A question has a **precise answer, not a copy of the data of the other module**, and its asker keeps a **port of its own** for it, so that the answer is read in the words of the asker, even when the owner's words differ (a payer in Payments is a member in Meetings): "what is the access of this user?", "does this member have an open item?". It reads, and changes nothing. A module that asks this way never learns more than it needs, and cannot use the answer later: the answer was true when it was given.
 
 ## What the guarantees ask of a module
 
@@ -130,7 +130,7 @@ A fact is delivered **at least once**, and a receiver may get it **late, twice, 
 
 The sender, for its part, must make the fact known **if and only if** the change it tells of is kept: a change without its fact, or a fact without its change, is a lie. This is the subject of the [page on consistency](consistency.md#a-change-and-its-fact).
 
-A question has none of these concerns, but one: its answer is **true at the moment it is given**. When a rule must hold even if the situation changes right after the answer, such as a payout account that must not be removed when a fee is set at the same moment, the answer alone is not enough. That is the subject of the [page on consistency](consistency.md#between-two-modules) too.
+A question has none of these concerns, but one: its answer is **true at the moment it is given**. When a rule must hold even if the situation changes right after the answer, such as a deletion that is carried out while a host leaves, the answer alone is not enough. That is the subject of the [page on consistency](consistency.md#between-two-modules) too.
 
 ## Stale and out-of-order facts
 
@@ -223,7 +223,7 @@ flowchart LR
     class PS ext;
 ```
 
-*The legend of colours is the one of the other diagrams of this page, with the outside system in pink. Meetings keeps the place awaiting payment (message 4) and does not guarantee it. When the payment system does not answer in time, message 7 is the fact "Payment expired" instead, and Meetings releases the places. The sign-up is refused at message 3 when the owner is locked. A sign-up read just before the lock can still go through: its payment ends by itself long before the deletion, whose final check would refuse it otherwise. See [meeting fees](../domain/payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee).*
+*The legend of colours is the one of the other diagrams of this page, with the outside system in pink. Meetings first checks its own data: the group payout account must be active and its payout account validated. Message 4 names that group payout account, and Payments refuses a payment for a deactivated one. Meetings keeps the place awaiting payment (message 4) and does not guarantee it. When the payment system does not answer in time, message 7 is the fact "Payment expired" instead, and Meetings releases the places. The sign-up is refused at message 3 when the owner is locked. A sign-up read just before the lock can still go through: its payment ends by itself long before the deletion, whose final check would refuse it otherwise. See [meeting fees](../domain/payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee).*
 
 ### An action is guarded by the access of the person
 

@@ -67,6 +67,7 @@ classDiagram
         validated
     }
     class MeetingGroup
+    class GroupPayoutAccount
     class Member
 
     Meeting --> Venue : takes place at
@@ -87,8 +88,9 @@ classDiagram
     WaitlistMember "*" --> "1" Member : is
     WaitlistMember --> WaitlistStatus : is
     Removal "*" --> "1" Member : by
-    MemberPayoutAccount "0..1" --> "1" Member : of
-    Meeting ..> MemberPayoutAccount : a fee needs the one of the owner, validated
+    MemberPayoutAccount "*" --> "1" Member : of
+    Meeting ..> GroupPayoutAccount : a fee needs the active one of its group
+    GroupPayoutAccount ..> MemberPayoutAccount : needs it validated
 ```
 
 ## Reading it
@@ -100,14 +102,14 @@ classDiagram
 - **Not Attendee** is a member's decision not to come. It is taken back when the member signs up or reverses it.
 - **Waitlist Member** is a member waiting for a place, without guests. Only a meeting without a fee has a waitlist. The longest-waiting member is the first to be taken. Leaving the waitlist or being taken ends the wait.
 - **Meeting** also remembers when it was changed (**changed at**) and by whom (**changed by**, the member who made the last change), and when and by whom it was cancelled. A cancelled meeting is frozen, and so is a meeting of an [archived group](group-life-conceptual-model.md).
-- **Member Payout Account** is what Meetings needs to know of the payout account of an owner: only whether it is validated, see [what Meetings needs from other contexts](description.md#what-meetings-needs-from-other-contexts). A fee can be set on a meeting only when the owner of its group has a validated one. Meetings holds no payment: it keeps the amount owed and the status of the place, and Payments keeps the payment.
+- **Member Payout Account** is what Meetings needs to know of a payout account of a member: only whether it is validated, see [what Meetings needs from other contexts](description.md#what-meetings-needs-from-other-contexts). A fee can be set on a meeting only when the group payout account of its group, [kept by the group](group-life-conceptual-model.md), is active and its payout account is validated. Meetings holds no payment: it keeps the amount owed and the status of the place, and Payments keeps the payment.
 
 ## Rules that cross aggregates
 
 - **Two meetings a month on the free plan.** A group on the [free plan](group-life.md#the-free-plan) can have at most two meetings, not cancelled, starting in the same month. The rule involves the group and its meetings, so a domain service checks it when a meeting is created or its start date changes, reading what is stored; the rule is absolute: when two meetings are created at the same moment, the third of the month is refused.
 - **The last host.** A member cannot leave the group while they are the last host of a meeting that has not started. The rule involves the group and its meetings, so a domain service checks it; the rule is absolute: when the last two hosts leave at the same moment, only one succeeds and the other is refused.
 - **A sign-up to a meeting with a fee and a hand-over.** Sign-ups to a meeting with a fee are closed from a hand-over request, and the request is refused while a payment waits; the rule is absolute: when a sign-up and the request happen at the same moment, not both succeed, see [the conceptual model of the life of a group](group-life-conceptual-model.md#rules-that-cross-aggregates). The same holds while the owner of the group is locked by a pending deletion of their account: sign-ups to its meetings with a fee are closed until that request ends, and a sign-up and the deletion request at the same moment do not both succeed.
-- **A fee needs a validated payout account.** Setting a fee reads the owner's account as Meetings knows it. A meeting with a fee also has no waitlist, so setting a fee is refused while members wait.
+- **A fee needs an active group payout account whose payout account is validated.** Setting a fee reads the group payout account, which is active only while its payout account is validated, and the rule is absolute with the group as scope: a removal of the group payout account and the setting of a fee never both succeed, see [the conceptual model of the life of a group](group-life-conceptual-model.md#rules-that-cross-aggregates). A meeting with a fee also has no waitlist, so setting a fee is refused while members wait.
 
 ## What is not in the model
 

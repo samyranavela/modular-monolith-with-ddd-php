@@ -17,7 +17,7 @@ flowchart LR
     subgraph Creating
         direction LR
         E1[Places kept awaiting payment, in Meetings]:::event --> P1{{Create the payment}}:::policy --> C1[Create the meeting fee payment]:::command --> Y1((Meeting Fee Payment)):::aggregate --> E2[Meeting fee payment created]:::event
-        E2 --> P2{{Ask the payment system to collect the amount for the owner's payout account}}:::policy
+        E2 --> P2{{Ask the payment system to collect the amount for the group's payout account}}:::policy
     end
 
     subgraph Paid
@@ -40,7 +40,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, p
 
 ### Reading it
 
-1. **Creating.** Payments needs to know that an attendee is awaiting payment, with the amount and the owner who receives it. It then creates the payment, waiting, with a limit 30 minutes later by default. A policy asks the [payment system](description.md#the-payment-system) to collect the amount for the owner's payout account, and the attendee pays on its page. Payments never takes the money itself.
+1. **Creating.** Payments needs to know that an attendee is awaiting payment, with the amount and the group payout account where it goes. It refuses when that group payout account is deactivated or its payout account is not validated. Otherwise it creates the payment, waiting, with a limit 30 minutes later by default. A policy asks the [payment system](description.md#the-payment-system) to collect the amount for the payout account of the group, and the attendee pays on its page. Payments never takes the money itself.
 2. **Paid.** The answer of the payment system marks the payment as paid. Meetings confirms the place once it knows the payment is paid, and not before.
 3. **Running out of time.** Nobody asked: time did. The payment expires, and Meetings, which needs to know it, releases the places. The member signs up again if they still want to come.
 
@@ -86,7 +86,7 @@ flowchart LR
     classDef actor fill:#FECA57,stroke:#c79a1c,color:#000
     classDef external fill:#FF9FF3,stroke:#c25fb3,color:#000
 
-    OW[Owner]:::actor
+    PA[Payer]:::actor
 
     subgraph SU[Setting up]
         direction LR
@@ -94,23 +94,48 @@ flowchart LR
         PS1[Payment system]:::external --> C2[Validate the payout account]:::command --> A2((Payout Account)):::aggregate --> E2[Payout account validated]:::event
     end
 
-    subgraph Removing
+    subgraph DE[Deactivating and reactivating]
         direction LR
-        C3[Remove the payout account]:::command --> G3{{Refuse if a meeting with a fee has yet to start}}:::policy --> A3((Payout Account)):::aggregate --> E3[Payout account removed]:::event
-        G3 -.-> MT2[Meetings]:::external
+        C3[Deactivate the payout account]:::command --> A3((Payout Account)):::aggregate --> E3[Payout account deactivated]:::event --> P3{{Cancel the payments waiting on it}}:::policy
+        C4[Reactivate the payout account]:::command --> A4((Payout Account)):::aggregate --> E4[Payout account reactivated]:::event
     end
 
-    OW --> C1
-    OW --> C3
+    PA --> C1
+    PA --> C3
+    PA --> C4
     P1 --> PS1
     E2 -.->|account validated| MT1[Meetings]:::external
-    E3 -.->|account removed| MT1
+    E3 -.->|account deactivated| MT1
+    E4 -.->|account reactivated| MT1
 ```
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
 ### Reading it
 
-1. **Setting up.** The owner starts the setup, and the account is pending. A policy asks the payment system to validate it, which the owner completes with it.
-2. **Validated.** The answer of the payment system validates the account, which Meetings needs to know. That is what lets the groups of the owner give a meeting a fee. When it replaces an earlier account, the new one takes over at that moment.
-3. **Removing.** The owner removes the account. Payments needs to know whether a meeting that has a fee has yet to start, in the owner's groups or in a group whose hand-over they have accepted and that is not yet complete, and refuses if there is one. The rule is absolute: when a removal and the setting of a fee on a meeting, or the acceptance of a hand-over, happen at the same moment, only one succeeds. It does not apply when the removal is part of an [account deletion](../accounts/account-deletion.md): the meetings of the groups concerned are cancelled or the groups handed over, so no fee waits for the account. Meetings needs to know the removal, so that it stops accepting a fee for them.
+1. **Setting up.** The payer starts the setup, and the account is pending. A policy asks the payment system to validate it, which the payer completes with it.
+2. **Validated.** The answer of the payment system validates the account, which Meetings needs to know. That is what lets an owner choose it for a group.
+3. **Deactivating.** The payer deactivates the account whenever they want. The payments waiting on it are cancelled, and no payment is created for it afterwards. Meetings needs to know it, and deactivates the group payout accounts that name it, so that the sign-ups to the meetings with a fee of those groups stop. Payments never asks whether such a meeting exists: the holder decides, and the consequence is that nobody can sign up until they reactivate.
+4. **Reactivating.** The holder reactivates it, the payments can be created again, and Meetings reactivates the group payout accounts that name it.
+
+## The group payout account
+
+```mermaid
+flowchart LR
+    classDef command fill:#54A0FF,stroke:#2e6fc0,color:#000
+    classDef aggregate fill:#FFEAA7,stroke:#F39C12,color:#000
+    classDef event fill:#FF9F43,stroke:#c26a12,color:#000
+    classDef policy fill:#9B59B6,stroke:#6c3483,color:#000
+    classDef external fill:#FF9FF3,stroke:#c25fb3,color:#000
+
+    MT1[Meetings]:::external --> E1[Group payout account chosen, in Meetings]:::event --> P1{{Keep or activate the group payout account}}:::policy --> C1[Activate the group payout account]:::command --> A1((Group Payout Account)):::aggregate --> E2[Group payout account activated]:::event
+    MT2[Meetings]:::external --> E3[Group payout account removed or replaced, in Meetings]:::event --> P2{{Deactivate the group payout account}}:::policy --> C2[Deactivate the group payout account]:::command --> A1
+    A1 --> E4[Group payout account deactivated]:::event
+```
+
+Blue is a command, pale yellow an aggregate, orange an event, purple a policy, pink an external system.
+
+### Reading it
+
+1. **Chosen.** The owner chooses a validated payout account for the group in [Meetings](../meetings/group-life.md#the-payout-account-of-the-group), or the candidate does it at the confirmation of a hand-over. Payments needs to know it, and keeps the pair of the payout account and the group as an active group payout account. A pair already known is activated again.
+2. **Removed or replaced.** The owner removes it, or a new choice or a transfer replaces it, in Meetings, which deletes it there. Payments needs to know it and keeps the pair as deactivated, with the payments made for it, which are never deleted. From then on, no payment is created for it.

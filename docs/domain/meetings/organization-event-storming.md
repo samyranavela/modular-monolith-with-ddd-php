@@ -158,7 +158,8 @@ flowchart LR
     subgraph Payments
         direction LR
         Y1[Payout account validated]:::event
-        Y2[Payout account removed]:::event
+        Y2[Payout account deactivated]:::event
+        Y3[Payout account reactivated]:::event
     end
 
     subgraph Meetings
@@ -170,11 +171,12 @@ flowchart LR
         A1 --> E5[Attendee gave up their place, if the member was an attendee]:::event
         E5 --> P2{{Cancel the payment if the place was awaiting payment}}:::policy
 
-        K1(Whether the owner's payout account is validated):::readmodel
+        K1(Whether a payout account is validated):::readmodel
     end
 
     Y1 -.->|needed| K1
     Y2 -.->|needed| K1
+    Y3 -.->|needed| K1
     P2 --> Payments
 ```
 
@@ -182,7 +184,7 @@ Blue is a command, pale yellow an aggregate, orange an event, purple a policy, g
 
 1. **Leaving the group.** The group's event is the trigger. On each meeting of the group that has not started, the member is treated as if they said they will not come, or they leave the waitlist, or they stop being a host. A member who was an attendee gives up their place, as in any other case. The freed places go to the waitlist of a meeting that has one, as in [attending](#attending-and-the-waitlist), and a payment still awaited is cancelled.
 2. **The last host.** The group refuses the departure of a member who is the last host of a meeting that has not started, so this policy never leaves a meeting without a host. Another host must be designated first. The refusal is absolute: when the last two hosts leave at the same moment, only one succeeds.
-3. **The payout account.** Meetings needs to know whether the owner's payout account is validated, and a fee can be set on a meeting only when it is. The paid and expired payments are handled in [attending](#attending-and-the-waitlist).
+3. **The payout account.** Meetings needs to know whether a payout account is validated, and a fee can be set on a meeting, or a member can sign up to one, only when the group payout account is active, which it is while its payout account is validated. The paid and expired payments are handled in [attending](#attending-and-the-waitlist).
 
 ## Reading
 

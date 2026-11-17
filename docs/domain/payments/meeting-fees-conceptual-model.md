@@ -32,18 +32,30 @@ classDiagram
         <<enumeration>>
         Pending
         Validated
+        Deactivated
+    }
+    class GroupPayoutAccount {
+        group
+        status
+        since
+    }
+    class GroupPayoutAccountStatus {
+        <<enumeration>>
+        Active
+        Deactivated
     }
     class MoneyValue {
         amount in euros
     }
 
     Payer "1" --> "*" MeetingFeePayment : pays, as the attendee
-    Payer "1" --> "*" MeetingFeePayment : receives, as the owner
-    Payer "1" --> "0..2" PayoutAccount : sets up
+    Payer "1" --> "*" PayoutAccount : sets up
+    PayoutAccount "1" --> "*" GroupPayoutAccount : serves a group by
+    GroupPayoutAccount --> GroupPayoutAccountStatus : is
     MeetingFeePayment --> PaymentStatus : is
     MeetingFeePayment --> MoneyValue : for the amount
     PayoutAccount --> PayoutAccountStatus : is
-    MeetingFeePayment ..> PayoutAccount : is paid on that of its owner
+    MeetingFeePayment --> GroupPayoutAccount : is paid on
 
     namespace Meetings {
         class MeetingAttendee
@@ -54,21 +66,22 @@ classDiagram
 
 ## Reading it
 
-- **Meeting Fee Payment** is the aggregate at the centre. It knows the attendee who pays, the owner who receives, the meeting, the amount and the limit of its wait for the payment system. It decides its own end: paid when the payment system confirms, expired when the limit passes, or cancelled. Once ended, it never changes its status again, but it can record a payment that arrives after its end. Its owner is named by Meetings when it is created and never changes.
+- **Meeting Fee Payment** is the aggregate at the centre. It knows the attendee who pays, the group payout account where the fee goes, the meeting, the amount and the limit of its wait for the payment system. It decides its own end: paid when the payment system confirms, expired when the limit passes, or cancelled. Once ended, it never changes its status again, but it can record a payment that arrives after its end. Its group payout account is named by Meetings when it is created and never changes.
 - **Payment Status** has four values. *Paid*, *expired* and *cancelled* are ends.
-- **Payout Account** is where an owner receives fees. It holds the reference given by the payment system, and is **pending** until the payment system validates it, then **validated**. A payer has at most one validated account and one pending, which replaces it once validated. Only a validated account lets a meeting have a fee.
+- **Payout Account** is where a payer receives money. It holds the reference given by the payment system, and is **pending** until the payment system validates it, then **validated**. The payer can **deactivate** it and reactivate it, and it is never deleted. A payer can hold several, and each can serve one group or several. Only a validated account lets a meeting have a fee.
+- **Group Payout Account** is a payout account chosen to receive the fees of one group, seen from Payments: the pair of the two, **active or deactivated**. [Meetings](../meetings/group-life-conceptual-model.md) decides it, and Payments keeps it so that a payment names where its fee goes. When Meetings removes it, the pair stays, deactivated, with the payments made for it.
 - **Money Value** is the same as in [subscriptions](subscriptions-conceptual-model.md): an amount in euros, never negative.
 - **Meeting Attendee** is what [Meetings](../meetings/organization-conceptual-model.md) keeps of the place: the amount owed and its status, awaiting payment, attending or released, which follows the payment.
 
 ## Rules that cross aggregates
 
 - A member has **one payment waiting at most for a meeting**. The rule involves all the payments of the same attendee and meeting, so a domain service checks it, reading what is stored; the rule is absolute: when two payments for the same attendee and meeting are created at the same moment, only one is created.
-- A payout account is removed only when no meeting that has a fee has yet to start, in the groups of its owner and in a group whose hand-over its owner has accepted and that is not yet complete. Payments needs to know it at the moment of the removal, and the rule is absolute: when a removal and the setting of a fee on a meeting, or the acceptance of a hand-over, happen at the same moment, only one succeeds and the other is refused. It does not apply to a removal that is part of an [account deletion](../accounts/account-deletion.md), since no fee then waits for the account.
-- A payer has **at most one validated and one pending payout account**. The rule involves several accounts, so a domain service checks it, reading what is stored; it is absolute: when two accounts are set up at the same moment, only one is created and the other is refused.
+- A payment is created only for a pair that is **active** and whose payout account is **validated**. The payout account and the payment are both in Payments, so the rule is absolute: when a deactivation of the payout account and the creation of a payment happen at the same moment, only one succeeds. The pair is decided in Meetings, which refuses the sign-up first.
+- A payout account that is deactivated **cancels the payments waiting** on it. A payment already paid is left as it is.
 
 ## What is not in the model
 
 - No refund, and no record of what the owner received: both belong to the owner's payment system.
 - No debt that outlives the wait: a payment that expires leaves nothing behind.
-- No link between a payment and a group: Payments knows the meeting and the owner, never the group.
+- No other knowledge of the group than its group payout account: Payments does not know its owner, its meetings or its members.
 - No name and no email address of the attendee: only their identity.

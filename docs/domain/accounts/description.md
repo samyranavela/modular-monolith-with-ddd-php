@@ -84,7 +84,7 @@ A user can ask to leave the application: a member requests the deletion of their
 | :-- | :-- | :-- | :-- |
 | Meetings, Payments | That an account was confirmed with the Member role | To have a member, to have a payer | Each confirmation gives one member and one payer, never lost and never twice |
 | Meetings | That an account becomes locked, and that it is deleted | To end a hand-over whose candidate is locked, and to deal with an erased member | Prompt, and never lost |
-| Payments | That an account is deleted | To end the subscription, remove the payout account and make the payer anonymous | Never lost |
+| Payments | That an account is deleted | To end the subscription, deactivate the payout accounts and make the payer anonymous | Never lost |
 | Notifications | The email address of an account, and that an account is deleted | To write to the person, and to send nothing more to a deleted member | Exact when a message is sent. The deletion is never lost |
 | Each context | The access of an account: its role, its state and its subscription | To allow or refuse each action: the role may do it, a locked account changes nothing, and for Meetings, a group is covered by the subscription of its owner and its sign-ups to meetings with a fee are closed while its owner is locked | Exact at each action, read from Accounts at that moment and never kept by the other context |
 
