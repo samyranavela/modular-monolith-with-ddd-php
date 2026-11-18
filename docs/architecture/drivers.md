@@ -8,11 +8,11 @@ The four contexts each hold their own data: a person is an account, a member and
 
 | Expectation | Meaning | Example |
 | :-- | :-- | :-- |
-| **Exact at the moment of an action** | The answer is right when the action is decided, not a moment before | A hand-over to a locked candidate is refused, see [group life](../domain/meetings/group-life.md#handing-the-group-over) |
-| **Exact at an action, and again later** | The same check twice, at the request and when it is carried out | The open items of a deletion, see [deleting an account](../domain/accounts/account-deletion.md#carrying-out-the-deletion) |
+| **Exact at the moment of an action** | The answer is right when the action is decided, not a moment before | A hand-over to a locked candidate is refused, see [group life](../domain/meetings/group-life/description.md#handing-the-group-over) |
+| **Exact at an action, and again later** | The same check twice, at the request and when it is carried out | The open items of a deletion, see [deleting an account](../domain/accounts/account-deletion/description.md#carrying-out-the-deletion) |
 | **Without noticeable delay** | A short wait is fine, a long one is not | A renewed subscription must let the owner organize at once, see [Meetings](../domain/meetings/description.md#what-meetings-needs-from-other-contexts) |
-| **Never lost, never twice** | Every fact reaches the context that needs it, exactly once in its effect | A confirmed account gives one member and one payer, see [confirming](../domain/accounts/registration.md#confirming) |
-| **As of a given day** | A snapshot is enough | The export of a person's data, see [exporting the data](../domain/accounts/account-deletion.md#exporting-the-data) |
+| **Never lost, never twice** | Every fact reaches the context that needs it, exactly once in its effect | A confirmed account gives one member and one payer, see [confirming](../domain/accounts/registration/description.md#confirming) |
+| **As of a given day** | A snapshot is enough | The export of a person's data, see [exporting the data](../domain/accounts/account-deletion/description.md#exporting-the-data) |
 
 The domain never says how information travels. The architecture must offer a way for each of these expectations.
 
@@ -22,15 +22,15 @@ Every rule that spans several aggregates, or several contexts, is **absolute**: 
 
 | Rule | Stated in |
 | :-- | :-- |
-| A meeting always has at least one host: the last host who counts (a locked host does not) cannot leave or be removed | [organizing meetings](../domain/meetings/organization.md#hosts) |
-| A free-plan group has at most two meetings a month | [creating a meeting](../domain/meetings/organization.md#creating-a-meeting) |
-| A free-plan member owns one group, checked at the acceptance of a proposal | [creating a meeting group](../domain/meetings/group-creation.md#deciding) |
-| No sign-up to a meeting with a fee during a hand-over, or from the moment the owner is locked | [the fee](../domain/meetings/organization.md#the-fee) |
-| A payer has one payment waiting and one subscription at most | [subscriptions](../domain/payments/subscriptions.md#buying) |
-| One active price for each period | [the price list](../domain/payments/price-list.md#one-active-price-per-period) |
-| A group payout account is removed only when no meeting of the group has a fee yet to start | [the payout account of the group](../domain/meetings/group-life.md#the-payout-account-of-the-group) |
-| An email address belongs to one account, pending or confirmed | [registering](../domain/accounts/registration.md#registering) |
-| At least one administrator remains, and a deletion is checked and carried out as one decision | [deleting an account](../domain/accounts/account-deletion.md) |
+| A meeting always has at least one host: the last host who counts (a locked host does not) cannot leave or be removed | [organizing meetings](../domain/meetings/organization/description.md#hosts) |
+| A free-plan group has at most two meetings a month | [creating a meeting](../domain/meetings/organization/description.md#creating-a-meeting) |
+| A free-plan member owns one group, checked at the acceptance of a proposal | [creating a meeting group](../domain/meetings/group-creation/description.md#deciding) |
+| No sign-up to a meeting with a fee during a hand-over, or from the moment the owner is locked | [the fee](../domain/meetings/organization/description.md#the-fee) |
+| A payer has one payment waiting and one subscription at most | [subscriptions](../domain/payments/subscriptions/description.md#buying) |
+| One active price for each period | [the price list](../domain/payments/price-list/description.md#one-active-price-per-period) |
+| A group payout account is removed only when no meeting of the group has a fee yet to start | [the payout account of the group](../domain/meetings/group-life/description.md#the-payout-account-of-the-group) |
+| An email address belongs to one account, pending or confirmed | [registering](../domain/accounts/registration/description.md#registering) |
+| At least one administrator remains, and a deletion is checked and carried out as one decision | [deleting an account](../domain/accounts/account-deletion/description.md) |
 | No notification exists for a deleted member | [Notifications](../domain/notifications/description.md#what-notifications-needs-from-other-contexts) |
 
 Some of these rules cross aggregates, or even contexts, and still have to be decided in one go. The architecture must give each one a place that can say no, see [consistency](consistency.md#rules-that-hold-at-the-same-moment).
@@ -47,14 +47,14 @@ Several rules start with no request at all:
 
 | What | When | Stated in |
 | :-- | :-- | :-- |
-| A pending account, from a registration or an invitation, expires | 48 hours | [registration](../domain/accounts/registration.md#expiring) |
-| A link to confirm a new email address expires, and a password reset link | 48 hours, and 1 hour | [profile management](../domain/accounts/profile-management.md#delays-and-limits) |
-| A payment waiting for the payment system expires | 30 minutes | [meeting fees](../domain/payments/meeting-fees.md#paying) |
-| A free trial ends, and its reminder | 7 days, and 2 days before its end | [subscriptions](../domain/payments/subscriptions.md#trying) |
-| A subscription is about to end or to renew, then ends | 30 days for a year, 7 days for a month, before the end | [subscriptions](../domain/payments/subscriptions.md#when-a-subscription-ends) |
-| A deletion is carried out | After a grace period, 14 days | [deleting an account](../domain/accounts/account-deletion.md#locked-account) |
-| An export of data expires | 7 days | [exporting the data](../domain/accounts/account-deletion.md#exporting-the-data) |
-| Anonymised payments are deleted | After 10 years | [deleting an account](../domain/accounts/account-deletion.md#carrying-out-the-deletion) |
+| A pending account, from a registration or an invitation, expires | 48 hours | [registration](../domain/accounts/registration/description.md#expiring) |
+| A link to confirm a new email address expires, and a password reset link | 48 hours, and 1 hour | [profile management](../domain/accounts/profile-management/description.md#delays-and-limits) |
+| A payment waiting for the payment system expires | 30 minutes | [meeting fees](../domain/payments/meeting-fees/description.md#paying) |
+| A free trial ends, and its reminder | 7 days, and 2 days before its end | [subscriptions](../domain/payments/subscriptions/description.md#trying) |
+| A subscription is about to end or to renew, then ends | 30 days for a year, 7 days for a month, before the end | [subscriptions](../domain/payments/subscriptions/description.md#when-a-subscription-ends) |
+| A deletion is carried out | After a grace period, 14 days | [deleting an account](../domain/accounts/account-deletion/description.md#locked-account) |
+| An export of data expires | 7 days | [exporting the data](../domain/accounts/account-deletion/description.md#exporting-the-data) |
+| Anonymised payments are deleted | After 10 years | [deleting an account](../domain/accounts/account-deletion/description.md#carrying-out-the-deletion) |
 
 Every delay is configurable. The date is the rule: from the moment an expiry date has passed, the answer is no, even when nothing has yet cleaned up. The architecture must make things happen on a date, and must never depend on the cleaning to be right.
 
@@ -72,7 +72,7 @@ A context hands Notifications a fact with its kind, its member and its data, and
 
 Reading is not the mirror of writing:
 
-- What a person sees depends on who they are: any member sees the groups and the meetings of a group, only group members see members and attendees, hosts, owner and organizers see the waitlist, an administrator reads everything in Meetings and a locked member still reads. See [what each role sees](../domain/meetings/group-creation.md#what-each-role-sees) and the reading sections of each page.
+- What a person sees depends on who they are: any member sees the groups and the meetings of a group, only group members see members and attendees, hosts, owner and organizers see the waitlist, an administrator reads everything in Meetings and a locked member still reads. See [what each role sees](../domain/meetings/group-creation/description.md#what-each-role-sees) and the reading sections of each page.
 - Lists are filtered and sorted, and counted: proposals by status, notifications by unread.
 - The views are the **read models** of the event stormings, each with its own need of freshness.
 
@@ -80,7 +80,7 @@ The architecture must let a reading take the shape of its screen, without going 
 
 ## D8. A person can be forgotten
 
-The deletion of an account is carried out in every context, **never lost**: the account is deleted, the member leaves every group, the payer is anonymised, the inbox is deleted. Some things stay on purpose: comments and decisions become those of a "deleted member", and payments are kept anonymised. Each context can also **export** what it holds about a person. See [deleting an account](../domain/accounts/account-deletion.md).
+The deletion of an account is carried out in every context, **never lost**: the account is deleted, the member leaves every group, the payer is anonymised, the inbox is deleted. Some things stay on purpose: comments and decisions become those of a "deleted member", and payments are kept anonymised. Each context can also **export** what it holds about a person. See [deleting an account](../domain/accounts/account-deletion/description.md).
 
 The architecture must let every context erase, anonymise and export its own data, and be told of a deletion whatever happens.
 

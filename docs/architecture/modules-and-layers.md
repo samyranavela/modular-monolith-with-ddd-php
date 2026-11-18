@@ -110,4 +110,4 @@ What goes through the Contract is what the tables "What X needs from other conte
 | D7 reading | The read side of the Application, see [use cases](use-cases.md#queries) |
 | D8 erasure and export | A use case in each module, started by the deletion |
 
-Sources of the concepts are in the [concepts](concepts/) pages.
+Sources of the concepts are in the [concepts](concepts) pages.

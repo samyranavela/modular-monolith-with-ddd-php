@@ -19,11 +19,11 @@ When something is cancelled or removed for a **reason**, the reason is part of t
 | **Export ready** | The member | Until when the export can be downloaded |
 | **Deletion carried out** | *Required message.* The email address erased by the deletion | The date of the deletion |
 
-Nothing is sent to an email address held by a confirmed account when someone registers with it, nor to an email address that has no account when a password reset is asked for: the answer shown is the same whatever the situation. See [registering](../accounts/registration.md#registering) and [account deletion](../accounts/account-deletion.md#notifications). An administrator who is deleted is not told.
+Nothing is sent to an email address held by a confirmed account when someone registers with it, nor to an email address that has no account when a password reset is asked for: the answer shown is the same whatever the situation. See [registering](../accounts/registration/description.md#registering) and [account deletion](../accounts/account-deletion/description.md#notifications). An administrator who is deleted is not told.
 
 ## Accounts: profile
 
-Required messages, to an email address, see [profile management](../accounts/profile-management.md#messages).
+Required messages, to an email address, see [profile management](../accounts/profile-management/description.md#messages).
 
 | Kind | For | Data |
 | :-- | :-- | :-- |
@@ -51,7 +51,7 @@ The hand-over of a group sends one notification to the party concerned at each s
 | **Transfer cancelled by itself** | The owner | The group, and that the candidate left, was demoted or was locked |
 | **Transfer completed** | The former owner and the new owner | The group, and the new role of each |
 
-See [handing the group over](../meetings/group-life.md#handing-the-group-over) and [group creation](../meetings/group-creation.md).
+See [handing the group over](../meetings/group-life/description.md#handing-the-group-over) and [group creation](../meetings/group-creation/description.md).
 
 ## Meetings: meetings and comments
 
@@ -68,7 +68,7 @@ See [handing the group over](../meetings/group-life.md#handing-the-group-over) a
 | **Removed as host** | The host removed by someone else | The meeting and who removed them |
 | **Comment removed** | The author of a comment removed by someone else | The comment, who removed it and the reason |
 
-Nothing is sent when somebody replies or likes. See [organizing meetings](../meetings/organization.md#notifications) and [commenting](../meetings/commenting.md#notifications).
+Nothing is sent when somebody replies or likes. See [organizing meetings](../meetings/organization/description.md#notifications) and [commenting](../meetings/commenting/description.md#notifications).
 
 ## Payments
 
@@ -85,6 +85,6 @@ Nothing is sent when somebody replies or likes. See [organizing meetings](../mee
 | **Trial about to end** | The payer, 2 days before the end by default | The date and the price active at that moment |
 | **Renewal period changed** | The payer | The date of the change and the price |
 
-The [subscriptions page](../payments/subscriptions.md#notifications) and the [price list page](../payments/price-list.md#notifications) both describe the email about a price that is going to change: it is one kind, listed once.
+The [subscriptions page](../payments/subscriptions/description.md#notifications) and the [price list page](../payments/price-list/description.md#notifications) both describe the email about a price that is going to change: it is one kind, listed once.
 
-Payments sends no notification for a [meeting fee](../payments/meeting-fees.md#notifications): what the attendee learns about their place comes from Meetings, above.
+Payments sends no notification for a [meeting fee](../payments/meeting-fees/description.md#notifications): what the attendee learns about their place comes from Meetings, above.

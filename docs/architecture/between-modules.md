@@ -193,7 +193,7 @@ flowchart LR
     class Per actor;
 ```
 
-*The fact carries the identity of the account, the role and what each context needs to name the person. Meetings creates a member and Payments a payer, each by a command of its own, once, whatever the number of times the fact arrives. With the Administrator role, nobody has anything to create. See [confirming](../domain/accounts/registration.md#confirming).*
+*The fact carries the identity of the account, the role and what each context needs to name the person. Meetings creates a member and Payments a payer, each by a command of its own, once, whatever the number of times the fact arrives. With the Administrator role, nobody has anything to create. See [confirming](../domain/accounts/registration/description.md#confirming).*
 
 ### A member signs up to a meeting with a fee
 
@@ -223,7 +223,7 @@ flowchart LR
     class PS ext;
 ```
 
-*The legend of colours is the one of the other diagrams of this page, with the outside system in pink. Meetings first checks its own data: the group payout account must be active and its payout account validated. Message 4 names that group payout account, and Payments refuses a payment for a deactivated one. Meetings keeps the place awaiting payment (message 4) and does not guarantee it. When the payment system does not answer in time, message 7 is the fact "Payment expired" instead, and Meetings releases the places. The sign-up is refused at message 3 when the owner is locked. A sign-up read just before the lock can still go through: its payment ends by itself long before the deletion, whose final check would refuse it otherwise. See [meeting fees](../domain/payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee).*
+*The legend of colours is the one of the other diagrams of this page, with the outside system in pink. Meetings first checks its own data: the group payout account must be active and its payout account validated. Message 4 names that group payout account, and Payments refuses a payment for a deactivated one. Meetings keeps the place awaiting payment (message 4) and does not guarantee it. When the payment system does not answer in time, message 7 is the fact "Payment expired" instead, and Meetings releases the places. The sign-up is refused at message 3 when the owner is locked. A sign-up read just before the lock can still go through: its payment ends by itself long before the deletion, whose final check would refuse it otherwise. See [meeting fees](../domain/payments/meeting-fees/description.md#signing-up-to-a-meeting-with-a-fee).*
 
 ### An action is guarded by the access of the person
 
@@ -267,7 +267,7 @@ flowchart LR
     class Per actor;
 ```
 
-*The request is refused when an open item is listed. Otherwise the account is locked, and Meetings ends a hand-over that names the member as candidate. The sign-ups to the meetings with a fee of their groups close by themselves, since Meetings reads the state of the owner at each one, see [deleting an account](../domain/accounts/account-deletion.md#locked-account). The questions are asked again at the end of the grace period.*
+*The request is refused when an open item is listed. Otherwise the account is locked, and Meetings ends a hand-over that names the member as candidate. The sign-ups to the meetings with a fee of their groups close by themselves, since Meetings reads the state of the owner at each one, see [deleting an account](../domain/accounts/account-deletion/description.md#locked-account). The questions are asked again at the end of the grace period.*
 
 ### A deletion is carried out
 
@@ -290,7 +290,7 @@ flowchart LR
     class T actor;
 ```
 
-*The final check of the open items is made when the grace period is over, with the same questions as at the request, and is one decision with the carrying out. Accounts deletes the account and makes the fact known. Each context then does its part by a command of its own, and nothing is sent back: the request is already completed. This is [carrying out the deletion](../domain/accounts/account-deletion.md#carrying-out-the-deletion).*
+*The final check of the open items is made when the grace period is over, with the same questions as at the request, and is one decision with the carrying out. Accounts deletes the account and makes the fact known. Each context then does its part by a command of its own, and nothing is sent back: the request is already completed. This is [carrying out the deletion](../domain/accounts/account-deletion/description.md#carrying-out-the-deletion).*
 
 ## What stays for later pages
 
