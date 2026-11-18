@@ -101,7 +101,7 @@ The facts of a subscription that other contexts need, and how exact they must be
 
 ### A hand-over of a group
 
-The hand-over of a group to an organizer has **no special case in Payments**. The organizer who accepts must have an active subscription, and takes one out or renews like any payer, even if they were on the [free plan](#without-a-subscription-the-free-plan); the expiration date lets Meetings [complete the transfer](../meetings/group-life.md#handing-the-group-over).
+The hand-over of a group to an organizer has **no special case in Payments**. The organizer who is to confirm must already have an active subscription, and takes one out or renews like any payer beforehand, even if they were on the [free plan](#without-a-subscription-the-free-plan); Meetings reads the expiration date when they confirm, and [completes the transfer](../meetings/group-life.md#handing-the-group-over) at once, or refuses the confirmation.
 
 The former owner's subscription stays theirs. It runs until its end, without refund and without any transfer: it simply stops covering the group.
 

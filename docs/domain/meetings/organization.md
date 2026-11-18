@@ -38,7 +38,7 @@ A meeting has:
 - a **venue**: a name, an address, a postal code and a city;
 - an optional **attendee limit** and a **guest limit**, see [limits](#limits);
 - an **RSVP term**, the period during which members can sign up. Its start and its end are both optional, and sign-ups never stay open past the start of the meeting;
-- an optional **meeting fee**, an amount in euros, see [the fee](#the-fee). A fee can be set only when the owner of the group has a **validated payout account**, which Meetings knows from [Payments](../payments/description.md#the-payout-account).
+- an optional **meeting fee**, an amount in euros, see [the fee](#the-fee). A fee can be set only when the group has an **active group payout account**, see [the payout account of the group](group-life.md#the-payout-account-of-the-group). Removing the fee is a change like any other, and lets the owner [remove](group-life.md#the-payout-account-of-the-group) the group payout account.
 
 Its [hosts](#hosts) are chosen among the members of the group. If none is chosen, the creator is the host.
 
@@ -54,7 +54,7 @@ A host, or the owner or an organizer of the group, can change everything the mee
 
 - The attendee limit cannot go below the places already taken.
 - A new guest limit applies to the sign-ups to come, not to the attendees already in.
-- A new fee does not change what is already owed, nor what is already awaited. Setting a fee needs the owner's validated payout account, and is refused while members are on the waitlist, since a meeting with a fee has none.
+- A new fee does not change what is already owed, nor what is already awaited. Setting a fee needs an active group payout account, and is refused while members are on the waitlist, since a meeting with a fee has none.
 - Raising the attendee limit frees places, which the [waitlist](#the-waitlist) takes when the meeting has one.
 
 ## Signing up
@@ -67,6 +67,7 @@ A member of the group signs up, with a number of guests. They need:
 - enough places for themselves and their guests;
 - no payment already awaited from them for this meeting;
 - for a meeting with a fee, the group not to be in a [hand-over](group-life.md#handing-the-group-over): sign-ups to its meetings with a fee are closed from the request until the hand-over ends;
+- for a meeting with a fee, the group payout account to be active;
 - for a meeting with a fee, the owner of the group not to be [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups are closed from the moment the lock is committed until the request ends.
 
 A member who had said they would not come simply changes their mind.
@@ -109,16 +110,16 @@ Otherwise, the member is taken out of the meetings of the group that have not st
 
 A meeting **with a fee** takes a place in **two steps**. Each attendee owes **(1 + their guests) times the fee** of the meeting, fixed when they sign up. A host owes nothing.
 
-1. **Awaiting payment.** When the member signs up, Meetings keeps the places for them, **awaiting payment**, and [Payments](../payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee) needs to know what they owe. Payments creates the payment and asks the payment system to collect it. The places are kept only while the payment waits, 30 minutes by default, and **the place is not guaranteed** until it is paid. A meeting without a fee has no such step.
+1. **Awaiting payment.** When the member signs up, Meetings keeps the places for them, **awaiting payment**, and [Payments](../payments/meeting-fees.md#signing-up-to-a-meeting-with-a-fee) needs to know what they owe. Payments creates the payment, for the group payout account, and asks the payment system to collect it. The places are kept only while the payment waits, 30 minutes by default, and **the place is not guaranteed** until it is paid. A meeting without a fee has no such step.
 2. **Confirmed or released.** When the payment is **paid**, the place is **confirmed**. When the payment **expired**, the places are **released**: the member is no longer an attendee, the places can be taken by the next one who signs up, and the member signs up again if they still want to come.
 
 The result of the payment can be known after the start of the meeting, since a payment may still be awaited at that moment. It is then recorded all the same.
 
 Payments needs to know when a place awaiting payment is lost before it is paid, because the attendee said they will not come, was removed, became a host or left the group, and when the meeting is cancelled. A fee already paid never comes back: the application does not refund.
 
-[Payments](../payments/meeting-fees.md#the-payout-account) needs to know whether a meeting with a fee has yet to start in a group a member owns, or in a group whose [hand-over](group-life.md#handing-the-group-over) they have accepted and that is not yet complete, which decides whether they can remove their payout account.
+Payments needs to know which group payout account a payment goes to, and that it ends: see [the payout account of the group](group-life.md#the-payout-account-of-the-group).
 
-During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the receiver of the fees may change. The rule is absolute: when a sign-up to such a meeting and the hand-over request happen at the same moment, not both succeed. Either the sign-up is taken first and the request is refused because a payment waits, or the request is taken first and the sign-up is refused as closed.
+During a [hand-over](group-life.md#handing-the-group-over) of the group, sign-ups to its meetings with a fee are closed, so that no payment is created while the group payout account may change. The rule is absolute: when a sign-up to such a meeting and the hand-over request happen at the same moment, not both succeed. Either the sign-up is taken first and the request is refused because a payment waits, or the request is taken first and the sign-up is refused as closed.
 
 The same holds while the owner of the group is [locked](../accounts/account-deletion.md#locked-account) by a pending deletion of their account: sign-ups to the meetings with a fee are closed from the moment the lock is committed until the request ends. Meetings reads the state of the owner at each sign-up. A sign-up read just before the lock may still go through: its payment ends by itself in 30 minutes at most, and the final check of the deletion would refuse it otherwise, see [locked account](../accounts/account-deletion.md#locked-account).
 

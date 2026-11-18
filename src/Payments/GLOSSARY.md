@@ -5,7 +5,7 @@ Handles the money of the application: the subscriptions of the owners of meeting
 ## Language
 
 **Payer**:
-A member seen from Payments. Created when an account with the Member role is confirmed, and known only by their identity. Administrators are not payers.
+A member seen from Payments. Created when a user account with the Member role is confirmed, and known only by their identity, the same in every role the payer takes: the one who holds a subscription, the one who receives fees on a payout account, the one who pays for a place. Administrators are not payers.
 _Avoid_: Customer, buyer
 
 **Payment System**:
@@ -13,8 +13,12 @@ The external system that collects an amount and answers that it was paid. Paymen
 _Avoid_: Gateway, bank
 
 **Payout Account**:
-Where the owner of a group receives the fees of its meetings, set up once for all their groups and validated by the payment system before it counts. A meeting can have a fee only if the owner of its group has a validated one.
-_Avoid_: Bank account, wallet
+Where a payer receives money from the payment system, validated by that system before it counts, so that it can be chosen to receive the fees of groups. A payer can hold several, and one serves one group or many. It is pending, validated or deactivated, and is never deleted: the payer deactivates it, and reactivates it when they want it back. While it is deactivated, no payment is created for it.
+_Avoid_: Bank account, wallet, account (alone: it may mean the user account)
+
+**Group Payout Account**:
+The payout account that the owner of a group chose to receive the fees of its meetings, seen from Payments as the pair of the payout account and the group, active or deactivated. [Meetings](../Meetings/GLOSSARY.md) decides it: Payments only keeps it, so that a payment names where its fee goes. When Meetings removes it, for example at a transfer, Payments keeps the pair, deactivated, with the payments made for it, which are kept for legal reasons. It is activated again if the same payout account is chosen again for the same group. A payment is refused for a deactivated pair, and for a payout account that is not validated.
+_Avoid_: Payout link, assignment
 
 **Money Value**:
 An amount in euros that is not negative. The application has one currency.
@@ -53,9 +57,9 @@ What a payer has while they hold no subscription and never did: one group and tw
 _Avoid_: Starter, basic plan
 
 **Meeting Fee Payment**:
-What an attendee pays the owner of the group to take a place in a meeting that has a fee, guests included. It is created when the attendee signs up, waits a short time for the payment system, and ends paid, expired or cancelled. Until it is paid, the place is not guaranteed.
+What an attendee pays to the group payout account of a meeting that has a fee, to take a place in it, guests included. It is created when the attendee signs up, waits a short time for the payment system, and ends paid, expired or cancelled. Until it is paid, the place is not guaranteed.
 _Avoid_: Debt, ticket, transaction
 
 **Anonymised Payer**:
-A payer whose account was deleted. Their subscription ended with no refund, their payout account was removed, and their payments are kept as the accounting record, without an identity.
+A payer whose user account was deleted. Their subscription ended with no refund, their payout accounts were deactivated, and their payments are kept as the accounting record, without an identity.
 _Avoid_: Deleted payer

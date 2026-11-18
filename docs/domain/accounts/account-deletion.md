@@ -84,7 +84,7 @@ The members of an archived group are notified.
 
 - The payer is **anonymised**: Payments knew nothing of the person but their identifier, so nothing more has to be erased there.
 - Their **subscription ends** with the account: an automatic renewal is stopped and no new period is bought. There is **no refund**, not even of a renewal charged during the grace period: the application never refunds, see [the end of a subscription](../payments/subscriptions.md#when-a-subscription-ends).
-- Their **payout account is removed**. This removal is **not refused** by the rule that refuses it while a meeting with a fee has yet to start, see [the payout account](../payments/meeting-fees.md): the meetings of the groups concerned are cancelled or the groups handed over. The fees of the meetings of a group handed over go to the new owner's account, and the meetings of an archived group are cancelled, so no fee waits for the removed account.
+- Their **payout accounts are deactivated**, never deleted, since the payments made on them are kept. No fee waits for a deactivated one: a group handed over has the group payout account that the candidate chose, which replaced the former owner's at the confirmation, and the meetings of an archived group are cancelled.
 - Their **payments are kept**, the subscriptions as well as the fees of the meetings, **without an identity**. They are the accounting record, kept for **10 years**, the period the law requires for accounting records, which is configurable, and then deleted. A fee already paid stays paid: the owner of the group decides on a refund in their own payment system.
 
 ### What happens in Notifications
@@ -97,7 +97,7 @@ A member can **export their data** at any time, with or without a request made, 
 
 - **Accounts**: the login, the email address, the names, the role.
 - **Meetings**: the groups the member belongs to or belonged to, with their role and the dates; the meetings they hosted or attended, with their guests; their comments and likes; the group proposals they made, and the decision on each.
-- **Payments**: their subscriptions and the dates of their periods, their payments with their amounts and dates, and whether they have a payout account.
+- **Payments**: their subscriptions and the dates of their periods, their payments with their amounts and dates, and the payout accounts they set up.
 - **Notifications**: their notifications, with their date and whether they are read.
 
 An administrator has no export: they are neither a member nor a payer, and hold nothing but what Accounts knows of them.

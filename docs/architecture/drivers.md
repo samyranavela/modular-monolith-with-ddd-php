@@ -28,7 +28,7 @@ Every rule that spans several aggregates, or several contexts, is **absolute**: 
 | No sign-up to a meeting with a fee during a hand-over, or from the moment the owner is locked | [the fee](../domain/meetings/organization.md#the-fee) |
 | A payer has one payment waiting and one subscription at most | [subscriptions](../domain/payments/subscriptions.md#buying) |
 | One active price for each period | [the price list](../domain/payments/price-list.md#one-active-price-per-period) |
-| A payout account cannot be removed while a meeting with a fee is to come | [the payout account](../domain/payments/meeting-fees.md#the-payout-account) |
+| A group payout account is removed only when no meeting of the group has a fee yet to start | [the payout account of the group](../domain/meetings/group-life.md#the-payout-account-of-the-group) |
 | An email address belongs to one account, pending or confirmed | [registering](../domain/accounts/registration.md#registering) |
 | At least one administrator remains, and a deletion is checked and carried out as one decision | [deleting an account](../domain/accounts/account-deletion.md) |
 | No notification exists for a deleted member | [Notifications](../domain/notifications/description.md#what-notifications-needs-from-other-contexts) |
