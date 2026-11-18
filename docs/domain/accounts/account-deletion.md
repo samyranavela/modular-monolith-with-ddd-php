@@ -30,7 +30,7 @@ Four things must be settled before a request is accepted. They are the **open it
 | Open item | Where it comes from | How the member settles it |
 | :-- | :-- | :-- |
 | A group the member owns that is **under hand-over** | [Meetings](../meetings/group-life.md#roles-in-a-group) | Wait until the hand-over ends: it completes and the group is no longer theirs, or it ends otherwise and the group is back to being theirs, and not under hand-over. |
-| An upcoming meeting where the member is the **last host** of a group that goes on | [Meetings](../meetings/organization.md#hosts) | Designate another host, or cancel the meeting. |
+| An upcoming meeting where the member is the **last host who counts** of a group that goes on | [Meetings](../meetings/organization.md#hosts) | Designate another host, or cancel the meeting. |
 | A **payment that waits**, for the member's own places or for a meeting of a group they own | [Payments](../payments/meeting-fees.md) | Wait: it ends by itself, in 30 minutes by default. It cannot come back once the account is locked. |
 | A **meeting group proposal** that is pending | [Meetings](../meetings/group-creation.md) | Wait for an administrator to decide. |
 
@@ -49,7 +49,7 @@ From the request until it ends, the account is **locked**. The member can still 
 
 Each context applies the lock to its own actions: it reads the [access](description.md#access) of the account from Accounts at every action, and refuses a locked account every action that changes something, apart from these four, which belong to Accounts and Notifications.
 
-A locked member takes part in nothing: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate.
+A locked member takes part in nothing: no sign-up to a meeting, no comment, no like, no payment, no group proposal, no hand-over. Hence the open items cannot come back through the member's own doing, and a hand-over cannot name them as candidate. A locked member cannot be designated host, and no longer **counts as a host**: the other hosts of a meeting cannot leave or be removed if that would leave none who counts, so a meeting where the member has another host keeps it until the deletion is carried out.
 
 What was set up before the request goes on by itself: an automatic renewal that falls during the grace period is charged as usual.
 
@@ -59,7 +59,7 @@ What others do can still change the picture. A host who was not the last may fin
 
 ## Carrying out the deletion
 
-When the grace period is over, the application checks the open items again. The check and the carrying out are **one decision**: nothing can stand in the way between the two, whatever other members do at the same moment, and only one of the two outcomes happens. The deletion is **carried out only if nothing stands in the way**, as at the request. If something does at that moment, the deletion is cancelled with the reason, the account goes back to confirmed, and the member is notified: they settle it and make a new request if they still want to.
+When the grace period is over, the application checks the open items again. The check and the carrying out are **one decision**: nothing can stand in the way between the two, whatever other members do at the same moment, and only one of the two outcomes happens. The deletion is **carried out only if nothing stands in the way**, as at the request. A host who left just before the lock was committed can make the member the last host: this is the one slip that the final check catches, since nothing can leave once the lock is committed. If something does at that moment, the deletion is cancelled with the reason, the account goes back to confirmed, and the member is notified: they settle it and make a new request if they still want to.
 
 Otherwise the account is **deleted for good** at once, and each of the other contexts does its part on its own. The member is not asked anything, and cannot cancel any more.
 

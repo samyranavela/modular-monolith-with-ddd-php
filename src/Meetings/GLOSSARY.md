@@ -36,7 +36,7 @@ The member answerable for a meeting group and for its subscription. There is exa
 _Avoid_: Creator, admin
 
 **Organizer**:
-A member who looks after a meeting group below its owner, and stands in when the owner is not available. There can be any number. An organizer can step down or leave the group, unless they are the last host of a meeting that has not started.
+A member who looks after a meeting group below its owner, and stands in when the owner is not available. There can be any number. An organizer can step down or leave the group, unless they are the last host who counts of a meeting that has not started.
 _Avoid_: Admin, co-owner
 
 **Ownership Transfer Request**:
@@ -103,7 +103,7 @@ The ordered queue of members, without guests, who want to attend a meeting witho
 _Avoid_: Waiting list
 
 **Host**:
-A member of the group responsible for holding one meeting, typically the person it takes place with. A host is not an attendee: they take no place, owe no fee and do not sign up. A host may change the meeting, remove attendees, designate and remove hosts and cancel it, as may the owner and the organizers of the group. A meeting needs at least one host to take place, so the last host can neither be removed nor leave the group.
+A member of the group responsible for holding one meeting, typically the person it takes place with. A host is not an attendee: they take no place, owe no fee and do not sign up. A host may change the meeting, remove attendees, designate and remove hosts and cancel it, as may the owner and the organizers of the group. A meeting needs at least one host to take place, so the last host who counts can neither be removed nor leave the group. A host whose user account is locked or deleted does not count, and a locked member cannot be designated host.
 
 **RSVP Term**:
 The period during which members can sign up to a meeting.

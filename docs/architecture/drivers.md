@@ -22,7 +22,7 @@ Every rule that spans several aggregates, or several contexts, is **absolute**: 
 
 | Rule | Stated in |
 | :-- | :-- |
-| A meeting always has at least one host: the last host cannot leave or be removed | [organizing meetings](../domain/meetings/organization.md#hosts) |
+| A meeting always has at least one host: the last host who counts (a locked host does not) cannot leave or be removed | [organizing meetings](../domain/meetings/organization.md#hosts) |
 | A free-plan group has at most two meetings a month | [creating a meeting](../domain/meetings/organization.md#creating-a-meeting) |
 | A free-plan member owns one group, checked at the acceptance of a proposal | [creating a meeting group](../domain/meetings/group-creation.md#deciding) |
 | No sign-up to a meeting with a fee during a hand-over, or from the moment the owner is locked | [the fee](../domain/meetings/organization.md#the-fee) |

@@ -59,11 +59,11 @@ _Avoid_: Permission, right, privilege
 Until when the subscription of an account is valid, and whether the account ever held one. A value that Accounts keeps from the fact given by Payments, which owns the subscription.
 
 **Account Deletion Request**:
-A member's request to leave the application for good. It can be made only when nothing stands in the way: no group owned under hand-over, no last host of an upcoming meeting, no payment waiting, no group proposal pending. It locks the account for a grace period. The request has no status of its own: the account goes back to confirmed when the member cancels, or when the application cancels because something stands in the way at the end, and it is erased when the deletion is carried out. An administrator makes none: another administrator deletes them.
+A member's request to leave the application for good. It can be made only when nothing stands in the way: no group owned under hand-over, no last host who counts of an upcoming meeting, no payment waiting, no group proposal pending. It locks the account for a grace period. The request has no status of its own: the account goes back to confirmed when the member cancels, or when the application cancels because something stands in the way at the end, and it is erased when the deletion is carried out. An administrator makes none: another administrator deletes them.
 _Avoid_: Account closure, unsubscribe
 
 **Open Item**:
-A thing that stands in the way of a deletion request and must be settled first: a group owned under hand-over, a last host of an upcoming meeting, a payment waiting, a group proposal pending. Checked at the request and again when the deletion is carried out.
+A thing that stands in the way of a deletion request and must be settled first: a group owned under hand-over, a last host who counts of an upcoming meeting, a payment waiting, a group proposal pending. Checked at the request and again when the deletion is carried out.
 _Avoid_: Blocker, prerequisite
 
 **Grace Period**:

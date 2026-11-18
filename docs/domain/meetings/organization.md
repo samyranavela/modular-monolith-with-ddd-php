@@ -22,8 +22,10 @@ A **host** is a member of the group who is responsible for holding the meeting, 
 
 A meeting needs **at least one host** to take place. An action that would leave none is refused, **always**: even when two actions happen at the same moment, such as the last two hosts leaving, only one succeeds and the other is refused.
 
-- **Designating.** A host, or the owner or an organizer of the group, designates a member of the group as a host. If the member was an attendee, their attendance ends: their place and their guests' are freed, for the [waitlist](#the-waitlist) when the meeting has one, and a payment still awaited is cancelled. If they were waiting, they leave the waitlist.
-- **Removing.** A host steps down, or another host, the owner or an organizer removes them, and they become a plain member again. This is refused for the last host: another one must be designated first.
+A host whose user account is [locked](../accounts/account-deletion.md#locked-account), or deleted, **does not count**: they can no longer hold the meeting, so the rule is about the hosts who can. A host who is the only one left who counts cannot be removed or leave, even if a locked host remains. Meetings reads the state of the other hosts from Accounts at that moment.
+
+- **Designating.** A host, or the owner or an organizer of the group, designates a member of the group as a host, unless their user account is locked. If the member was an attendee, their attendance ends: their place and their guests' are freed, for the [waitlist](#the-waitlist) when the meeting has one, and a payment still awaited is cancelled. If they were waiting, they leave the waitlist.
+- **Removing.** A host steps down, or another host, the owner or an organizer removes them, and they become a plain member again. This is refused for the last host who counts: another one must be designated first.
 
 A member designated or removed by somebody else is notified. Nothing is sent to a host who steps down, or who stops being one by leaving the group.
 
@@ -40,7 +42,7 @@ A meeting has:
 - an **RSVP term**, the period during which members can sign up. Its start and its end are both optional, and sign-ups never stay open past the start of the meeting;
 - an optional **meeting fee**, an amount in euros, see [the fee](#the-fee). A fee can be set only when the group has an **active group payout account**, see [the payout account of the group](group-life.md#the-payout-account-of-the-group). Removing the fee is a change like any other, and lets the owner [remove](group-life.md#the-payout-account-of-the-group) the group payout account.
 
-Its [hosts](#hosts) are chosen among the members of the group. If none is chosen, the creator is the host.
+Its [hosts](#hosts) are chosen among the members of the group whose user account is not locked. If none is chosen, the creator is the host.
 
 ### Limits
 
@@ -102,7 +104,7 @@ Every attendee, every member on the waitlist and every host but the one who canc
 
 ## When a member leaves the group
 
-A member who is the **last host** of a meeting that has not started cannot [leave the group](group-life.md#leaving): another host must be designated first. The refusal is absolute: when the last two hosts of a meeting leave the group at the same moment, only one succeeds and the other is refused, as if it had come second.
+A member who is the **last host who counts** of a meeting that has not started cannot [leave the group](group-life.md#leaving): another host must be designated first. The refusal is absolute: when the last two hosts of a meeting leave the group at the same moment, only one succeeds and the other is refused, as if it had come second. While a host is locked by a pending deletion, the other hosts cannot leave either, so a meeting is never left without a host by that deletion.
 
 Otherwise, the member is taken out of the meetings of the group that have not started. On each one, an attendee, awaiting payment or not, is treated as if they said they will not come, a member on the waitlist leaves it, and a host stops being one. The places they free go to the waitlist like any other.
 
