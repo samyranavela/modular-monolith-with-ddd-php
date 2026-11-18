@@ -26,7 +26,7 @@ The state of a module changes **only** through a command. This holds as much for
 | A fact of another context | A confirmed account creates a member | Ui, which translates the fact into a command |
 | An answer of an outside system | The payment system answers that an amount was paid | Infrastructure, behind a port, and then the use case |
 
-A use case started by a fact or by a date is a command like the others, and has its own authorization and its own rules. This makes the chain of an [event storming](../domain/meetings/group-creation-event-storming.md), a command, an event, a policy, then another command, readable in the code.
+A use case started by a fact or by a date is a command like the others, and has its own authorization and its own rules. This makes the chain of an [event storming](../domain/meetings/group-creation/event-storming.md), a command, an event, a policy, then another command, readable in the code.
 
 ## The entrance of a module
 
@@ -74,7 +74,7 @@ Two things apply to every query:
 
 ## A worked example: accepting a proposal
 
-The page [creating a meeting group](../domain/meetings/group-creation.md) holds three use cases that follow one another.
+The page [creating a meeting group](../domain/meetings/group-creation/description.md) holds three use cases that follow one another.
 
 | Use case | Kind | Trigger | Who may | What it does |
 | :-- | :-- | :-- | :-- | :-- |

@@ -1,6 +1,6 @@
 # Accounts: conceptual model
 
-The things of the domain and how they relate, and the states an account goes through. The behaviour of each topic is in its own [event storming](registration-event-storming.md).
+The things of the domain and how they relate, and the states an account goes through. The behaviour of each topic is in its own [event storming](registration/event-storming.md).
 
 ```mermaid
 classDiagram

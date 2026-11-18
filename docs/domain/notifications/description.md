@@ -9,7 +9,7 @@ The other contexts decide *that* someone must be notified and *who*. Notificatio
 ## Who takes part
 
 - A **member** is the person who is notified, and the only one who reads their own notifications. Nobody reads the notifications of someone else.
-- An **administrator** is not an ordinary user: they read everything their role allows, but they are never notified and have no inbox. The only emails they receive are [required messages](#required-messages): the confirmation of their email address when they are invited, before their account is confirmed, and the security messages of [profile management](../accounts/profile-management.md#messages), such as a password reset link.
+- An **administrator** is not an ordinary user: they read everything their role allows, but they are never notified and have no inbox. The only emails they receive are [required messages](#required-messages): the confirmation of their email address when they are invited, before their account is confirmed, and the security messages of [profile management](../accounts/profile-management/description.md#messages), such as a password reset link.
 - An **email address** is where a [required message](#required-messages) goes when there is no member: a person whose account is not confirmed yet, or a member whose account has just been erased.
 - The **other contexts** are the ones that have something to report. Each hands Notifications who to notify, what happened and the data that goes with it.
 
@@ -43,7 +43,7 @@ The text is written from the data and the current template when the member reads
 
 ## Required messages
 
-Some emails have no member to belong to, or cannot be left to a member's choice: the confirmation link that proves an email address, for a registration as for the invitation of an administrator, the notice that an account was deleted, and the messages of [profile management](../accounts/profile-management.md#messages): the confirmation of a new email address, the notice to the old email address, the password reset link and the notice of a password change. They are **required messages**.
+Some emails have no member to belong to, or cannot be left to a member's choice: the confirmation link that proves an email address, for a registration as for the invitation of an administrator, the notice that an account was deleted, and the messages of [profile management](../accounts/profile-management/description.md#messages): the confirmation of a new email address, the notice to the old email address, the password reset link and the notice of a password change. They are **required messages**.
 
 A required message goes to an email address, by email only. It has no inbox, nothing to read and no preference that could turn it off. It is in the catalogue like any other kind, listed apart.
 
@@ -55,7 +55,7 @@ A member, for themselves:
 - **marks** one notification as read, or all of them,
 - **counts** the notifications they have not read.
 
-A member whose [account is locked](../accounts/account-deletion.md#locked-account) still reads their inbox and marks notifications as read.
+A member whose [account is locked](../accounts/account-deletion/description.md#locked-account) still reads their inbox and marks notifications as read.
 
 A notification stays in the inbox once read. The member cannot delete one, and how long they are kept is left for later.
 
@@ -69,11 +69,11 @@ Notifications refuses a fact whose kind is not in the catalogue, or that lacks t
 
 ## Export of the data
 
-The notifications of a member are part of the [export of their data](../accounts/account-deletion.md#exporting-the-data): for each one, its kind, its date and whether it is read.
+The notifications of a member are part of the [export of their data](../accounts/account-deletion/description.md#exporting-the-data): for each one, its kind, its date and whether it is read.
 
 ## When an account is deleted
 
-The notifications of a deleted member go with the account: their inbox is deleted. The required message that confirms the deletion goes to the email address that the deletion takes away: the email address comes with the fact, so the message needs no member. See [account deletion](../accounts/account-deletion.md).
+The notifications of a deleted member go with the account: their inbox is deleted. The required message that confirms the deletion goes to the email address that the deletion takes away: the email address comes with the fact, so the message needs no member. See [account deletion](../accounts/account-deletion/description.md).
 
 ## What Notifications needs from other contexts
 
@@ -82,7 +82,7 @@ This page and the following ones describe the information a context needs from a
 | Information | From | Why | Exactness and freshness |
 | :-- | :-- | :-- | :-- |
 | The email address of a member | [Accounts](../accounts/description.md) | To send the email of a notification | Exact when the email is sent |
-| That a member's account was deleted | [Accounts](../accounts/account-deletion.md) | To delete their inbox | Exact: no notification exists for a deleted member, even when a deletion and a creation happen at the same moment |
+| That a member's account was deleted | [Accounts](../accounts/account-deletion/description.md) | To delete their inbox | Exact: no notification exists for a deleted member, even when a deletion and a creation happen at the same moment |
 | The access of an account: its role and its state | [Accounts](../accounts/description.md#access) | To allow or refuse each reading and each marking as read | Exact at every action, read at that moment and never kept |
 
 ## What the other contexts give to Notifications

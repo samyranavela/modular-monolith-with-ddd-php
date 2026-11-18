@@ -25,4 +25,4 @@ The pages on time, on the outside systems and on reading come next, then the tec
 
 ## Concepts
 
-Each pattern or theory the code relies on has a short page in [`concepts/`](concepts/), with the sources it comes from. The architecture pages link to them instead of explaining them again.
+Each pattern or theory the code relies on has a short page in [`concepts/`](concepts), with the sources it comes from. The architecture pages link to them instead of explaining them again.
