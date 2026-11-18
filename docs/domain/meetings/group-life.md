@@ -114,7 +114,7 @@ Members find and follow groups through read-only views, kept up to date by the e
 - **A group**: its name, description, place, number of members, its owner and its organizers, whether it is archived, and its meetings, see [organizing meetings](organization.md#reading).
 - **The members of a group**: who belongs to it and with which role. The members of the group see it.
 - **My groups**: the groups a member belongs to, with their role in each.
-- **The upcoming meetings a member hosts**: for each group, the meetings that have not started and are not cancelled where the member is a host, with the number of hosts of each. It is not shown to anyone: it only lets the group refuse the departure of the last host of a meeting.
+- **The upcoming meetings a member hosts**: for each group, the meetings that have not started and are not cancelled where the member is a host, with the hosts of each. It is not shown to anyone: it only lets the group refuse the departure of the last host who counts of a meeting, once the state of the other hosts is read from Accounts.
 
 ## What each role can do
 

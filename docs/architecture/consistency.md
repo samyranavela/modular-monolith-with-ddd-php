@@ -8,7 +8,7 @@ Concepts used: [reliable messaging](concepts/reliable-messaging.md) and, for one
 
 A command is handled in **one transaction of one module**. The transaction keeps what the aggregates changed and the facts that tell of it, and nothing of another module: **modules never share a transaction**, since each one's data is its own (see [D1](drivers.md#d1-each-context-has-its-own-data-and-needs-information-from-the-others)).
 
-What must be decided at once is decided inside one module. What crosses modules goes by facts, which come later, and the few rules that must stay absolute across two modules are held in one of the ways of [between two modules](#between-two-modules).
+What must be decided at once is decided inside one module. What crosses modules goes by facts, which come later, and a rule that must stay absolute is written so that one module holds it alone, or, if it cannot be, is held in one of the ways of [between two modules](#between-two-modules).
 
 ## A change and its fact
 
@@ -48,9 +48,11 @@ A uniqueness rule is the simplest scope: the thing that must be unique is the sc
 
 ### Between two modules
 
-When the two sides of a rule are in two modules, no transaction serves them one after the other, since the modules stay independent (see [why not a shared transaction](#why-not-a-shared-transaction)). A question does not suffice either: its answer is true when it is given, and the other module may change right after. Take the final check of a deletion and a host who leaves. The deletion is carried out only if no open item stands, and a member may leave unless they are the last host of a meeting yet to start. If each asks the other first and then acts, both can find the other absent, and both succeed: a meeting left without a host by a deletion.
+When the two sides of a rule are in two modules, no transaction serves them one after the other, since the modules stay independent (see [why not a shared transaction](#why-not-a-shared-transaction)). A question does not suffice either: its answer is true when it is given, and the other module may change right after. Take a deletion that is carried out only if no open item stands, and a host who may leave unless they are the last host of a meeting. If each asks the other first and then acts, both can find the other absent, and both succeed: a meeting left without a host by a deletion.
 
-Whatever way holds the rule, it must offer three things:
+**No rule of the domain is in this position now**: the one that was is written so that it does not cross, see [a rule that does not cross](#a-rule-that-does-not-cross). What follows stays as the catalogue of what a rule would need if one came back.
+
+Whatever way holds such a rule, it must offer three things:
 
 - **A refusal on one side at least**, when the two operations meet: they do not both succeed.
 - **Answers that are true when they are given.** A question reads only what is kept, never what is in progress.
@@ -70,17 +72,15 @@ How it is done is an implementation choice, taken in the technical decisions and
 
 A shared transaction is a way too, and is not open here: the independence of the modules rules it out, see below. The saga by marks is written out as an example in [the saga concept](concepts/saga.md#example-mark-then-ask), to show what a way asks of the model of a module, such as an intermediate state. It is not the decision.
 
-#### The case
+#### A rule that does not cross
 
-One rule has its two sides in two modules, and what must hold whatever the way.
+The final check of a deletion and a host who leaves were one rule with two sides: a deletion is carried out only if no open item stands, and a member may leave unless they are the last host of a meeting yet to start. A host who was not the last could become the last when the other host left, between the check and the carrying out.
 
-| Rule | Side in a first module | Side in a second module | What must hold |
-| :-- | :-- | :-- | :-- |
-| The final check of a deletion, and a host who leaves | **Accounts:** the deletion is carried out only if no open item stands | **Meetings:** a member may leave unless they are the last host | Not both: no meeting is left without a host by a deletion |
+The domain states it so that Meetings holds it alone: **a host whose user account is locked, or deleted, does not count**, and a locked member cannot be designated host. Meetings reads the state of the other hosts from Accounts when a host leaves or is removed, as it reads the access of the person at every action. Once the lock is committed, the other hosts of the meeting cannot leave while the locked host is the only other one, so the final check finds what the request found. The rule stays inside Meetings, and its scope is the meeting.
 
-The case ends a rule that the domain states in two places: the check and the carrying out of a deletion are [one decision](../domain/accounts/account-deletion.md#carrying-out-the-deletion), and a host who was not the last may become the last when the other host leaves. Outside the moment of the final check, a departure goes through, and the final check cancels the deletion if the member is now the last host, as the domain says.
+What is left is a **window** of the same kind as the sign-ups with a fee: a host who left just before the lock was committed can make the member the last host. Nothing wrong stays, since the final check of the deletion, [fourteen days later](../domain/accounts/account-deletion.md#carrying-out-the-deletion), sees the open item, cancels the deletion and unlocks the account. Two members who ask for the deletion together, each the other's only co-host, lock each other out: neither counts for the other, so both final checks refuse and both accounts go back to confirmed. A refusal on both sides is the safe one.
 
-The **payout account** was a second case and is not one any more. The group payout account is decided in Meetings alone: the owner of the group removes it only when no meeting of the group has a fee yet to start, a rule of one module whose scope is the group, so a removal and the setting of a fee are served one after the other. What the holder does with their own payout account in Payments, deactivating it, needs nothing from Meetings: Payments refuses every payment for it, and Meetings deactivates the group payout accounts that name it when it learns of it. See [where a fact is enough](#where-a-fact-is-enough).
+The **payout account** was a second rule across two modules and is not one any more. The group payout account is decided in Meetings alone: the owner of the group removes it only when no meeting of the group has a fee yet to start, a rule of one module whose scope is the group, so a removal and the setting of a fee are served one after the other. What the holder does with their own payout account in Payments, deactivating it, needs nothing from Meetings: Payments refuses every payment for it, and Meetings deactivates the group payout accounts that name it when it learns of it. See [where a fact is enough](#where-a-fact-is-enough).
 
 #### Where a fact is enough
 
@@ -108,7 +108,7 @@ The rules of [D2](drivers.md#d2-rules-that-hold-even-when-two-things-happen-at-t
 
 | Rule | Where | Scope, or the other side |
 | :-- | :-- | :-- |
-| The last host of a meeting cannot leave or be removed | One module, Meetings | The meetings concerned. The case with a deletion in progress is [the case](#the-case) |
+| The last host who counts of a meeting cannot leave or be removed | One module, Meetings, reading Accounts | The meetings concerned. A locked or deleted host does not count, read from Accounts when the host leaves. Not absolute at the instant of the lock, see [a rule that does not cross](#a-rule-that-does-not-cross) |
 | A free-plan group has at most two meetings a month | One module, Meetings | The group and the month |
 | A free-plan member owns one group at the acceptance | One module, Meetings | The proposer. That a member ever held a subscription is a question to Payments, and only becomes more permissive, since a subscription is never deleted |
 | No sign-up to a meeting with a fee during a hand-over | One module, Meetings | The group |
@@ -119,12 +119,11 @@ The rules of [D2](drivers.md#d2-rules-that-hold-even-when-two-things-happen-at-t
 | No payment for a deactivated payout account | One module, Payments | The payout account |
 | An email address belongs to one account, pending or confirmed | One module, Accounts | The email address, over every account |
 | At least one administrator remains | One module, Accounts | The administrators together |
-| A deletion is checked and carried out as one decision | Accounts, with Meetings and Payments | [The case](#the-case) |
+| A deletion is checked and carried out as one decision | Accounts, asking Meetings and Payments | Nothing can leave once the lock is committed, see [a rule that does not cross](#a-rule-that-does-not-cross) |
 | No notification exists for a deleted member. One notification for a fact and a member | One module, Notifications | The member. The pair of the fact and the member |
 
 ## What stays for later
 
-- **The way to hold the case across two modules**: the technical decisions, among the ways above.
 - **What starts a command on a date**, such as the expiry of a mark left by a failure, a payment waiting or a pending account: the page on time.
 - **Which technique** serialises two commands of the same scope, relays the facts and keeps the identity of the facts handled: the technical decisions.
 - **The outside systems** and the late answer of a payment system: the page on outside systems.

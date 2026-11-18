@@ -139,7 +139,7 @@ flowchart LR
 
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, darker yellow someone who asks for a command, pink an external system.
 
-1. **Hosts.** Any member of the group can be designated. A member who was an attendee stops being one, which frees their places for the waitlist, and a member who was waiting leaves the waitlist. Removing the last host is refused: another one is designated first.
+1. **Hosts.** Any member of the group whose user account is not locked can be designated. A member who was an attendee stops being one, which frees their places for the waitlist, and a member who was waiting leaves the waitlist. Removing the last host who counts is refused: another one is designated first. A locked host does not count.
 2. **Removing an attendee.** The reason is mandatory, the places are freed for the waitlist, and the removed member cannot sign up again.
 3. **Cancelling.** The meeting remembers who cancelled and when, and is then frozen. The cancellation is final. Every payment of the meeting that still waits is cancelled. A fee already paid is not refunded.
 4. **Notifications.** The removed attendee is told with the reason. The attendees, the waitlist and the hosts, except the one who cancels, are told of a cancellation. A member designated host, or a host removed, by somebody else is told; a host who steps down is not.
@@ -183,7 +183,7 @@ flowchart LR
 Blue is a command, pale yellow an aggregate, orange an event, purple a policy, green the information Meetings needs. A dotted arrow means that Meetings needs the fact.
 
 1. **Leaving the group.** The group's event is the trigger. On each meeting of the group that has not started, the member is treated as if they said they will not come, or they leave the waitlist, or they stop being a host. A member who was an attendee gives up their place, as in any other case. The freed places go to the waitlist of a meeting that has one, as in [attending](#attending-and-the-waitlist), and a payment still awaited is cancelled.
-2. **The last host.** The group refuses the departure of a member who is the last host of a meeting that has not started, so this policy never leaves a meeting without a host. Another host must be designated first. The refusal is absolute: when the last two hosts leave at the same moment, only one succeeds.
+2. **The last host.** The group refuses the departure of a member who is the last host who counts of a meeting that has not started (a locked host does not count), so this policy never leaves a meeting without a host. Another host must be designated first. The refusal is absolute: when the last two hosts leave at the same moment, only one succeeds.
 3. **The payout account.** Meetings needs to know whether a payout account is validated, and a fee can be set on a meeting, or a member can sign up to one, only when the group payout account is active, which it is while its payout account is validated. The paid and expired payments are handled in [attending](#attending-and-the-waitlist).
 
 ## Reading

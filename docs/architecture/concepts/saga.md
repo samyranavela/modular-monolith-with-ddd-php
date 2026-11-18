@@ -24,7 +24,7 @@ A saga is a way to hold a rule across two modules, one among others, see [ways t
 
 ## Example: mark, then ask
 
-Take two modules with a rule across them, as in [the case](../consistency.md#the-case): the final check of a deletion, which carries it out only if no open item stands, and a host who leaves, allowed unless they are the last host of a meeting yet to start. If each asks the other first and then acts, both can find the other absent, and both succeed.
+Take two modules with a rule across them, as a deletion and a host who leaves would be if the domain did not write the rule so that it does [not cross](../consistency.md#a-rule-that-does-not-cross): the final check of a deletion, which carries it out only if no open item stands, and a host who leaves, allowed unless they are the last host of a meeting yet to start. If each asks the other first and then acts, both can find the other absent, and both succeed.
 
 In a saga **by marks**, each module **marks** what it is doing, in its own data and in its own transaction, and **only then asks** the other. The answer is yes or no, and the module confirms or undoes its mark.
 
@@ -58,7 +58,7 @@ flowchart LR
 - **A mark left by a failure.** If the module fails between the mark and its verdict, the mark stays, and counts. It expires on a date and is undone, see [D4](../drivers.md#d4-things-happen-because-time-passes). The safe side is to refuse.
 - **The fact is made known at the verdict**, never at the mark, see [a change and its fact](../consistency.md#a-change-and-its-fact), so that no other module acts on a mark that is then undone.
 
-Applied to the case, with the question each side asks:
+Applied to this rule, with the question each side asks:
 
 | Rule | Module A, its mark, its question | Module B, its mark, its question |
 | :-- | :-- | :-- |
@@ -68,7 +68,7 @@ The mark *being carried out* lives only during the final check, so it refuses a 
 
 ## In this project
 
-- Which way holds the rules across two modules is a choice of the technical decisions, among [the ways](../consistency.md#ways-to-hold-the-rule). The saga by marks above is an example, not the decision.
+- No rule of the domain stands across two modules now, see [a rule that does not cross](../consistency.md#a-rule-that-does-not-cross). If one comes back, the way to hold it is a choice of the technical decisions, among [the ways](../consistency.md#ways-to-hold-the-rule). The saga by marks above is an example, not a decision.
 - Whichever saga is used, its steps are a local transaction, a [question](../between-modules.md#two-kinds-of-message) to the other module, then a confirmation or an undo, each a command of the module, see [use cases](../use-cases.md#commands).
 - Where an outside system answers in its own time, a saga by facts is the natural form, see the [payment of a fee](../between-modules.md#a-member-signs-up-to-a-meeting-with-a-fee).
 
