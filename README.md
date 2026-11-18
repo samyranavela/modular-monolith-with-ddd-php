@@ -22,7 +22,7 @@ topics, but its own choices.
 - CQRS on three Messenger buses. Asynchronous flows use a per-module outbox, an inbox and scheduled jobs.
 - API only: API Platform with DTO resources (never aggregates), JSON-LD, JWT authentication, permissions through voters.
 - Persistence: Doctrine ORM (writes) and DBAL (reads) on PostgreSQL, one schema per module. Payments is event sourced.
-- Module boundaries are enforced by Deptrac (`deptrac.yaml`).
+- Module boundaries are enforced by Deptrac (`deptrac.php`).
 
 ## Getting started
 

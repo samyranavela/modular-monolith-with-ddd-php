@@ -23,5 +23,5 @@ make qa
 
 ## Adding a module or an endpoint
 
-- Module layout: `App\<Module>\{Domain,Application,Infrastructure,Ui,Contract}`; add its layers and ruleset to `deptrac.yaml`.
+- Module layout: `App\<Module>\{Domain,Application,Infrastructure,Ui,Contract}`; add its layers and ruleset to `deptrac.php`.
 - Endpoint: write the tests first, then add the API Platform resource under `Ui\Api\Resource`.
