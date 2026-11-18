@@ -10,7 +10,6 @@ parameters:
         - tools
     excludePaths:
         - src/Kernel.php
-        - src/Story (?)
         - tests/bootstrap.php
         - tests/Tools/PHPStan/Fixtures
     symfony:

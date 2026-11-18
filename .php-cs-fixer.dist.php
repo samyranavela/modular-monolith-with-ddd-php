@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-$finder = (new PhpCsFixer\Finder())
+$finder = new PhpCsFixer\Finder()
     ->in([__DIR__.'/src', __DIR__.'/tests', __DIR__.'/tools', __DIR__.'/config'])
-    ->exclude(['Story', 'Fixtures'])
-    ->notPath(['reference.php', 'bootstrap.php']);
+    ->notPath(['reference.php', 'bootstrap.php', 'Tools/PHPStan/Fixtures']);
 
-return (new PhpCsFixer\Config())
+return new PhpCsFixer\Config()
     ->setRules([
         '@Symfony' => true,
     ])
