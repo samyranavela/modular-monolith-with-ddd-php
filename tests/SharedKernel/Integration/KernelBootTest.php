@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace App\Tests\SharedKernel\Integration;
 
 use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 #[CoversNothing]
 final class KernelBootTest extends KernelTestCase
 {
-    public function testKernelBootsInTestEnvironment(): void
+    #[Test]
+    public function kernel_boots_in_test_environment(): void
     {
         $kernel = self::bootKernel();
 
-        static::assertSame('test', $kernel->getEnvironment());
+        self::assertSame('test', $kernel->getEnvironment());
     }
 }
