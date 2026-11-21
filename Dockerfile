@@ -1,7 +1,7 @@
 FROM dunglas/frankenphp:1-php8.5-alpine
 
 RUN apk add --no-cache git unzip \
-    && install-php-extensions pdo_pgsql intl opcache zip
+    && install-php-extensions pdo_pgsql intl opcache zip pcov
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 

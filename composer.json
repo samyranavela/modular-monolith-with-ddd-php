@@ -21,6 +21,7 @@
         "dama/doctrine-test-bundle": "*",
         "deptrac/deptrac": "^4.7",
         "friendsofphp/php-cs-fixer": "^3.95",
+        "infection/infection": "^0.35.12",
         "php-parallel-lint/php-parallel-lint": "^1.4",
         "phpstan/phpstan": "*",
         "phpstan/phpstan-phpunit": "*",
@@ -35,7 +36,8 @@
         "allow-plugins": {
             "php-http/discovery": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "infection/extension-installer": true
         },
         "bump-after-update": true,
         "sort-packages": true
@@ -77,6 +79,7 @@
             "@putenv APP_ENV=test",
             "phpunit"
         ],
+        "infection": "infection --threads=max --show-mutations",
         "manifest": "@composer validate --strict --no-check-publish",
         "symfony": [
             "@php bin/console lint:container --env=dev",
