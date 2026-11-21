@@ -20,7 +20,7 @@ The answer is the **same sentence whatever the situation**, so that it cannot be
 | Situation of the email address | What happens behind the answer |
 | :-- | :-- |
 | Free | A pending account is created and a link is sent. |
-| Held by a pending account | A new link is sent and the 48 hours start again. The account itself is left as it was, so nobody can take over someone else's account. |
+| Held by a pending account | A new link is sent and the 48 hours start again, even if the previous 48 hours are over and the account has not been removed yet. The account itself is left as it was, so nobody can take over someone else's account. |
 | Held by a confirmed account | Nothing happens, and nothing is sent. Whoever already has an account can reset their password. |
 
 An email address belongs to a single account, whatever its state: a pending account holds its email address as a confirmed one does. The rule is absolute. When two registrations reach the same email address at the same moment, or when a registration and the [confirmation of a change of email address](../profile-management/description.md#changing-the-email-address) reach it at the same moment, only one succeeds and the other is refused.
@@ -59,6 +59,8 @@ Nothing of that exists before the confirmation. Each confirmation must give exac
 A pending account waits for **48 hours**, whether it comes from a registration or from an invitation. After that, it can no longer be confirmed, and it is removed, which frees its email address for someone else.
 
 Removing is housekeeping, not the rule: from the moment the 48 hours are over, the link is refused, even if the account has not been removed yet. Whoever follows an old or used link is told that it is expired or invalid, without knowing which: a removed account and a made-up link look the same.
+
+An account that has not been removed yet is not lost for good: a registration for its email address gives it a new link and 48 more hours, and removing only takes the accounts still past their deadline when it runs.
 
 ## When the account is deleted
 
