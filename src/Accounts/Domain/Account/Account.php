@@ -41,4 +41,13 @@ class Account
         $this->status = AccountStatus::CONFIRMED;
         $this->confirmedAt = $confirmedAt;
     }
+
+    public function renewRegistration(\DateTimeImmutable $renewedAt): void
+    {
+        if (AccountStatus::CONFIRMED === $this->status) {
+            throw AccountAlreadyConfirmed::create();
+        }
+
+        $this->validUntil = $renewedAt->modify(self::PENDING_VALIDITY);
+    }
 }

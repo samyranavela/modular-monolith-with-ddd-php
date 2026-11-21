@@ -42,6 +42,30 @@ final class AccountTest extends TestCase
     }
 
     #[Test]
+    public function renewing_a_pending_account_restarts_its_48_hours(): void
+    {
+        $registrationDate = new \DateTimeImmutable('2026-01-01 10:00:00');
+        $account = $this->givenARegisteredAccount(registrationDate: $registrationDate);
+        self::assertEquals(new \DateTimeImmutable('2026-01-03 10:00:00'), $account->validUntil);
+
+        $now = new \DateTimeImmutable('2026-01-02 11:00:00');
+        $account->renewRegistration($now);
+        self::assertEquals(new \DateTimeImmutable('2026-01-04 11:00:00'), $account->validUntil);
+    }
+
+    #[Test]
+    #[TestWith([new \DateTimeImmutable('2026-01-03 10:00:01'), new \DateTimeImmutable('2026-01-05 10:00:01')], '1 second after expiration')]
+    #[TestWith([new \DateTimeImmutable('2026-01-10 10:00:00'), new \DateTimeImmutable('2026-01-12 10:00:00')], '1 week after expiration')]
+    public function renewing_an_expired_pending_account_restarts_its_48_hours(\DateTimeImmutable $renewingDate, \DateTimeImmutable $renewedValidity): void
+    {
+        $registrationDate = new \DateTimeImmutable('2026-01-01 10:00:00');
+        $account = $this->givenARegisteredAccount(registrationDate: $registrationDate);
+        $account->renewRegistration($renewingDate);
+
+        self::assertEquals($renewedValidity, $account->validUntil);
+    }
+
+    #[Test]
     #[TestWith([new \DateTimeImmutable('2026-01-01 10:01:00')], '1 minute after registration')]
     #[TestWith([new \DateTimeImmutable('2026-01-03 09:59:59')], '1 second before expiration')]
     #[TestWith([new \DateTimeImmutable('2026-01-03 10:00:00')], 'exactly at expiration')]
@@ -76,6 +100,20 @@ final class AccountTest extends TestCase
         $confirmationDate = new \DateTimeImmutable('2026-01-05 10:00:00');
         $account = $this->givenARegisteredAccount(registrationDate: $now);
         $account->confirm($confirmationDate);
+    }
+
+    #[Test]
+    public function a_confirmed_account_cannot_be_renewed(): void
+    {
+        $this->expectException(AccountAlreadyConfirmed::class);
+
+        $registrationDate = new \DateTimeImmutable('2026-01-01 10:00:00');
+        $confirmationDate = new \DateTimeImmutable('2026-01-03 09:00:00');
+        $account = $this->givenARegisteredAccount(registrationDate: $registrationDate);
+        $account->confirm($confirmationDate);
+
+        $now = new \DateTimeImmutable('2026-01-04 09:00:00');
+        $account->renewRegistration($now);
     }
 
     private function givenARegisteredAccount(
