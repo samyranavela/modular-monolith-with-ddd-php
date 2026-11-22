@@ -15,6 +15,7 @@ final class EmailTest extends TestCase
     public function cannot_create_an_invalid_email(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessageIs('Invalid email address: dummy.email.address');
 
         Email::create('dummy.email.address');
     }
