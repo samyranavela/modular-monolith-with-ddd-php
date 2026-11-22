@@ -10,7 +10,7 @@ COMPOSE := docker compose
 APP := $(COMPOSE) exec -T app
 
 .DEFAULT_GOAL := help
-.PHONY: help build up down logs sh install composer console hooks lint format format-check deptrac stan test qa precommit
+.PHONY: help build up down logs sh install composer console hooks lint format format-check deptrac stan test mutation qa precommit
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-14s %s\n", $$1, $$2}'
@@ -60,6 +60,9 @@ stan: ## Static analysis (PHPStan, level max)
 
 test: ## Run the test suite (PHPUnit)
 	$(APP) composer test
+
+mutation: ## Mutation testing on the domain (optional: not in qa, not in the hook)
+	$(APP) composer infection
 
 qa: ## Every check, as the CI runs them
 	$(APP) composer qa

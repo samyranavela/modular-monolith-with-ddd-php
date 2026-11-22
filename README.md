@@ -48,6 +48,7 @@ Run `make help` for the full list.
 | `make deptrac` | Deptrac, module boundaries |
 | `make stan` | PHPStan, level max |
 | `make test` | PHPUnit |
+| `make mutation` | Infection, mutation testing of the unit tests (optional: neither in `make qa` nor in the hook) |
 | `make composer ARGS="..."` / `make console ARGS="..."` | Composer and Symfony console, in the container |
 
 ## Documentation
