@@ -31,7 +31,7 @@ class Account
 
     public function confirm(\DateTimeImmutable $confirmedAt): void
     {
-        if ($confirmedAt > $this->validUntil) {
+        if ($confirmedAt >= $this->validUntil) {
             throw RegistrationConfirmationDelayExpired::create();
         }
         if (AccountStatus::CONFIRMED === $this->status) {

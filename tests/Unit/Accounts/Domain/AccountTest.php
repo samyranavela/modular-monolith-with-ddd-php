@@ -68,7 +68,6 @@ final class AccountTest extends TestCase
     #[Test]
     #[TestWith([new \DateTimeImmutable('2026-01-01 10:01:00')], '1 minute after registration')]
     #[TestWith([new \DateTimeImmutable('2026-01-03 09:59:59')], '1 second before expiration')]
-    #[TestWith([new \DateTimeImmutable('2026-01-03 10:00:00')], 'exactly at expiration')]
     public function confirming_a_pending_account_confirms_it(\DateTimeImmutable $confirmationDate): void
     {
         $now = new \DateTimeImmutable('2026-01-01 10:00:00');
@@ -92,12 +91,13 @@ final class AccountTest extends TestCase
     }
 
     #[Test]
-    public function an_account_can_be_confirmed_only_before_it_expires(): void
+    #[TestWith([new \DateTimeImmutable('2026-01-03 10:00:00')], 'exactly at expiration')]
+    #[TestWith([new \DateTimeImmutable('2026-01-03 11:00:00')], 'after expiration')]
+    public function an_account_can_be_confirmed_only_before_it_expires(\DateTimeImmutable $confirmationDate): void
     {
         $this->expectException(RegistrationConfirmationDelayExpired::class);
 
         $now = new \DateTimeImmutable('2026-01-01 10:00:00');
-        $confirmationDate = new \DateTimeImmutable('2026-01-05 10:00:00');
         $account = $this->givenARegisteredAccount(registrationDate: $now);
         $account->confirm($confirmationDate);
     }
