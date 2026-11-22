@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Accounts\Domain;
 
 use App\Accounts\Domain\Account\Account;
+use App\Accounts\Domain\Account\AccountRole;
 use App\Accounts\Domain\Account\AccountStatus;
 use App\Accounts\Domain\Account\Exception\AccountAlreadyConfirmed;
 use App\Accounts\Domain\Account\Exception\RegistrationConfirmationDelayExpired;
@@ -25,11 +26,21 @@ final class AccountTest extends TestCase
     }
 
     #[Test]
-    public function registering_creates_a_pending_account(): void
+    public function registering_creates_a_pending_member(): void
     {
         $account = $this->givenARegisteredAccount();
 
         self::assertSame(AccountStatus::PENDING, $account->status);
+        self::assertSame(AccountRole::MEMBER, $account->role);
+    }
+
+    #[Test]
+    public function invitation_creates_a_pending_administrator(): void
+    {
+        $account = $this->givenAnInvitedAccount();
+
+        self::assertSame(AccountStatus::PENDING, $account->status);
+        self::assertSame(AccountRole::ADMINISTRATOR, $account->role);
     }
 
     #[Test]
@@ -121,5 +132,12 @@ final class AccountTest extends TestCase
         \DateTimeImmutable $registrationDate = new \DateTimeImmutable(),
     ): Account {
         return Account::register(Email::create($registrationEmail), $registrationDate);
+    }
+
+    private function givenAnInvitedAccount(
+        string $registrationEmail = 'email@domain.net',
+        \DateTimeImmutable $registrationDate = new \DateTimeImmutable(),
+    ): Account {
+        return Account::invite(Email::create($registrationEmail), $registrationDate);
     }
 }
