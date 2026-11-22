@@ -9,6 +9,7 @@ use App\Accounts\Domain\Account\AccountRole;
 use App\Accounts\Domain\Account\AccountStatus;
 use App\Accounts\Domain\Account\Exception\AccountAlreadyConfirmed;
 use App\Accounts\Domain\Account\Exception\RegistrationConfirmationDelayExpired;
+use App\Accounts\Domain\Account\Login;
 use App\SharedKernel\Domain\Email;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -32,6 +33,7 @@ final class AccountTest extends TestCase
 
         self::assertSame(AccountStatus::PENDING, $account->status);
         self::assertSame(AccountRole::MEMBER, $account->role);
+        self::assertNull($account->login);
     }
 
     #[Test]
@@ -41,6 +43,7 @@ final class AccountTest extends TestCase
 
         self::assertSame(AccountStatus::PENDING, $account->status);
         self::assertSame(AccountRole::ADMINISTRATOR, $account->role);
+        self::assertNull($account->login);
     }
 
     #[Test]
@@ -83,10 +86,12 @@ final class AccountTest extends TestCase
     {
         $now = new \DateTimeImmutable('2026-01-01 10:00:00');
         $account = $this->givenARegisteredAccount(registrationDate: $now);
-        $account->confirm($confirmationDate);
+        $login = $this->aLogin();
+        $account->confirm($login, $confirmationDate);
 
         self::assertSame(AccountStatus::CONFIRMED, $account->status);
         self::assertEquals($confirmationDate, $account->confirmedAt);
+        self::assertEquals($login, $account->login);
     }
 
     #[Test]
@@ -97,8 +102,29 @@ final class AccountTest extends TestCase
         $now = new \DateTimeImmutable('2026-01-01 10:00:00');
         $confirmationDate = new \DateTimeImmutable('2026-01-03 09:00:00');
         $account = $this->givenARegisteredAccount(registrationDate: $now);
-        $account->confirm($confirmationDate);
-        $account->confirm($confirmationDate);
+
+        $login = $this->aLogin();
+        $account->confirm($login, $confirmationDate);
+        $account->confirm($login, $confirmationDate);
+    }
+
+    #[Test]
+    public function a_refused_confirmation_keeps_the_first_login(): void
+    {
+        $now = new \DateTimeImmutable('2026-01-01 10:00:00');
+        $confirmationDate = new \DateTimeImmutable('2026-01-03 09:00:00');
+        $account = $this->givenARegisteredAccount(registrationDate: $now);
+
+        $login = $this->aLogin();
+        $account->confirm($login, $confirmationDate);
+
+        try {
+            $account->confirm($this->aLogin('another.login'), $confirmationDate);
+            self::fail('Expected an exception to be thrown.');
+        } catch (AccountAlreadyConfirmed) {
+        }
+
+        self::assertSame($login, $account->login);
     }
 
     #[Test]
@@ -110,7 +136,23 @@ final class AccountTest extends TestCase
 
         $now = new \DateTimeImmutable('2026-01-01 10:00:00');
         $account = $this->givenARegisteredAccount(registrationDate: $now);
-        $account->confirm($confirmationDate);
+        $account->confirm($this->aLogin(), $confirmationDate);
+    }
+
+    #[Test]
+    public function an_expired_confirmation_leaves_the_account_pending(): void
+    {
+        $now = new \DateTimeImmutable('2026-01-01 10:00:00');
+        $account = $this->givenARegisteredAccount(registrationDate: $now);
+
+        try {
+            $account->confirm($this->aLogin(), new \DateTimeImmutable('2026-01-03 10:00:00'));
+        } catch (RegistrationConfirmationDelayExpired) {
+        }
+
+        self::assertSame(AccountStatus::PENDING, $account->status);
+        self::assertNull($account->confirmedAt);
+        self::assertNull($account->login);
     }
 
     #[Test]
@@ -121,7 +163,7 @@ final class AccountTest extends TestCase
         $registrationDate = new \DateTimeImmutable('2026-01-01 10:00:00');
         $confirmationDate = new \DateTimeImmutable('2026-01-03 09:00:00');
         $account = $this->givenARegisteredAccount(registrationDate: $registrationDate);
-        $account->confirm($confirmationDate);
+        $account->confirm($this->aLogin(), $confirmationDate);
 
         $now = new \DateTimeImmutable('2026-01-04 09:00:00');
         $account->renewRegistration($now);
@@ -139,5 +181,10 @@ final class AccountTest extends TestCase
         \DateTimeImmutable $registrationDate = new \DateTimeImmutable(),
     ): Account {
         return Account::invite(Email::create($registrationEmail), $registrationDate);
+    }
+
+    private function aLogin(string $login = 'john.doe'): Login
+    {
+        return Login::create($login);
     }
 }

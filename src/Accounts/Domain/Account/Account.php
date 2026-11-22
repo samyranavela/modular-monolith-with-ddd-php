@@ -18,6 +18,7 @@ class Account
         public private(set) AccountStatus $status,
         public private(set) \DateTimeImmutable $validUntil,
         public private(set) ?\DateTimeImmutable $confirmedAt = null,
+        public private(set) ?Login $login = null,
     ) {
     }
 
@@ -49,7 +50,7 @@ class Account
         );
     }
 
-    public function confirm(\DateTimeImmutable $confirmedAt): void
+    public function confirm(Login $login, \DateTimeImmutable $confirmedAt): void
     {
         if ($confirmedAt >= $this->validUntil) {
             throw RegistrationConfirmationDelayExpired::create();
@@ -60,6 +61,7 @@ class Account
 
         $this->status = AccountStatus::CONFIRMED;
         $this->confirmedAt = $confirmedAt;
+        $this->login = $login;
     }
 
     public function renewRegistration(\DateTimeImmutable $renewedAt): void
