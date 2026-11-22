@@ -6,11 +6,6 @@ namespace App\Accounts\Domain\Account\Exception;
 
 final class AccountAlreadyConfirmed extends \DomainException
 {
-    private function __construct()
-    {
-        parent::__construct();
-    }
-
     public static function create(): self
     {
         return new self();
