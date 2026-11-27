@@ -24,11 +24,11 @@ final class ContractRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__.'/Fixtures/contract.php'], [
             [
-                'The Contract class App\Fixture\Contract\Mutable must be final readonly (CODING_STANDARDS MOD-2).',
+                'The Contract class App\Fixture\Contract\Mutable must be final readonly: it is a message other modules read, never extended or changed.',
                 12,
             ],
             [
-                'The Contract class App\Fixture\Contract\Extensible must be final readonly (CODING_STANDARDS MOD-2).',
+                'The Contract class App\Fixture\Contract\Extensible must be final readonly: it is a message other modules read, never extended or changed.',
                 14,
             ],
         ]);
