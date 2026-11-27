@@ -73,11 +73,11 @@ flowchart LR
 
 ## Who may depend on whom
 
-The rule is a single one: **dependencies point inwards**. The domain depends on nothing outside itself, and the outside depends on the inside, never the reverse.
+The rule is a single one: **dependencies point inwards**. The domain depends on no infrastructure, and the outside depends on the inside, never the reverse. A library of pure computation, with no input or output and no state, may enter the domain when it is listed in the module boundaries and wrapped in a type of the domain ([ADR 0002](../adr/0002-allow-pure-computation-libraries-in-the-domain.md)).
 
 | Part | May depend on |
 | :-- | :-- |
-| Domain | Itself and the domain part of the shared kernel |
+| Domain | Itself, the domain part of the shared kernel and the libraries of pure computation listed in the module boundaries |
 | Application | Its own Domain, its own Contract (to make facts known and to answer questions) and the shared kernel |
 | Infrastructure | Its own Application and Domain, the shared kernel and the Questions of the Contract of other modules |
 | Ui | Its own Application, and the Facts of the Contract of other modules. Never its own Domain or its Infrastructure |
