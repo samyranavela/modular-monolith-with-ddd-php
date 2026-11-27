@@ -19,7 +19,7 @@ A module is the code of one context and of nothing else: its words are those of 
 
 **No constraint crosses two modules.** There is no foreign key, no shared table, no join and no uniqueness constraint over the data of two modules. A reference to something that belongs to another module is its **identity**, such as a member or a payer, and nothing guarantees that it still exists: the module that holds it asks the other, or receives a fact, see [between modules](between-modules.md). A rule that would need such a constraint is held in another way, one of those listed in [consistency](consistency.md#ways-to-hold-the-rule). This is what keeps each module's data movable on its own, see [ready to be extracted](concepts/modular-monolith.md#ready-to-be-extracted).
 
-A **shared kernel** holds the few things every module needs and that carry no rule of the domain, such as the identity of a person, a date, or the way a refusal is expressed. It stays small: each addition must be wanted by at least two modules.
+A **shared kernel** holds the few things every module needs and that carry no rule of the domain, such as the identity of a person, a date, or the way a refusal is expressed. It stays small: it holds only what carries no language of any context, and that every module would write the same way.
 
 ## The layers of a module
 

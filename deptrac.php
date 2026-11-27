@@ -31,7 +31,7 @@ return static function (DeptracConfig $config): void {
     );
 
     $layers = [$sharedKernelDomain, $sharedKernel, $messenger, $validator, $patchlevel, $uid, $framework];
-    $rulesets = [Ruleset::forLayer($sharedKernel), Ruleset::forLayer($sharedKernelDomain)];
+    $rulesets = [Ruleset::forLayer($sharedKernel)->accesses($sharedKernelDomain), Ruleset::forLayer($sharedKernelDomain)];
 
     /** @var array<string, array<string, Layer>> $byModule */
     $byModule = [];

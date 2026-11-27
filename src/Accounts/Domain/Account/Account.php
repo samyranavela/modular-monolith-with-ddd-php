@@ -7,13 +7,14 @@ namespace App\Accounts\Domain\Account;
 use App\Accounts\Domain\Account\Event\AccountRegistered;
 use App\Accounts\Domain\Account\Exception\AccountAlreadyConfirmed;
 use App\Accounts\Domain\Account\Exception\RegistrationConfirmationDelayExpired;
+use App\SharedKernel\Domain\DomainEvent;
 use App\SharedKernel\Domain\Email;
 
 class Account
 {
     private const string PENDING_VALIDITY = '+48 hours';
 
-    /** @var list<AccountRegistered> */
+    /** @var list<DomainEvent> */
     private array $events = [];
 
     private function __construct(
@@ -56,7 +57,7 @@ class Account
     }
 
     /**
-     * @return list<AccountRegistered>
+     * @return list<DomainEvent>
      */
     public function releaseEvents(): array
     {
