@@ -5,7 +5,7 @@ Modular monolith in PHP and Symfony, built domain first: Accounts, Meetings, Pay
 authentication are not wired yet: ask before adding either.
 
 Everything runs in Docker through the Makefile (`make help`). Never run PHP, Composer or `vendor/bin/*` on the
-host: the make scripts set up the environment (`APP_ENV=test`).
+host: the make scripts set up the environment (`APP_ENV=test`). One test: `make test ARGS="--filter <name>"`.
 
 Domain language: `GLOSSARY-MAP.md`, `docs/domain/`, `docs/architecture/README.md`.
 
@@ -17,8 +17,8 @@ outbox, inbox, persistence) is built when a use case needs it, never ahead of on
 - **Tickets**: one per use case; one too big for a session splits by business rule. The context with the fewest
   dependencies goes first (`docs/domain/README.md`, "How the contexts depend on one another").
 - **Slices**: vertical, one use case at a time: Domain, then Application, then Infrastructure or Ui as the use case needs.
-- **Tests by layer**: Domain, the maximum of unit tests and a 100% mutation score (`make mutation`). Application, as much
-  as possible, whether the use case orchestrates or choreographs. Infrastructure, integration tests. Ui, functional tests.
+- **Tests by layer**: Domain, the maximum of unit tests (`make mutation` holds the score, see `infection.json5`).
+  Application, as much as possible. Infrastructure, integration tests. Ui, functional tests.
 - **Documentation stays true**: amend `docs/domain/` when a business decision changes; enrich `docs/architecture/` when
   a new concept or pattern arrives; write an ADR when an impactful decision is taken.
 - **The board** (GitHub project 2): `docs/agents/project-board.md` says how tickets are structured and how to create,
