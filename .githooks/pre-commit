@@ -16,6 +16,13 @@ if [ -n "$stale" ]; then
     exit 1
 fi
 
+# Code comes with its tests: warn when PHP code under src/ is staged and nothing under tests/ is.
+# A warning only: a move or an interface alone is a fair commit without a test.
+if git diff --cached --name-only --diff-filter=AM | grep -qE '^src/.*\.php$' \
+    && ! git diff --cached --name-only --diff-filter=AM | grep -q '^tests/'; then
+    echo "Warning: PHP code under src/ is staged without any test under tests/."
+fi
+
 if make precommit > "$log" 2>&1; then
     echo "make precommit: ok"
 else

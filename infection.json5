@@ -13,6 +13,8 @@
         "text": "var/infection/infection.log",
         "html": "var/infection/infection.html"
     },
+    "minMsi": 95,
+    "minCoveredMsi": 95,
     "mutators": {
         "@default": true
     }

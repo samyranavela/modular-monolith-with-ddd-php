@@ -1,0 +1,9 @@
+#!/bin/sh
+# Installed by `make hooks` (run by `make up`). The check runs in the container: start the stack with `make up`.
+# The first commit of a branch has no commit between main and HEAD.
+first=""
+if git rev-parse --verify -q main > /dev/null && [ "$(git rev-list --count main..HEAD)" = "0" ]; then
+    first="--first"
+fi
+
+docker compose exec -T app php tools/check-commit-message.php $first < "$1"
