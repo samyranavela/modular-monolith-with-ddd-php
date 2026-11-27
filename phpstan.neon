@@ -17,3 +17,4 @@ parameters:
 
 rules:
     - App\Tools\PHPStan\ContractRule
+    - App\Tools\PHPStan\DomainEventReactionRule
