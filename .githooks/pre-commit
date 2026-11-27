@@ -1,8 +1,21 @@
 #!/bin/sh
 # Installed by `make hooks` (run by `make up`). The checks run in the containers: start the stack with `make up`.
 # They print a lot: only a failure shows its output.
-log=$(mktemp)
-trap 'rm -f "$log"' EXIT
+
+# A commit takes the index, not the working tree: refuse a staged file that changed again since `git add`.
+tmp=$(mktemp -d)
+log=$tmp/log
+trap 'rm -rf "$tmp"' EXIT
+git diff --cached --name-only | sort > "$tmp/staged"
+git diff --name-only | sort > "$tmp/unstaged"
+stale=$(comm -12 "$tmp/staged" "$tmp/unstaged")
+if [ -n "$stale" ]; then
+    echo "Staged files with unstaged changes (the commit would not contain them):"
+    echo "$stale" | sed 's/^/  /'
+    echo "Run \`git add\` on them again."
+    exit 1
+fi
+
 if make precommit > "$log" 2>&1; then
     echo "make precommit: ok"
 else
