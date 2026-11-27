@@ -11,7 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
- * CODING_STANDARDS MOD-2: a class of a module's Contract (App\<Module>\Contract\) is a public message: final readonly.
+ * A class of a module's Contract (App\<Module>\Contract\) is a public message: final readonly.
  *
  * @implements Rule<InClassNode>
  */
@@ -38,7 +38,7 @@ final readonly class ContractRule implements Rule
 
         return [
             RuleErrorBuilder::message(\sprintf(
-                'The Contract class %s must be final readonly (CODING_STANDARDS MOD-2).',
+                'The Contract class %s must be final readonly: it is a message other modules read, never extended or changed.',
                 $class->getName(),
             ))
                 ->identifier('modulith.contractFinalReadonly')
