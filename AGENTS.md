@@ -21,8 +21,8 @@ outbox, inbox, persistence) is built when a use case needs it, never ahead of on
   as possible, whether the use case orchestrates or choreographs. Infrastructure, integration tests. Ui, functional tests.
 - **Documentation stays true**: amend `docs/domain/` when a business decision changes; enrich `docs/architecture/` when
   a new concept or pattern arrives; write an ADR when an impactful decision is taken.
-- **The board** (GitHub project 2, `gh project`): move the card of a ticket to In progress when you start it. The PR,
-  with `Closes #n`, moves it to In review, and the merge to Done. Backlog to Ready is the human's call.
+- **The board** (GitHub project 2): `docs/agents/project-board.md` says how tickets are structured and how to create,
+  start and move one. Move the card to In progress when you start the ticket; the PR with `Closes #n` moves it on.
 - **A task**: work it alone, open the PR and stop (no merge, no next ticket). End with the choices that no glossary, ADR
   or line here covered, for review: each one becomes a guideline, an architecture update or a business clarification.
 
