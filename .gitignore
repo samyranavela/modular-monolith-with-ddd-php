@@ -20,3 +20,7 @@
 ###< friendsofphp/php-cs-fixer ###
 
 /.deptrac.cache
+
+# Track the documentation, whatever the global ignore file says
+!/docs/
+!/docs/**

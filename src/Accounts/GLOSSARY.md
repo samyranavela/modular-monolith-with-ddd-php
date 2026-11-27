@@ -32,7 +32,7 @@ The state of an account whose holder asked to leave, for as long as the grace pe
 _Avoid_: Suspended account, blocked account
 
 **Confirmation Link**:
-The link sent to the email address of a pending account. Following it shows the form that confirms the account. It works until the deadline or until the account is confirmed.
+The link sent to the email address of a pending account. Following it shows the form that confirms the account. It works until the deadline, until the account is confirmed, or until a new link replaces it.
 _Avoid_: Activation link, verification link
 
 **Confirmation Deadline**:

@@ -9,6 +9,8 @@ host: the make scripts set up the environment (`APP_ENV=test`). One test: `make 
 
 Domain language: `GLOSSARY-MAP.md`, `docs/domain/`, `docs/architecture/README.md`.
 
+Everything written in the repository is in English: code, docs, commits, tickets and pull requests.
+
 ## How we build
 
 Domain first (DDD, hexagonal), test first (TDD): write code only to turn a red test green. A technical mechanism (bus,
@@ -20,7 +22,10 @@ outbox, inbox, persistence) is built when a use case needs it, never ahead of on
 - **Tests by layer**: Domain, the maximum of unit tests (`make mutation` holds the score, see `infection.json5`).
   Application, as much as possible. Infrastructure, integration tests. Ui, functional tests.
 - **Documentation stays true**: amend `docs/domain/` when a business decision changes; enrich `docs/architecture/` when
-  a new concept or pattern arrives; write an ADR when an impactful decision is taken.
+  a new concept or pattern arrives.
+- **ADRs**: write one when an impactful decision is taken, by copying `docs/adr/adr-template.md` to
+  `docs/adr/NNNN-title-with-dashes.md` and dropping an optional section when it is empty. The template comes from
+  [MADR 4.0.0](https://adr.github.io/madr/), not from the format of the `domain-modeling` skill.
 - **The board** (GitHub project 2): `docs/agents/project-board.md` says how tickets are structured and how to create,
   start and move one. Move the card to In progress when you start the ticket; the PR with `Closes #n` moves it on.
 - **A task**: work it alone, open the PR and stop (no merge, no next ticket). End with the choices that no glossary, ADR
