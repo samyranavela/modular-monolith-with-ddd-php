@@ -13,6 +13,7 @@ class Account
     private const string PENDING_VALIDITY = '+48 hours';
 
     private function __construct(
+        public readonly AccountId $id,
         public readonly AccountRole $role,
         public private(set) Email $email,
         public private(set) AccountStatus $status,
@@ -22,9 +23,14 @@ class Account
     ) {
     }
 
-    private static function create(AccountRole $role, Email $email, \DateTimeImmutable $createdAt): self
-    {
+    private static function create(
+        AccountId $id,
+        AccountRole $role,
+        Email $email,
+        \DateTimeImmutable $createdAt,
+    ): self {
         return new self(
+            $id,
             $role,
             $email,
             AccountStatus::PENDING,
@@ -32,18 +38,20 @@ class Account
         );
     }
 
-    public static function register(Email $email, \DateTimeImmutable $registeredAt): self
+    public static function register(AccountId $id, Email $email, \DateTimeImmutable $registeredAt): self
     {
         return self::create(
+            $id,
             AccountRole::MEMBER,
             $email,
             $registeredAt,
         );
     }
 
-    public static function invite(Email $email, \DateTimeImmutable $invitedAt): self
+    public static function invite(AccountId $id, Email $email, \DateTimeImmutable $invitedAt): self
     {
         return self::create(
+            $id,
             AccountRole::ADMINISTRATOR,
             $email,
             $invitedAt,

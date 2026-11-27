@@ -26,20 +26,20 @@ date: 2026-11-27
 
 Chosen option: "Allow libraries of pure computation in the domain, listed one by one", because it keeps what the rule is for, a domain free of infrastructure, without making the domain rebuild a standard tool.
 
-A library qualifies when it does a **pure computation**: no input or output, no state kept, no tie to the framework or to persistence. It is **wrapped** in a type of the domain, so that its own type does not leave the class that uses it (`AccountId` holds a `Uuid`, and gives out a string). It is **listed** in `deptrac.php`, so that every addition is visible in a review.
+A library qualifies when it does a **pure computation**: no input or output, no state kept, no tie to the framework or to persistence. It is **listed** in `deptrac.php`, so that every addition is visible in a review.
 
-The first library is `symfony/uid`, for `AccountId`, with UUID v7: it sorts by creation time, which suits database indexes, and it is a standard (RFC 9562) that databases and tools understand.
+The first library is `symfony/uid`, for `AccountId`, whose value is a `Uuid`, with UUID v7 for the ids it generates: it sorts by creation time, which suits database indexes, and it is a standard (RFC 9562) that databases and tools understand.
 
 ### Consequences
 
 * Good, because the domain does not rebuild validation, canonical form and generation of identifiers, and the next identifiers (a member, a payer) use the same tool.
-* Good, because the exception is narrow and written down: a criterion, a wrapping rule and a list.
+* Good, because the exception is narrow and written down: a criterion and a list.
 * Bad, because the domain depends on a package it does not own: its updates reach the domain.
 * Bad, because the criterion "pure computation" is a judgement, and is applied by whoever reviews.
 
 ### Confirmation
 
-`make deptrac` fails when the domain uses a library that is not in the list of `deptrac.php`. A review checks that a new entry in the list meets the criterion, and that the library's own type does not leave the class that wraps it. Once this ADR is accepted, `modules-and-layers.md` says what the domain may depend on, in place of "nothing outside itself".
+`make deptrac` fails when the domain uses a library that is not in the list of `deptrac.php`. A review checks that a new entry in the list meets the criterion. Once this ADR is accepted, `modules-and-layers.md` says what the domain may depend on, in place of "nothing outside itself".
 
 ## Pros and Cons of the Options
 
@@ -64,6 +64,6 @@ The first library is `symfony/uid`, for `AccountId`, with UUID v7: it sorts by c
 
 ## More Information
 
-The idea of wrapping the library in a type of the domain, and the questions about pure computation against infrastructure, come from the exchange that led to this ADR. The article [DDD was never the problem, your rules were](https://blog.ecotone.tech/ddd-was-never-the-problem-your-rules-were/) argues for the same pragmatism. This ADR is about libraries only: where the mapping of the persistence lives (attributes on the aggregate or elsewhere) is not decided here, and is decided with the persistence, which is not wired yet.
+The questions about pure computation against infrastructure come from the exchange that led to this ADR. The article [DDD was never the problem, your rules were](https://blog.ecotone.tech/ddd-was-never-the-problem-your-rules-were/) argues for the same pragmatism. This ADR is about libraries only: where the mapping of the persistence lives (attributes on the aggregate or elsewhere) is not decided here, and is decided with the persistence, which is not wired yet.
 
 When this ADR is accepted, the change is made in this order: `composer require symfony/uid`, the `deptrac.php` rule, the amendment of `modules-and-layers.md`, then `AccountId`.
