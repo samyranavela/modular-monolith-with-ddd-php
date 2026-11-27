@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace App\Accounts\Domain\Account;
 
+use App\Accounts\Domain\Account\Event\AccountRegistered;
 use App\Accounts\Domain\Account\Exception\AccountAlreadyConfirmed;
 use App\Accounts\Domain\Account\Exception\RegistrationConfirmationDelayExpired;
+use App\SharedKernel\Domain\DomainEvent;
 use App\SharedKernel\Domain\Email;
 
 class Account
 {
     private const string PENDING_VALIDITY = '+48 hours';
 
+    /** @var list<DomainEvent> */
+    private array $events = [];
+
     private function __construct(
+        public readonly AccountId $id,
         public readonly AccountRole $role,
         public private(set) Email $email,
         public private(set) AccountStatus $status,
@@ -22,9 +28,14 @@ class Account
     ) {
     }
 
-    private static function create(AccountRole $role, Email $email, \DateTimeImmutable $createdAt): self
-    {
+    private static function create(
+        AccountId $id,
+        AccountRole $role,
+        Email $email,
+        \DateTimeImmutable $createdAt,
+    ): self {
         return new self(
+            $id,
             $role,
             $email,
             AccountStatus::PENDING,
@@ -32,18 +43,34 @@ class Account
         );
     }
 
-    public static function register(Email $email, \DateTimeImmutable $registeredAt): self
+    public static function register(AccountId $id, Email $email, \DateTimeImmutable $registeredAt): self
     {
-        return self::create(
+        $account = self::create(
+            $id,
             AccountRole::MEMBER,
             $email,
             $registeredAt,
         );
+        $account->events[] = new AccountRegistered($id, $email, $account->validUntil);
+
+        return $account;
     }
 
-    public static function invite(Email $email, \DateTimeImmutable $invitedAt): self
+    /**
+     * @return list<DomainEvent>
+     */
+    public function releaseEvents(): array
+    {
+        $events = $this->events;
+        $this->events = [];
+
+        return $events;
+    }
+
+    public static function invite(AccountId $id, Email $email, \DateTimeImmutable $invitedAt): self
     {
         return self::create(
+            $id,
             AccountRole::ADMINISTRATOR,
             $email,
             $invitedAt,

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Accounts\Domain;
 
 use App\Accounts\Domain\Account\Account;
+use App\Accounts\Domain\Account\AccountId;
 use App\Accounts\Domain\Account\AccountRole;
 use App\Accounts\Domain\Account\AccountStatus;
+use App\Accounts\Domain\Account\Event\AccountRegistered;
 use App\Accounts\Domain\Account\Exception\AccountAlreadyConfirmed;
 use App\Accounts\Domain\Account\Exception\RegistrationConfirmationDelayExpired;
 use App\Accounts\Domain\Account\Login;
@@ -14,6 +16,7 @@ use App\SharedKernel\Domain\Email;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Uid\Uuid;
 
 final class AccountTest extends TestCase
 {
@@ -24,6 +27,56 @@ final class AccountTest extends TestCase
         $account = $this->givenARegisteredAccount($email);
 
         self::assertSame($email, $account->email->value);
+    }
+
+    #[Test]
+    public function a_registered_account_holds_the_id_it_is_given(): void
+    {
+        $accountId = new AccountId(Uuid::fromString('0192f1c4-8a3e-7b6d-9c21-4f5a6b7c8d9e'));
+
+        $account = $this->givenARegisteredAccount(accountId: $accountId);
+
+        self::assertSame($accountId, $account->id);
+    }
+
+    #[Test]
+    public function registering_records_that_the_account_was_registered(): void
+    {
+        $accountId = new AccountId(Uuid::fromString('0192f1c4-8a3e-7b6d-9c21-4f5a6b7c8d9e'));
+
+        $account = $this->givenARegisteredAccount(
+            'email@domain.net',
+            new \DateTimeImmutable('2026-01-01 10:00:00'),
+            $accountId,
+        );
+
+        self::assertEquals(
+            [new AccountRegistered(
+                $accountId,
+                Email::create('email@domain.net'),
+                new \DateTimeImmutable('2026-01-03 10:00:00'),
+            )],
+            $account->releaseEvents(),
+        );
+    }
+
+    #[Test]
+    public function released_events_are_not_released_again(): void
+    {
+        $account = $this->givenARegisteredAccount();
+        $account->releaseEvents();
+
+        self::assertSame([], $account->releaseEvents());
+    }
+
+    #[Test]
+    public function an_invited_account_holds_the_id_it_is_given(): void
+    {
+        $accountId = new AccountId(Uuid::fromString('0192f1c4-8a3e-7b6d-9c21-4f5a6b7c8d9e'));
+
+        $account = $this->givenAnInvitedAccount(accountId: $accountId);
+
+        self::assertSame($accountId, $account->id);
     }
 
     #[Test]
@@ -172,15 +225,30 @@ final class AccountTest extends TestCase
     private function givenARegisteredAccount(
         string $registrationEmail = 'email@domain.net',
         \DateTimeImmutable $registrationDate = new \DateTimeImmutable(),
+        ?AccountId $accountId = null,
     ): Account {
-        return Account::register(Email::create($registrationEmail), $registrationDate);
+        return Account::register(
+            $accountId ?? $this->anAccountId(),
+            Email::create($registrationEmail),
+            $registrationDate,
+        );
     }
 
     private function givenAnInvitedAccount(
         string $registrationEmail = 'email@domain.net',
         \DateTimeImmutable $registrationDate = new \DateTimeImmutable(),
+        ?AccountId $accountId = null,
     ): Account {
-        return Account::invite(Email::create($registrationEmail), $registrationDate);
+        return Account::invite(
+            $accountId ?? $this->anAccountId(),
+            Email::create($registrationEmail),
+            $registrationDate,
+        );
+    }
+
+    private function anAccountId(): AccountId
+    {
+        return new AccountId(Uuid::fromString('0192f1c4-8a3e-7b6d-9c21-4f5a6b7c8d9e'));
     }
 
     private function aLogin(string $login = 'john.doe'): Login

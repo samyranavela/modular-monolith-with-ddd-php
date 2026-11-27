@@ -10,7 +10,7 @@ use Deptrac\Deptrac\Contract\Config\Ruleset;
 /*
  * Module boundaries.
  *
- * One layer per <Module>.<Layer>; vendor code is grouped in Framework / Messenger / Validator / Patchlevel.
+ * One layer per <Module>.<Layer>, plus a few layers that group vendor code.
  */
 return static function (DeptracConfig $config): void {
     $modules = ['Accounts', 'Meetings', 'Payments', 'Notifications'];
@@ -24,13 +24,14 @@ return static function (DeptracConfig $config): void {
     $messenger = $classLike('Messenger', '^Symfony\\Component\\Messenger\\.*');
     $validator = $classLike('Validator', '^Symfony\\Component\\Validator\\.*');
     $patchlevel = $classLike('Patchlevel', '^Patchlevel\\.*');
+    $uid = $classLike('Uid', '^Symfony\\Component\\Uid\\.*');
     $framework = $classLike(
         'Framework',
-        '^(Symfony\\(?!Component\\(Messenger|Validator)\\)|Psr\\|ApiPlatform\\|Doctrine\\).*',
+        '^(Symfony\\(?!Component\\(Messenger|Validator|Uid)\\)|Psr\\|ApiPlatform\\|Doctrine\\).*',
     );
 
-    $layers = [$sharedKernelDomain, $sharedKernel, $messenger, $validator, $patchlevel, $framework];
-    $rulesets = [Ruleset::forLayer($sharedKernel), Ruleset::forLayer($sharedKernelDomain)];
+    $layers = [$sharedKernelDomain, $sharedKernel, $messenger, $validator, $patchlevel, $uid, $framework];
+    $rulesets = [Ruleset::forLayer($sharedKernel)->accesses($sharedKernelDomain), Ruleset::forLayer($sharedKernelDomain)];
 
     /** @var array<string, array<string, Layer>> $byModule */
     $byModule = [];
@@ -54,7 +55,7 @@ return static function (DeptracConfig $config): void {
         $contract = $byModule[$module]['Contract'];
 
         $rulesets[] = Ruleset::forLayer($domain)
-            ->accesses($sharedKernelDomain, ...('Payments' === $module ? [$patchlevel] : []));
+            ->accesses($sharedKernelDomain, $uid, ...('Payments' === $module ? [$patchlevel] : []));
         $rulesets[] = Ruleset::forLayer($application)
             ->accesses($domain, $sharedKernelDomain, $sharedKernel, $messenger, $validator, ...array_values($contracts));
         $rulesets[] = Ruleset::forLayer($byModule[$module]['Infrastructure'])

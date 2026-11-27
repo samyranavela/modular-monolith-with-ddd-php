@@ -20,7 +20,7 @@ The answer is the **same sentence whatever the situation**, so that it cannot be
 | Situation of the email address | What happens behind the answer |
 | :-- | :-- |
 | Free | A pending account is created and a link is sent. |
-| Held by a pending account | A new link is sent and the 48 hours start again, even if the previous 48 hours are over and the account has not been removed yet. The account itself is left as it was, so nobody can take over someone else's account. |
+| Held by a pending account | A new link is sent, the previous link stops working, and the 48 hours start again, even if the previous 48 hours are over and the account has not been removed yet. The account itself is left as it was, so nobody can take over someone else's account. |
 | Held by a confirmed account | Nothing happens, and nothing is sent. Whoever already has an account can reset their password. |
 
 An email address belongs to a single account, whatever its state: a pending account holds its email address as a confirmed one does. The rule is absolute. When two registrations reach the same email address at the same moment, or when a registration and the [confirmation of a change of email address](../profile-management/description.md#changing-the-email-address) reach it at the same moment, only one succeeds and the other is refused.
@@ -43,7 +43,7 @@ Nobody but them ever knows their password, and the email address is proven to be
 
 A login belongs to a single account. The rule applies at that moment: if the chosen login is taken, the person chooses another one and the account stays as it was. It is absolute: when two people validate the same login at the same moment, only one succeeds.
 
-Validating takes the account from **pending** to **confirmed**. An account can be confirmed once, and only before it expires. The link works until the deadline, **or until the account is confirmed**: it is gone with the confirmation. A person who followed it and left the form can come back to it, as long as the 48 hours are not over.
+Validating takes the account from **pending** to **confirmed**. An account can be confirmed once, and only before it expires. The link works until the deadline, **or until the account is confirmed**: it is gone with the confirmation. It is also gone when a new link replaces it: an account has one valid link at a time. A person who followed it and left the form can come back to it, as long as the 48 hours are not over.
 
 A pending account can do nothing, not even sign in. Once it is confirmed, it can do what its role grants.
 

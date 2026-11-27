@@ -39,8 +39,8 @@ gh project item-edit --id <item> --project-id <project> --field-id <field> --sin
 
 ## A ticket
 
-Title: the use case in the words of the domain, in English. Body, in French as the existing issues: **Ce qu'il faut
-construire**, **Critères d'acceptation**, and **Questions ouvertes** when something is not decided. Labels: `needs-triage`
+Title: the use case in the words of the domain, in English. Body, in English too: **What to build**, **Acceptance
+criteria**, and **Open questions** when something is not decided. Labels: `needs-triage`
 on creation, `needs-info` while a question stays open, removed once it is answered. `ready-for-agent` and
 `ready-for-human` are not used: the Ready column says that a ticket may start.
 
