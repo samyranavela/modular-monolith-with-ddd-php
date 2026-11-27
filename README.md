@@ -55,5 +55,4 @@ Run `make help` for the full list.
 
 - [`docs/`](docs/README.md): the domain documentation of each bounded context, and the architecture decisions as they are made
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): setup, branches, commits
-- [`CODING_STANDARDS.md`](CODING_STANDARDS.md): review reference
 - [`GLOSSARY-MAP.md`](GLOSSARY-MAP.md): domain glossaries per bounded context

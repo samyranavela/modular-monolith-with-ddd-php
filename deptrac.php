@@ -8,7 +8,7 @@ use Deptrac\Deptrac\Contract\Config\Layer;
 use Deptrac\Deptrac\Contract\Config\Ruleset;
 
 /*
- * Module boundaries (see CODING_STANDARDS.md).
+ * Module boundaries.
  *
  * One layer per <Module>.<Layer>; vendor code is grouped in Framework / Messenger / Validator / Patchlevel.
  */

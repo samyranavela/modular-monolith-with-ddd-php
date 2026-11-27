@@ -7,7 +7,7 @@ authentication are not wired yet: ask before adding either.
 Everything runs in Docker through the Makefile (`make help`). Never run PHP, Composer or `vendor/bin/*` on the
 host: the make scripts set up the environment (`APP_ENV=test`).
 
-Rules: `CODING_STANDARDS.md`. Domain language: `GLOSSARY-MAP.md`, `docs/domain/`, `docs/architecture/README.md`.
+Domain language: `GLOSSARY-MAP.md`, `docs/domain/`, `docs/architecture/README.md`.
 
 ## Agent skills
 
