@@ -81,6 +81,7 @@
         ],
         "infection": "infection --threads=max --show-mutations",
         "manifest": "@composer validate --strict --no-check-publish",
+        "docs": "@php tools/check-docs.php",
         "symfony": [
             "@php bin/console lint:container --env=dev",
             "@php bin/console lint:container --env=prod",
@@ -96,6 +97,7 @@
             "@lint",
             "@format:check",
             "@deptrac",
+            "@docs",
             "@symfony",
             "@stan",
             "@schema",

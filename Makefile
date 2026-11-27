@@ -10,7 +10,7 @@ COMPOSE := docker compose
 APP := $(COMPOSE) exec -T app
 
 .DEFAULT_GOAL := help
-.PHONY: help build up down logs sh install composer console hooks lint format format-check deptrac stan test mutation qa precommit
+.PHONY: help build up down logs sh install composer console hooks lint format format-check deptrac docs stan test mutation qa precommit
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-14s %s\n", $$1, $$2}'
@@ -55,13 +55,16 @@ format-check: ## Check the code style without changing files
 deptrac: ## Check the module boundaries (Deptrac)
 	$(APP) composer deptrac
 
+docs: ## Check the links and the ADRs of the documentation
+	$(APP) composer docs
+
 stan: ## Static analysis (PHPStan, level max)
 	$(APP) composer stan
 
-test: ## Run the test suite (PHPUnit)
-	$(APP) composer test
+test: ## Run the test suite (PHPUnit; optional: make test ARGS="--filter AccountId")
+	$(APP) composer test -- $(ARGS)
 
-mutation: ## Mutation testing on the domain (optional: not in qa, not in the hook)
+mutation: ## Mutation testing on the domain, with the threshold of infection.json5 (the CI runs it; not in qa, not in the hook)
 	$(APP) composer infection
 
 qa: ## Every check, as the CI runs them
@@ -71,5 +74,6 @@ precommit: ## What the pre-commit hook runs: the fast checks
 	$(APP) composer lint
 	$(APP) composer format:check
 	$(APP) composer deptrac
+	$(APP) composer docs
 	$(APP) composer symfony
 	$(APP) composer stan

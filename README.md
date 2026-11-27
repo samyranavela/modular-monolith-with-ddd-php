@@ -46,9 +46,10 @@ Run `make help` for the full list.
 | `make lint` | php-parallel-lint (syntax) |
 | `make format` / `make format-check` | php-cs-fixer (`@Symfony`) |
 | `make deptrac` | Deptrac, module boundaries |
+| `make docs` | The relative links and the ADRs of the documentation (MADR) |
 | `make stan` | PHPStan, level max |
 | `make test` | PHPUnit |
-| `make mutation` | Infection, mutation testing of the unit tests (optional: neither in `make qa` nor in the hook) |
+| `make mutation` | Infection, mutation testing of the unit tests (the threshold is in `infection.json5`; the CI runs it, `make qa` and the hook do not) |
 | `make composer ARGS="..."` / `make console ARGS="..."` | Composer and Symfony console, in the container |
 
 ## Documentation
