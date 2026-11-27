@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Accounts\Domain\Account;
 
+use App\Accounts\Domain\Account\Event\AccountRegistered;
 use App\Accounts\Domain\Account\Exception\AccountAlreadyConfirmed;
 use App\Accounts\Domain\Account\Exception\RegistrationConfirmationDelayExpired;
 use App\SharedKernel\Domain\Email;
@@ -11,6 +12,9 @@ use App\SharedKernel\Domain\Email;
 class Account
 {
     private const string PENDING_VALIDITY = '+48 hours';
+
+    /** @var list<AccountRegistered> */
+    private array $events = [];
 
     private function __construct(
         public readonly AccountId $id,
@@ -40,12 +44,26 @@ class Account
 
     public static function register(AccountId $id, Email $email, \DateTimeImmutable $registeredAt): self
     {
-        return self::create(
+        $account = self::create(
             $id,
             AccountRole::MEMBER,
             $email,
             $registeredAt,
         );
+        $account->events[] = new AccountRegistered($id, $email, $account->validUntil);
+
+        return $account;
+    }
+
+    /**
+     * @return list<AccountRegistered>
+     */
+    public function releaseEvents(): array
+    {
+        $events = $this->events;
+        $this->events = [];
+
+        return $events;
     }
 
     public static function invite(AccountId $id, Email $email, \DateTimeImmutable $invitedAt): self

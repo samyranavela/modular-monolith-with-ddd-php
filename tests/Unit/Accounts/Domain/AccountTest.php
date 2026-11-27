@@ -8,6 +8,7 @@ use App\Accounts\Domain\Account\Account;
 use App\Accounts\Domain\Account\AccountId;
 use App\Accounts\Domain\Account\AccountRole;
 use App\Accounts\Domain\Account\AccountStatus;
+use App\Accounts\Domain\Account\Event\AccountRegistered;
 use App\Accounts\Domain\Account\Exception\AccountAlreadyConfirmed;
 use App\Accounts\Domain\Account\Exception\RegistrationConfirmationDelayExpired;
 use App\Accounts\Domain\Account\Login;
@@ -36,6 +37,36 @@ final class AccountTest extends TestCase
         $account = $this->givenARegisteredAccount(accountId: $accountId);
 
         self::assertSame($accountId, $account->id);
+    }
+
+    #[Test]
+    public function registering_records_that_the_account_was_registered(): void
+    {
+        $accountId = new AccountId(Uuid::fromString('0192f1c4-8a3e-7b6d-9c21-4f5a6b7c8d9e'));
+
+        $account = $this->givenARegisteredAccount(
+            'email@domain.net',
+            new \DateTimeImmutable('2026-01-01 10:00:00'),
+            $accountId,
+        );
+
+        self::assertEquals(
+            [new AccountRegistered(
+                $accountId,
+                Email::create('email@domain.net'),
+                new \DateTimeImmutable('2026-01-03 10:00:00'),
+            )],
+            $account->releaseEvents(),
+        );
+    }
+
+    #[Test]
+    public function released_events_are_not_released_again(): void
+    {
+        $account = $this->givenARegisteredAccount();
+        $account->releaseEvents();
+
+        self::assertSame([], $account->releaseEvents());
     }
 
     #[Test]
