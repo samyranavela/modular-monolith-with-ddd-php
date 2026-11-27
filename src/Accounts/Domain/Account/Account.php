@@ -56,6 +56,16 @@ class Account
         return $account;
     }
 
+    public static function invite(AccountId $id, Email $email, \DateTimeImmutable $invitedAt): self
+    {
+        return self::create(
+            $id,
+            AccountRole::ADMINISTRATOR,
+            $email,
+            $invitedAt,
+        );
+    }
+
     /**
      * @return list<DomainEvent>
      */
@@ -65,16 +75,6 @@ class Account
         $this->events = [];
 
         return $events;
-    }
-
-    public static function invite(AccountId $id, Email $email, \DateTimeImmutable $invitedAt): self
-    {
-        return self::create(
-            $id,
-            AccountRole::ADMINISTRATOR,
-            $email,
-            $invitedAt,
-        );
     }
 
     public function confirm(Login $login, \DateTimeImmutable $confirmedAt): void
