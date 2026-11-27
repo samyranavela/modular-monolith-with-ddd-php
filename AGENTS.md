@@ -9,6 +9,23 @@ host: the make scripts set up the environment (`APP_ENV=test`).
 
 Domain language: `GLOSSARY-MAP.md`, `docs/domain/`, `docs/architecture/README.md`.
 
+## How we build
+
+Domain first (DDD, hexagonal), test first (TDD): write code only to turn a red test green. A technical mechanism (bus,
+outbox, inbox, persistence) is built when a use case needs it, never ahead of one.
+
+- **Tickets**: one per use case; one too big for a session splits by business rule. The context with the fewest
+  dependencies goes first (`docs/domain/README.md`, "How the contexts depend on one another").
+- **Slices**: vertical, one use case at a time: Domain, then Application, then Infrastructure or Ui as the use case needs.
+- **Tests by layer**: Domain, the maximum of unit tests and a 100% mutation score (`make mutation`). Application, as much
+  as possible, whether the use case orchestrates or choreographs. Infrastructure, integration tests. Ui, functional tests.
+- **Documentation stays true**: amend `docs/domain/` when a business decision changes; enrich `docs/architecture/` when
+  a new concept or pattern arrives; write an ADR when an impactful decision is taken.
+- **The board** (GitHub project 2, `gh project`): move the card of a ticket to In progress when you start it. The PR,
+  with `Closes #n`, moves it to In review, and the merge to Done. Backlog to Ready is the human's call.
+- **A task**: work it alone, open the PR and stop (no merge, no next ticket). End with the choices that no glossary, ADR
+  or line here covered, for review: each one becomes a guideline, an architecture update or a business clarification.
+
 ## Agent skills
 
 ### Issue tracker
