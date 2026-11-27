@@ -23,9 +23,7 @@ final readonly class Password
         }
 
         $passwordLength = mb_strlen($password, 'UTF-8');
-        if ($passwordLength < self::MINIMUM_LENGTH
-            || $passwordLength > self::MAXIMUM_LENGTH
-        ) {
+        if ($passwordLength < self::MINIMUM_LENGTH || $passwordLength > self::MAXIMUM_LENGTH) {
             throw InvalidPasswordException::create();
         }
 

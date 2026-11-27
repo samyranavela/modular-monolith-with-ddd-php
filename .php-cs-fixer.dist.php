@@ -9,7 +9,9 @@ $finder = new PhpCsFixer\Finder()
 return new PhpCsFixer\Config()
     ->setRules([
         '@Symfony' => true,
+        'declare_strict_types' => true,
         'php_unit_method_casing' => ['case' => 'snake_case'],
     ])
+    ->setRiskyAllowed(true)
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/var/.php-cs-fixer.cache');
